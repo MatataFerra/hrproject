@@ -50,20 +50,22 @@ async function init () {
     await Schools.bulkCreate([
         {
             _id: 1,
+            fullname: 'Escuela De Jornada Simple Nº 12 DE 05 "Horacio Quiroga"',
             educationlevel: level.inicial,
             numschool: 12,
             district: 5,
             commune: 19,
-            address: 'Teodoro García 3859'
+            address: 'Iriarte Y Montesquieu S/N'
         },
 
         {
             _id: 2,
+            fullname: 'Escuela De Jornada Completa Nº 23 DE 12 "Saturnino Segurola"',
             educationlevel: level.primaria,
             numschool: 23,
             district: 12,
             commune: 8,
-            address: 'Av. Triunvirato 1245'
+            address: 'Gral. Venancio Flores 3869'
         }
     ]);
 

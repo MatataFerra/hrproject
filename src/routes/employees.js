@@ -11,6 +11,8 @@ const deleteEmployee = require('../controller/employee/deleteEmployee');
 
 const employeeByDni = require('../controller/employee/search/employeefindByDni');
 const employeeByLast = require('../controller/employee/search/employeefindByLastname');
+const employeeByEmail = require('../controller/employee/search/employeefindByEmail');
+const employeeByPhone = require('../controller/employee/search/employeefindByPhone');
 
 
 router.use('/', allEmployees);
@@ -20,5 +22,7 @@ router.use('/update', updateEmployee);
 router.use('/delete', deleteEmployee);
 router.use('/search', employeeByDni);
 router.use('/search', employeeByLast);
+router.use('/search', employeeByEmail);
+router.use('/search', employeeByPhone);
 
 module.exports = router

@@ -3,13 +3,13 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 
-module.exports = router.get('/lastname', async (req, res) => {
+module.exports = router.get('/email', async (req, res) => {
     
     try {
-        const lastname = req.body.lastname
+        const email = req.body.email
         const employee = await Employee.findOne({
-            where: {lastname: {
-                [Op.like]: `%${lastname}%`
+            where: {email: {
+                [Op.like]: `${email}%`
             }}
         })
         

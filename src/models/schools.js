@@ -19,6 +19,10 @@ Schools.init({
         primaryKey: true
     },
 
+    fullname: {
+        type: DataTypes.STRING
+    },
+
     educationlevel: {
         type: DataTypes.STRING,
         defaultValue: level.primaria

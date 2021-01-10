@@ -12,9 +12,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
 //Routes
-const EmployeeRoute = require('./src/routes/employees')
+const EmployeeRoute = require('./src/routes/employees');
+const SchoolRoute = require('./src/routes/schools')
 
 app.use('/employees', EmployeeRoute);
+app.use('/schools', SchoolRoute)
 
 app.listen(PORT, ()=> {
     console.log('Servidor escuchando');
