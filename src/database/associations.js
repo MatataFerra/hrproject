@@ -6,6 +6,7 @@ const { ABM } = require('../models/abm');
 const { Article } = require('../models/absences/articles');
 const { EmailEmployee } = require('../models/absences/emailEmplaoyee');
 const { Claim } = require('../models/claims/claim');
+const { Hours } = require('../models/hours')
 
 // through Tables
 const { EmployeeSchool } = require('../models/throughTables/EmployeeSchool');
@@ -14,9 +15,9 @@ const { ContractDays } = require('../models/throughTables/ContractDays');
 const { ContractABM } = require('../models/throughTables/ContractABM');
 const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
 const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
-const { ContractQuantity } = require('../models/throughTables/ContractQuantity');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
 const { ArticlesDays } = require('../models/throughTables/ArtclesDays');
+const { ContractHours } = require('../models/throughTables/ContractHours');
 
 // Relations
 
@@ -26,11 +27,11 @@ Schools.belongsToMany(Employee, {through: EmployeeSchool})
 Employee.belongsToMany(Contract, {through: EmployeeContract});
 Contract.belongsToMany(Employee, {through: EmployeeContract});
 
-Employee.belongsToMany(Contract, {through: ContractQuantity});
-Contract.belongsToMany(Employee, {through: ContractQuantity})
-
 Contract.belongsToMany(Days, {through: ContractDays});
 Days.belongsToMany(Contract, {through: ContractDays});
+
+Contract.belongsToMany(Hours, {through: ContractHours});
+Hours.belongsToMany(Contract, {through: ContractHours});
 
 Contract.belongsToMany(ABM, {through: ContractABM});
 ABM.belongsToMany(Contract, {through: ContractABM});

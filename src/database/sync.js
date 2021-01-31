@@ -1,6 +1,4 @@
-//const { tables } = require('./tables')
 const sequelize = require('../database/conect');
-//const { Employee, Schools ,Contract, Days, ABM, Article, Claim } = require('../database/tables');
 
 const force = false;
 

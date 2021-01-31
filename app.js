@@ -14,11 +14,14 @@ app.use(bodyParser.urlencoded({extended: true}))
 //Routes
 const EmployeeRoute = require('./src/routes/employees');
 const SchoolRoute = require('./src/routes/schools');
-const ContractRoute = require('./src/routes/contract')
+const ContractRoute = require('./src/routes/contract');
+const EnrollRoute = require('./src/routes/enroll')
 
 app.use('/employees', EmployeeRoute);
 app.use('/schools', SchoolRoute);
-app.use('/contract', ContractRoute)
+app.use('/contract', ContractRoute),
+app.use('/enroll', EnrollRoute)
+
 
 app.listen(PORT, ()=> {
     console.log('Servidor escuchando');

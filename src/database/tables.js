@@ -3,6 +3,7 @@ const { Schools, level } = require('../models/schools');
 const { Contract } = require('../models/contract');
 const { Days } = require('../models/days');
 const { ABM } = require('../models/abm');
+const { Hours } = require('../models/hours')
 const { Article } = require('../models/absences/articles');
 const { EmailEmployee } = require('../models/absences/emailEmplaoyee');
 const { Claim } = require('../models/claims/claim');
@@ -12,9 +13,11 @@ const { ContractDays } = require('../models/throughTables/ContractDays');
 const { ContractABM } = require('../models/throughTables/ContractABM');
 const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
 const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
-const { ContractQuantity } = require('../models/throughTables/ContractQuantity');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
 const { ArticlesDays } = require('../models/throughTables/ArtclesDays');
+const { ContractHours } = require('../models/throughTables/ContractHours');
+
+//DELETE HOURS AND ContractHours Tables
 
 
 module.exports = {
@@ -31,9 +34,10 @@ module.exports = {
     EmployeeContract,
     ContractDays,
     ContractABM,
-    ContractQuantity,
     EmployeesArticles,
     ClaimsEmployees,
     SchoolsDays,
-    ArticlesDays
+    ArticlesDays,
+    ContractHours,
+    Hours
 }
