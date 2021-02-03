@@ -15,12 +15,15 @@ app.use(bodyParser.urlencoded({extended: true}))
 const EmployeeRoute = require('./src/routes/employees');
 const SchoolRoute = require('./src/routes/schools');
 const ContractRoute = require('./src/routes/contract');
-const EnrollRoute = require('./src/routes/enroll')
+const EnrollRoute = require('./src/routes/enroll');
+const testRoute = require('./src/controller/enroll/test')
 
 app.use('/employees', EmployeeRoute);
 app.use('/schools', SchoolRoute);
-app.use('/contract', ContractRoute),
-app.use('/enroll', EnrollRoute)
+app.use('/contract', ContractRoute);
+app.use('/enroll', EnrollRoute);
+app.use('/test', testRoute)
+
 
 
 app.listen(PORT, ()=> {
