@@ -4,7 +4,7 @@ const { Contract } = require('../models/contract');
 const { Days } = require('../models/days');
 const { ABM } = require('../models/abm');
 const { Article } = require('../models/absences/articles');
-const { EmailEmployee } = require('../models/absences/emailEmplaoyee');
+const { EmailEmployee } = require('../models/absences/emailEmployee');
 const { Claim } = require('../models/claims/claim');
 const { Hours } = require('../models/hours')
 

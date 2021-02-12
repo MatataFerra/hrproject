@@ -1,12 +1,14 @@
-const { Employee, Contract, Hours, EmployeeContract, ContractHours } = require('../../database/tables');
+const { Employee, Contract, Hours, EmployeeContract, ContractHours, ABM } = require('../../database/tables');
+const { createDate } = require('../../services/time')
 const express = require('express');
+const moment = require('moment');
 const router = express.Router();
 
 module.exports = router.post('/', async (req, res)=> {
 
     try {
 
-        const { contract, hours, type, dni } = req.body
+        const { contract, hours, type, dni, up, down } = req.body
 
         const uptype = type.toUpperCase()
 
@@ -34,8 +36,18 @@ module.exports = router.post('/', async (req, res)=> {
             return res.status(404).send({Message: 'El empleado que busca no está registrado'})
         }
 
-
         await newEmployee.addContract(oneContract)
+
+        // const t = moment(up, 'DD-MM-YYYY').format('YYYY-MM-DD')
+        // const l = moment(down, 'DD-MM-YYYY').format('YYYY-MM-DD')
+
+        const now = createDate(up)
+        const leave = createDate(down)
+
+        const abm = await ABM.create({
+            enrolled: now,
+            leave: leave
+        })
 
         const hour = await Hours.create({
             hours: hours,
@@ -57,7 +69,11 @@ module.exports = router.post('/', async (req, res)=> {
         })
 
         await oneContract.addHours(hour)
+        await oneContract.addABM(abm)
+
+        
         return res.send({Message: 'Creado con éxito'})
+
 
 
     } catch (error) {

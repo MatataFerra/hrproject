@@ -4,8 +4,8 @@ const moment = require('moment')
 
 const createDate = (input) => {
     moment.locale('es')
-    
-    const date = moment(input).format('YYYY-MM-DD')
+    const unformatDate = moment(input, 'DD-MM-YYYY').format('YYYY-MM-DD')
+    const date = moment(unformatDate).format('YYYY-MM-DD')
     return date
 
 }

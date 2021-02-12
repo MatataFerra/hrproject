@@ -1,4 +1,4 @@
-const { Employee, Contract, Hours } = require('../../database/tables');
+const { Employee, Contract, Hours, ABM } = require('../../database/tables');
 const express = require('express');
 const router = express.Router();
 
@@ -17,6 +17,9 @@ module.exports = router.get('/:dni', async (req, res) => {
                 {
                     model: Contract,
                     include: [
+                        {
+                            model: ABM
+                        },
                         {
                             model: Hours
                         }

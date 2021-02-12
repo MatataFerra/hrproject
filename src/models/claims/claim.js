@@ -1,7 +1,15 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/conect');
+const { getDate }  = require('../../services/time')
 
 class Claim extends Model {}
+
+const statusName = [
+    'Nuevo',
+    'Leído',
+    'Contestado',
+    'Resuelto'
+]
 
 Claim.init({
     _id: {
@@ -15,7 +23,11 @@ Claim.init({
     },
 
     dayofclaim: {
-        type: DataTypes.DATEONLY
+        type: DataTypes.DATEONLY,
+        get() {
+            const getData = this.getDataValue('dayofclaim');
+            return getDate(getData)
+        }
     },
 
     content: {
@@ -23,6 +35,21 @@ Claim.init({
     },
     tracing: {
         type: DataTypes.STRING(1000)
+    },
+
+    status: {
+        type: DataTypes.STRING(250),
+        defaultValue: statusName[0],
+        validate: {
+            // isIn: [
+            //     [statusName]
+            // ]
+
+            isIn: [
+                statusName
+            ]
+        }
+
     },
     
     linkemail: {
