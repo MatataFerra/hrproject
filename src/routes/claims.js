@@ -7,11 +7,13 @@ const updateClaim = require('../controller/claims/updateClaim');
 
 //querys
 
-const newClaimsFirst = require('../controller/claims/querys/newClaimsFirst')
+const newClaimsFirst = require('../controller/claims/querys/newClaimsFirst');
+const betweenClaim = require('../controller/claims/querys/betweenClaim')
 
 router.use('/', getClaims)
 router.use('/create', createClaim);
 router.use('/update', updateClaim);
 router.use('/q/new', newClaimsFirst)
+router.use('/q/between', betweenClaim)
 
 module.exports = router
