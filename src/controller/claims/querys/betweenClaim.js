@@ -4,7 +4,6 @@ const sequelize = require('../../../database/conect');
 const router = express.Router();
 const  { Claim, Employee } = require('../../../database/tables');
 const { createDate } = require('../../../services/time');
-const { QueryTypes } = require('sequelize');
 
 module.exports = router.get('/', async (req, res) => {
     try {
@@ -13,19 +12,23 @@ module.exports = router.get('/', async (req, res) => {
 
         const startDate = createDate(start);
         const endDate = createDate(end);
-        let claims = null
+        const reg = new RegExp('^[0-9]*$')
+        const dniNumber = parseInt(dni)
+        
 
-        if(dni) {
+        if(reg.test(dniNumber) == false){
+            return res.send({Message: 'Debe ingresar un DNI válido'})
+        }
 
-            const employee = await Employee.findOne({
-                where: {
-                    dni: dni
-                }
-            });
+        const employee = await Employee.findOne({
+            where: {
+                dni: dni
+            }
+        });
 
-            
+        if(employee) {
 
-            claims = await Claim.findAll({
+            const claims = await Claim.findAll({
                 where: {
                     EmployeeId: employee.dataValues._id,
                     dayofclaim: {
@@ -45,27 +48,12 @@ module.exports = router.get('/', async (req, res) => {
                     Message: 'No existen resultados'
                 })
             }
-        } else {
-            
-            return res.status(404).send({Message: 'No se encontraron reclamos en el periodo seleccionado'})
-        
-            // claims = await sequelize.query(`
-            //     SELECT '_id', 'type', 'dayofclaim', 'content', 'tracing', 'status', 'linkemail', 'EmployeeId' 
-            //     FROM 'hrdatabase'.'claims' AS 'Claim'
-            //     WHERE 'Claim'.'EmployeeId' = 4 
-            //     AND 'Claim'.'dayofclaim' BETWEEN '2021-03-10' AND '2021-03-13'
-            //     ORDER BY FIELD('status', 'Nuevo', 'Leído', 'Contestado', 'Resuelto')`, 
-            //     {
-            //         type: QueryTypes.SELECT,
-            //         nest: true
-                
-            //     }
-            // )
-        
-            
-        }
 
-        return res.status(200).send({Query: claims})
+            return res.status(200).send({Query: claims})
+
+        } else {          
+            return res.status(404).send({Message: 'No existe el empleado que busca'})
+        }
 
     } catch (error) {
         console.log('-----------');

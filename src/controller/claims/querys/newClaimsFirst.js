@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { Claim, Employee } = require('../../../database/tables');
+const  { Claim, Employee, statusName } = require('../../../database/tables');
 
 module.exports = router.get('/', async (req, res) => {
 
@@ -15,12 +15,12 @@ module.exports = router.get('/', async (req, res) => {
 
         const downStatus = status.toLowerCase()
         
-        const statusName = {
-            nuevo: 'nuevo',
-            leido: 'leido',
-            constestado: 'contestado',
-            resuelto: 'resuelto'
-        }
+        // const statusName = {
+        //     nuevo: 'nuevo',
+        //     leido: 'leido',
+        //     constestado: 'contestado',
+        //     resuelto: 'resuelto'
+        // }
         
 
         const oneStatus = Object.getOwnPropertyNames(statusName).find(state => state === downStatus)

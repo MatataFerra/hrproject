@@ -6,7 +6,8 @@ const { ABM } = require('../models/abm');
 const { Article } = require('../models/absences/articles');
 const { EmailEmployee } = require('../models/absences/emailEmployee');
 const { Claim } = require('../models/claims/claim');
-const { Hours } = require('../models/hours')
+const { Hours } = require('../models/hours');
+const { TypeClaim } = require('../models/claims/TypeClaim')
 
 // through Tables
 const { EmployeeSchool } = require('../models/throughTables/EmployeeSchool');
@@ -14,7 +15,7 @@ const { EmployeeContract } = require('../models/throughTables/EmployeesContract'
 const { ContractDays } = require('../models/throughTables/ContractDays');
 const { ContractABM } = require('../models/throughTables/ContractABM');
 const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
-const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
+//const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
 const { ArticlesDays } = require('../models/throughTables/ArtclesDays');
 const { ContractHours } = require('../models/throughTables/ContractHours');
@@ -50,3 +51,6 @@ Article.belongsTo(EmailEmployee)
 
 Employee.hasMany(Claim)
 Claim.belongsTo(Employee)
+
+TypeClaim.hasMany(Claim);
+Claim.belongsTo(TypeClaim)

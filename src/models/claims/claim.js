@@ -4,12 +4,18 @@ const { getDate }  = require('../../services/time')
 
 class Claim extends Model {}
 
-const statusName = [
-    'Nuevo',
-    'Leído',
-    'Contestado',
-    'Resuelto'
-]
+const statusName = {
+    nuevo: 'nuevo',
+    leido: 'leido',
+    constestado: 'contestado',
+    resuelto: 'resuelto'
+}
+
+const attendStatus = {
+    urgente: 'urgente',
+    importante: 'importante',
+    postergable: 'postergable'
+}
 
 Claim.init({
     _id: {
@@ -18,8 +24,13 @@ Claim.init({
         primaryKey: true
     },
 
-    type: {
-        type: DataTypes.STRING
+    // type: {
+    //     type: DataTypes.STRING
+    // },
+
+    attend: {
+        type: DataTypes.STRING,
+        defaultValue: 'importante',
     },
 
     dayofclaim: {
@@ -39,17 +50,8 @@ Claim.init({
 
     status: {
         type: DataTypes.STRING(250),
-        defaultValue: statusName[0],
-        validate: {
-            // isIn: [
-            //     [statusName]
-            // ]
-
-            isIn: [
-                statusName
-            ]
-        }
-
+        defaultValue: 'nuevo',
+        
     },
     
     linkemail: {
@@ -63,5 +65,7 @@ Claim.init({
 });
 
 module.exports = {
-    Claim
+    Claim,
+    statusName,
+    attendStatus
 }
