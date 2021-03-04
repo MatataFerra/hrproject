@@ -23,11 +23,17 @@ const getDate = (input) => {
     return date
 }
 
+const nowTime = {
+    nowHour: moment().format('HH:mm:ss'),
+    nowDate: moment().format('YYYY-MM-DD')
+}
+
 
 module.exports = {
 
     createDate,
     createTime,
-    getDate
+    getDate,
+    nowTime
 
 }

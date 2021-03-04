@@ -7,7 +7,8 @@ const { Hours } = require('../models/hours')
 const { Article } = require('../models/absences/articles');
 const { EmailEmployee } = require('../models/absences/emailEmployee');
 const { Claim, statusName, attendStatus } = require('../models/claims/claim');
-const { TypeClaim } = require('../models/claims/TypeClaim')
+const { TypeClaim } = require('../models/claims/TypeClaim');
+const { Absence } = require('../models/absences/absence');
 const { EmployeeSchool } = require('../models/throughTables/EmployeeSchool');
 const { EmployeeContract } = require('../models/throughTables/EmployeesContract');
 const { ContractDays } = require('../models/throughTables/ContractDays');
@@ -15,8 +16,9 @@ const { ContractABM } = require('../models/throughTables/ContractABM');
 const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
 const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
-const { ArticlesDays } = require('../models/throughTables/ArtclesDays');
+const { ArticlesStartEnd } = require('../models/throughTables/ArticlesStartEnd');
 const { ContractHours } = require('../models/throughTables/ContractHours');
+const { AbsenceEmployee } = require('../models/throughTables/AbsenceEmployee')
 
 
 //DELETE HOURS AND ContractHours Tables
@@ -35,6 +37,8 @@ module.exports = {
     statusName,
     attendStatus,
     TypeClaim,
+    Absence,
+    AbsenceEmployee,
     EmployeeSchool,
     EmployeeContract,
     ContractDays,
@@ -42,7 +46,7 @@ module.exports = {
     EmployeesArticles,
     ClaimsEmployees,
     SchoolsDays,
-    ArticlesDays,
+    ArticlesStartEnd,
     ContractHours,
     Hours
 }

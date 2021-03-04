@@ -7,7 +7,7 @@ module.exports = router.put('/:id', async (req, res) => {
 
     try {
 
-        const { type, dayofclaim, content, tracing, status, linkemail } = req.body
+        const { dayofclaim, content, tracing, status, linkemail, attend } = req.body
         
 
         if(!dayofclaim) {
@@ -27,7 +27,8 @@ module.exports = router.put('/:id', async (req, res) => {
             content,
             tracing,
             status,
-            linkemail
+            linkemail,
+            attend
         })
 
         return res.status(200).send({Claim: claim})

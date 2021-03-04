@@ -38,9 +38,6 @@ module.exports = router.post('/', async (req, res)=> {
 
         await newEmployee.addContract(oneContract)
 
-        // const t = moment(up, 'DD-MM-YYYY').format('YYYY-MM-DD')
-        // const l = moment(down, 'DD-MM-YYYY').format('YYYY-MM-DD')
-
         const now = createDate(up)
         const leave = createDate(down)
 

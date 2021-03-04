@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const  { Claim, Employee, statusName, attendStatus, TypeClaim } = require('../../database/tables');
 const { createDate }  = require('../../services/time');
-const { checkObject } = require('../../services/checkObject')
+const { checkObject, checkRegExp } = require('../../services/checkFunctions');
+
 
 module.exports = router.post('/', async (req, res) => {
 
@@ -10,11 +11,21 @@ module.exports = router.post('/', async (req, res) => {
         
         const { dni, typeClaim, dayofclaim, content, tracing, linkemail, status, attend } = req.body
 
+        const dniChecked = checkRegExp(dni, res);
+        
+        if(!dniChecked){
+            return res.status(403).send({Message: 'Debe introducir un DNI válido'})
+        }
+
         const employee = await Employee.findOne({
             where: {
-                dni: dni
+                dni: dniChecked
             }
         });
+
+        if(!employee) {
+            return res.status(404).send({Message: 'No se encontró al empleado'})
+        }
 
         let newClaim = null
 
@@ -31,8 +42,6 @@ module.exports = router.post('/', async (req, res) => {
         } else {
             newClaim = typeOfClaim
         }
-
-        
 
         let statusChecked = status
         let attendChecked = attend
@@ -62,11 +71,9 @@ module.exports = router.post('/', async (req, res) => {
 
         return res.status(200).send({Claims: claim})
 
-
-
     } catch (error) {
         console.log(error);
-        res.status(404).send({Error: error});
+        return res.status(404).send({Error: error});
     }
 
 })

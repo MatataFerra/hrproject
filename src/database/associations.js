@@ -4,20 +4,22 @@ const { Contract } = require('../models/contract');
 const { Days } = require('../models/days');
 const { ABM } = require('../models/abm');
 const { Article } = require('../models/absences/articles');
+const { Absence } = require('../models/absences/absence');
 const { EmailEmployee } = require('../models/absences/emailEmployee');
 const { Claim } = require('../models/claims/claim');
 const { Hours } = require('../models/hours');
-const { TypeClaim } = require('../models/claims/TypeClaim')
+const { TypeClaim } = require('../models/claims/TypeClaim');
 
 // through Tables
 const { EmployeeSchool } = require('../models/throughTables/EmployeeSchool');
 const { EmployeeContract } = require('../models/throughTables/EmployeesContract');
 const { ContractDays } = require('../models/throughTables/ContractDays');
 const { ContractABM } = require('../models/throughTables/ContractABM');
-const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
+//const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
 //const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
-const { ArticlesDays } = require('../models/throughTables/ArtclesDays');
+const { ArticlesStartEnd } = require('../models/throughTables/ArticlesStartEnd');
+const { AbsenceEmployee } = require('../models/throughTables/AbsenceEmployee')
 const { ContractHours } = require('../models/throughTables/ContractHours');
 
 // Relations
@@ -37,17 +39,20 @@ Hours.belongsToMany(Contract, {through: ContractHours});
 Contract.belongsToMany(ABM, {through: ContractABM});
 ABM.belongsToMany(Contract, {through: ContractABM});
 
-Employee.belongsToMany(Article, {through: EmployeesArticles})
-Article.belongsToMany(Employee, {through: EmployeesArticles})
+// Employee.belongsToMany(Article, {through: EmployeesArticles})
+// Article.belongsToMany(Employee, {through: EmployeesArticles})
 
 Schools.belongsToMany(Days, {through: SchoolsDays})
 Days.belongsToMany(Schools, {through: SchoolsDays})
 
-Article.belongsToMany(Days, {through: ArticlesDays})
-Days.belongsToMany(Article, {through: ArticlesDays})
+Article.belongsToMany(Absence, {through: ArticlesStartEnd})
+Absence.belongsToMany(Article, {through: ArticlesStartEnd})
 
-EmailEmployee.hasOne(Article)
-Article.belongsTo(EmailEmployee)
+EmailEmployee.hasOne(Absence)
+Absence.belongsTo(EmailEmployee)
+
+Employee.belongsToMany(Absence, {through: AbsenceEmployee});
+Absence.belongsToMany(Employee, {through: AbsenceEmployee});
 
 Employee.hasMany(Claim)
 Claim.belongsTo(Employee)

@@ -1,5 +1,5 @@
 //Articulos que determina la ley
-//Artcles determinated by law
+//Articles determinated by law
 
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/conect');

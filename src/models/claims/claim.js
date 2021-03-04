@@ -24,10 +24,6 @@ Claim.init({
         primaryKey: true
     },
 
-    // type: {
-    //     type: DataTypes.STRING
-    // },
-
     attend: {
         type: DataTypes.STRING,
         defaultValue: 'importante',

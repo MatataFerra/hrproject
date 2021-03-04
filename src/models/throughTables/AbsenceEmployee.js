@@ -1,17 +1,17 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/conect');
 
-class ArticlesDays extends Model {}
+class AbsenceEmployee extends Model {}
 
-ArticlesDays.init({
+AbsenceEmployee.init({
 
 }, {
     sequelize,
-    modelName: 'ArticlesDays',
-    tableName: 'articlesDays',
+    modelName: 'AbsenceEmployee',
+    tableName: 'absenceemployee',
     timestamps: false
 });
 
 module.exports = {
-    ArticlesDays
+    AbsenceEmployee
 }

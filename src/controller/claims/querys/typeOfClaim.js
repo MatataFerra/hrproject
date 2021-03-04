@@ -1,21 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const  { Claim } = require('../../../database/tables');
+const  { Claim, TypeClaim } = require('../../../database/tables');
 const { Op } = require('sequelize');
 
 module.exports = router.get('/', async (req, res) => {
     try {
 
-        const { type } = req.body
+        const { typeClaim } = req.body
 
-        if(!type) {
+        if(!typeClaim) {
             return res.status(404).send({Message: 'Debe ingresar un tipo para iniciar la búsqueda'})
         }
 
-        const typeOfClaim = await Claim.findAll({
-            where: {type: {
-                [Op.like]: `%${type}%`
+        const typeClaimInModel = await TypeClaim.findOne({
+
+            where: {typeClaim: {
+                [Op.like]: `%${typeClaim}%`
             }},
+            
+        })
+
+        const typeOfClaim = await Claim.findAll({
+            where: {
+                TypeClaimId: typeClaimInModel.dataValues._id
+            },
 
             order: [
                 ['dayofclaim', 'ASC']
