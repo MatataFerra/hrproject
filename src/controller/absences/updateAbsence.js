@@ -1,37 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { Article, Absence, EmailEmployee, Employee, ArticlesStartEnd, AbsenceEmployee } = require('../../database/tables');
-const { checkRegExp } = require('../../services/checkFunctions');
-const { createDate, nowTime } = require('../../services/time');
+const {  Absence, Article, ArticlesStartEnd, Employee, AbsenceEmployee } = require('../../database/tables');
+const { createDate } = require('../../services/time');
 const moment = require('moment');
 
-module.exports = router.post('/', async (req, res) => {
+module.exports = router.put('/:id', async (req, res) => {
 
     try {
 
         //Buscar las ausencias pedidas por el empleado en AbsenceEmployees
         //Una vez encontrado, que busque las ausencias asociadas a ese ID
         //Cuando encuentre esos ID ya puede buscar todas los artículos específicos pedidos por ese ID
+        
+        const id = req.params.id
+        const { dni, start, end } = req.body
+        
 
-        const { dni, article, link, start, end } = req.body
+        const createStart = createDate(start)
+        const createEnd = createDate(end)
 
-        let createStart = null
-        let createEnd = null
-
-
-        if(!start) {
-            createStart = nowTime.nowDate
-        } else {
-            createStart = createDate(start);
+        if(createEnd < createStart) {
+            return res.status(400).send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
         }
-
-        if(!end) {
-            createEnd = nowTime.nowDate
-        } else {
-            createEnd = createDate(end)
-        }
-
-        const dniChecked = checkRegExp(dni, res);
 
         let sumDays = moment(createEnd).diff(createStart, 'days')
 
@@ -41,24 +31,11 @@ module.exports = router.post('/', async (req, res) => {
             sumDays = sumDays + 1
         }
 
-        
-        if(!dniChecked){
-            return res.status(403).send({Message: 'Debe introducir un DNI válido'})
-        }
-
-        if(createEnd < createStart) {
-            return res.status(400).send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
-        }
-
         const employee = await Employee.findOne({
             where: {
-                dni: dniChecked
+                dni: dni
             }
-        });
-
-        if(!employee) {
-            return res.status(404).send({Message: 'No se encontró al empleado'})
-        }
+        })
 
         const absenceEmployee = await AbsenceEmployee.findAll({
             where: {
@@ -66,20 +43,43 @@ module.exports = router.post('/', async (req, res) => {
             }
         });
 
+        const absence = await Absence.findOne({
+            where: {
+                _id: id
+            },
+
+            include: [
+                {
+                    model: Article
+                }
+            ]
+        });
+
+        const article = absence.dataValues
+        const data = article.Articles
+        const articleFound = await data.map(element => {
+            const value = element.dataValues.article
+            return value
+        })
+        
+
         const oneArticle = await Article.findOne({
             where: {
-                article: article
+                article: articleFound[0]
             }
         });
 
         if(!oneArticle){
             return res.status(404).send({Message: 'Debe crear el artículo primero'})
         }
+        
 
         let allAbseceArray = []
-        let total = sumDays
-        let remaning = oneArticle.dataValues.maxquantity - total
+        let total = 0
+        let remaning = oneArticle.dataValues.maxquantity
         let possiblesErrors = 'No se detectaron conflictos a la hora de crear la licencia'
+
+        console.log({sumDays, total, remaning});
         
         for (let i = 0; i < absenceEmployee.length; i++) {
             const element = absenceEmployee[i].dataValues.AbsenceId;
@@ -96,6 +96,7 @@ module.exports = router.post('/', async (req, res) => {
     
                 ]
             });
+
 
 
             const article = absence.dataValues
@@ -132,7 +133,7 @@ module.exports = router.post('/', async (req, res) => {
             allAbseceArray.push(oneAbsence)
 
             const absenceElement = allAbseceArray[i];
-            total = absenceElement.dataValues.totaldays + total
+            total = absenceElement.dataValues.sumdays + total
             const max = oneArticle.dataValues.maxquantity
             remaning = max - total
     
@@ -148,36 +149,26 @@ module.exports = router.post('/', async (req, res) => {
             console.log({total, remaning, max, sumDays});
 
         }
-
-        const newAbsence = await Absence.create({
+        
+        await absence.update({
             start: createStart,
             end: createEnd,
             sumdays: sumDays,
             remaningdays: remaning,
             totaldays: total
+
         })
-
-        const linkAbsence = await EmailEmployee.create({
-            link: link
-        });
-
-        await employee.addAbsence(newAbsence);
-        await oneArticle.addAbsence(newAbsence)
-        await linkAbsence.setAbsence(newAbsence);
-        
         
 
         return res.status(200).send({
-            Absence: newAbsence,
+            Absence: absence,
             Possibles_Errors: possiblesErrors
-        
         })
+
 
     } catch (error) {
         console.log(error);
         return res.status(404).send({Error: error});
     }
-
-
 
 })
