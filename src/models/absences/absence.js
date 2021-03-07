@@ -27,14 +27,6 @@ Absence.init({
         type: DataTypes.INTEGER
     },
 
-    remaningdays: {
-        type: DataTypes.INTEGER
-    },
-
-    totaldays: {
-        type: DataTypes.INTEGER
-    }
-
 }, {
     sequelize,
     modelName: 'Absence',

@@ -132,29 +132,30 @@ module.exports = router.post('/', async (req, res) => {
             allAbseceArray.push(oneAbsence)
 
             const absenceElement = allAbseceArray[i];
-            total = absenceElement.dataValues.totaldays + total
+            total = absenceElement.dataValues.sumdays + total
             const max = oneArticle.dataValues.maxquantity
             remaning = max - total
+            
+            
     
             if(remaning <= 0) {
                 remaning = 0
                 possiblesErrors = 
-                `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max}. Hasta el ${moment(nowTime.nowDate).format('DD-MM-YYYY')} se han contado: ${total}`
+                `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max}. En el día de la fecha: ${moment(nowTime.nowDate).format('DD-MM-YYYY')} ha solicitado: ${total} días. La licencia debe ser autorizada por Recursos Humanos`
                 possiblesErrors = possiblesErrors.trim()
+
+                return res.status(403).send({Message: possiblesErrors})
             } else {
                 possiblesErrors = 'No se detectaron conflictos a la hora de crear la licencia'
             }
-            console.log(`vuelta n° ${i}`);
-            console.log({total, remaning, max, sumDays});
+
 
         }
 
         const newAbsence = await Absence.create({
             start: createStart,
             end: createEnd,
-            sumdays: sumDays,
-            remaningdays: remaning,
-            totaldays: total
+            sumdays: sumDays
         })
 
         const linkAbsence = await EmailEmployee.create({

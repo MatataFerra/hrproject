@@ -43,6 +43,7 @@ module.exports = router.put('/:id', async (req, res) => {
             }
         });
 
+
         const absence = await Absence.findOne({
             where: {
                 _id: id
@@ -79,7 +80,6 @@ module.exports = router.put('/:id', async (req, res) => {
         let remaning = oneArticle.dataValues.maxquantity
         let possiblesErrors = 'No se detectaron conflictos a la hora de crear la licencia'
 
-        console.log({sumDays, total, remaning});
         
         for (let i = 0; i < absenceEmployee.length; i++) {
             const element = absenceEmployee[i].dataValues.AbsenceId;
@@ -96,8 +96,6 @@ module.exports = router.put('/:id', async (req, res) => {
     
                 ]
             });
-
-
 
             const article = absence.dataValues
             const data = article.Articles
@@ -136,26 +134,30 @@ module.exports = router.put('/:id', async (req, res) => {
             total = absenceElement.dataValues.sumdays + total
             const max = oneArticle.dataValues.maxquantity
             remaning = max - total
+
+            const idEmpl = absenceEmployee[i].dataValues.EmployeeId
+
+            console.log({total, remaning, sumDays, max, idEmpl, element});
     
-            if(remaning <= 0) {
+            if(remaning === 0) {
                 remaning = 0
                 possiblesErrors = 
                 `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max}. Hasta el ${moment(nowTime.nowDate).format('DD-MM-YYYY')} se han contado: ${total}`
                 possiblesErrors = possiblesErrors.trim()
+
+                return res.status(403).status({Message: possiblesErrors})
             } else {
                 possiblesErrors = 'No se detectaron conflictos a la hora de crear la licencia'
             }
-            console.log(`vuelta n° ${i}`);
-            console.log({total, remaning, max, sumDays});
 
         }
+
+        
         
         await absence.update({
             start: createStart,
             end: createEnd,
-            sumdays: sumDays,
-            remaningdays: remaning,
-            totaldays: total
+            sumdays: sumDays
 
         })
         
