@@ -9,6 +9,7 @@ const { EmailEmployee } = require('../models/absences/emailEmployee');
 const { Claim, statusName, attendStatus } = require('../models/claims/claim');
 const { TypeClaim } = require('../models/claims/TypeClaim');
 const { Absence } = require('../models/absences/absence');
+const { Rol } = require('../models/rol')
 const { EmployeeSchool } = require('../models/throughTables/EmployeeSchool');
 const { EmployeeContract } = require('../models/throughTables/EmployeesContract');
 const { ContractDays } = require('../models/throughTables/ContractDays');
@@ -18,7 +19,8 @@ const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
 const { ArticlesStartEnd } = require('../models/throughTables/ArticlesStartEnd');
 const { ContractHours } = require('../models/throughTables/ContractHours');
-const { AbsenceEmployee } = require('../models/throughTables/AbsenceEmployee')
+const { AbsenceEmployee } = require('../models/throughTables/AbsenceEmployee');
+
 
 
 //DELETE HOURS AND ContractHours Tables
@@ -38,6 +40,7 @@ module.exports = {
     attendStatus,
     TypeClaim,
     Absence,
+    Rol,
     AbsenceEmployee,
     EmployeeSchool,
     EmployeeContract,

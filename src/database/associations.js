@@ -9,18 +9,18 @@ const { EmailEmployee } = require('../models/absences/emailEmployee');
 const { Claim } = require('../models/claims/claim');
 const { Hours } = require('../models/hours');
 const { TypeClaim } = require('../models/claims/TypeClaim');
+const { Rol } = require('../models/rol')
 
 // through Tables
 const { EmployeeSchool } = require('../models/throughTables/EmployeeSchool');
 const { EmployeeContract } = require('../models/throughTables/EmployeesContract');
 const { ContractDays } = require('../models/throughTables/ContractDays');
 const { ContractABM } = require('../models/throughTables/ContractABM');
-//const { EmployeesArticles } = require('../models/throughTables/EmployeesArticles');
-//const { ClaimsEmployees } = require('../models/throughTables/ClaimsEmployees');
 const { SchoolsDays } = require('../models/throughTables/SchoolsDays');
 const { ArticlesStartEnd } = require('../models/throughTables/ArticlesStartEnd');
 const { AbsenceEmployee } = require('../models/throughTables/AbsenceEmployee')
 const { ContractHours } = require('../models/throughTables/ContractHours');
+
 
 // Relations
 
@@ -59,3 +59,6 @@ Claim.belongsTo(Employee)
 
 TypeClaim.hasMany(Claim);
 Claim.belongsTo(TypeClaim)
+
+Rol.hasOne(Employee)
+Employee.belongsTo(Rol) 

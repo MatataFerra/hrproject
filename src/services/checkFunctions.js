@@ -30,7 +30,28 @@ const checkRegExp = (dni, res) => {
     
 }
 
+const checkCharSetRegExp = (input) => {
+    try {
+        const reg = new RegExp('^[a-zA-Z\\s]+$')
+        const charset = input
+
+        if(reg.test(charset) == false){
+            console.log({Invalid_type_Input: charset});
+            return false
+        }
+
+        return charset
+    } catch (err) {
+        console.log(err);
+        return err
+    }
+    
+}
+
+
+
 module.exports = {
     checkObject,
-    checkRegExp
+    checkRegExp,
+    checkCharSetRegExp
 }
