@@ -58,7 +58,7 @@ module.exports = router.get('/', async (req, res) => {
     } catch (error) {
         console.log('-----------');
         console.log(error);
-        res.status(404).send({Error: error});
+        return res.status(404).send({Error: error});
     }
 
 })

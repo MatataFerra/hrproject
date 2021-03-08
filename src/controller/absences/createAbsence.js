@@ -79,7 +79,18 @@ module.exports = router.post('/', async (req, res) => {
         let allAbseceArray = []
         let total = sumDays
         let remaning = oneArticle.dataValues.maxquantity - total
+        const max = oneArticle.dataValues.maxquantity
         let possiblesErrors = 'No se detectaron conflictos a la hora de crear la licencia'
+
+        if(total > oneArticle.dataValues.maxquantity) {
+            possiblesErrors = 
+                `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max} días. En el día de la fecha: ${moment(nowTime.nowDate).format('DD-MM-YYYY')} ha solicitado: ${total} días. La licencia debe ser autorizada por Recursos Humanos`
+                possiblesErrors = possiblesErrors.trim()
+            return res.status(400).send({
+                Message: 'Ha habido un error a la hora de crear la licencia',
+                Possibles_Errors: possiblesErrors
+            })
+        }
         
         for (let i = 0; i < absenceEmployee.length; i++) {
             const element = absenceEmployee[i].dataValues.AbsenceId;
@@ -141,7 +152,7 @@ module.exports = router.post('/', async (req, res) => {
             if(remaning <= 0) {
                 remaning = 0
                 possiblesErrors = 
-                `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max}. En el día de la fecha: ${moment(nowTime.nowDate).format('DD-MM-YYYY')} ha solicitado: ${total} días. La licencia debe ser autorizada por Recursos Humanos`
+                `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max} días. En el día de la fecha: ${moment(nowTime.nowDate).format('DD-MM-YYYY')} ha solicitado: ${total} días. La licencia debe ser autorizada por Recursos Humanos`
                 possiblesErrors = possiblesErrors.trim()
 
                 return res.status(403).send({Message: possiblesErrors})
