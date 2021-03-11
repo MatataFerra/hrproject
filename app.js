@@ -16,10 +16,13 @@ const EmployeeRoute = require('./src/routes/employees');
 const SchoolRoute = require('./src/routes/schools');
 const ContractRoute = require('./src/routes/contract');
 const EnrollRoute = require('./src/routes/enroll');
-const testRoute = require('./src/controller/enroll/test');
 const ClaimRoute = require('./src/routes/claims');
 const AbsenceRoute = require('./src/routes/absence');
-const RolRoute = require('./src/routes/rol')
+const RolRoute = require('./src/routes/rol');
+const UserRoute = require('./src/routes/user')
+
+//Solo para test
+const testRoute = require('./src/test');
 
 app.use('/employees', EmployeeRoute);
 app.use('/schools', SchoolRoute);
@@ -28,7 +31,8 @@ app.use('/enroll', EnrollRoute);
 app.use('/test', testRoute)
 app.use('/claim', ClaimRoute);
 app.use('/absence', AbsenceRoute);
-app.use('/rol', RolRoute)
+app.use('/rol', RolRoute);
+app.use('/users', UserRoute)
 
 
 

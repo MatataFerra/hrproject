@@ -21,6 +21,10 @@ const { ArticlesStartEnd } = require('../models/throughTables/ArticlesStartEnd')
 const { ContractHours } = require('../models/throughTables/ContractHours');
 const { AbsenceEmployee } = require('../models/throughTables/AbsenceEmployee');
 
+//Others Tables
+
+const { User }  = require('../models/users/User')
+
 
 
 //DELETE HOURS AND ContractHours Tables
@@ -51,5 +55,6 @@ module.exports = {
     SchoolsDays,
     ArticlesStartEnd,
     ContractHours,
-    Hours
+    Hours,
+    User
 }
