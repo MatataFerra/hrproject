@@ -7,7 +7,7 @@ module.exports = router.get('/', async (req, res) => {
     try {
         const schools = await Schools.findAll();
 
-        res.status(200).send({Empleados: schools});
+        return res.status(200).send({Escuelas: schools});
 
     } catch (error) {
         console.log(error);

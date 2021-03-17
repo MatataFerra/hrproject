@@ -1,10 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const login = require('../controller/users/login');
-const singUp = require('../controller/users/singup');
+const { loginGet } = require('../controller/users/login');
+const { singUpGet } = require('../controller/users/singup');
+const { logOut } = require('../controller/users/logout');
 
-router.use('/login', login);
-router.use('/singup', singUp)
+const { isAuthenticate } = require('../middleware/isAuthenticate')
+
+router.use('/login', loginGet);
+router.use('/singup', singUpGet);
+
+router.use((req, res, next) => {
+    isAuthenticate(req, res, next, '/users/login');
+    next()
+})
+
+router.use('/logout', logOut);
+
 
 module.exports = router
