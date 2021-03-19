@@ -1,0 +1,260 @@
+/*Normalizar*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// h1, p, h3 {
+//     margin-block-start: 0em;
+//     margin-block-end: 0em;
+//     margin-inline-start: 0px;
+//     margin-inline-end: 0px;
+//     font-weight: 400;
+// }
+
+$fontFamily: 'Montserrat', sans-serif;
+
+body {
+    font-family: $fontFamily;
+    background-image: url('../assets/GuardarSVG.svg');
+    background-position: center;
+    background-clip: border-box;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+
+    .singInMessage{
+        text-align: center;
+        font-family: $fontFamily;
+        color: aliceblue;
+    }
+    
+}
+
+
+
+.triangle {
+    width: 50px;
+    height: 50px;
+    background-image: url('../assets/SVG/Recurso1.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    overflow: hidden;
+    top: 400px;
+    left: 200px;
+    animation: leftRight--3 5s 1 forwards, rotate 4s 5s infinite;
+    transition: all 0.5s ease-in-out;
+}
+
+.triangle2 {
+    background-image: url('../assets/SVG/Recurso3.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    overflow: hidden;
+    height: 50px;
+    width: 15px;
+    top: 100px;
+    left: 1200px;
+    animation: leftRight--2 5s 1 forwards, growUp 1s 5s infinite;
+}
+
+.triangle3 {
+    width: 25px;
+    height: 25px;
+    background-image: url('../assets/SVG/Recurso4.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    overflow: hidden;
+    top: 500px;
+    left: 1000px;   
+    animation: leftRight 3s 1 forwards;
+
+}
+
+.triangle4 {
+    width: 15px;
+    height: 25px;
+    background-image: url('../assets/SVG/Recurso1.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    overflow: hidden;
+    top: 200px;
+    left: 300px;   
+    animation: leftRight 10s 1 forwards;
+}
+
+.triangle5 {
+    width: 15px;
+    height: 25px;
+    background-image: url('../assets/SVG/Recurso1.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    overflow: hidden;
+    top: 200px;
+    left: 650px;   
+    animation: leftRight--4 8s 1 forwards, rotate 4s 8s infinite;;
+}
+
+.title {
+    padding: 1rem;
+    color: whitesmoke;
+    font-family: $fontFamily;
+    font-size: 3rem;
+    text-transform: uppercase;
+    text-align: center;
+
+    h3 {
+        font-size: 1.3rem;
+        text-transform: lowercase;
+    }
+
+}
+
+$backColor: #50ccb1;
+
+.form {
+    margin-top: 4rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .formInside {
+    
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        
+        .inputText {
+            width: 80%;
+            margin: 0 auto;
+            padding: 10px;
+            border: $backColor 2px solid;
+            background-color: transparent;
+            margin-bottom: 10px;
+            border-radius: 50px;
+            color: #fff;
+            outline: none;
+
+            &::placeholder{
+                color: rgba(199, 196, 196, 0.692);
+            }
+
+
+            
+        }
+        button {
+            padding: 10px;
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 50px;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #fff;
+            background: $backColor;
+            cursor: pointer;
+            outline: none;
+            &:hover {
+                background: #50ac96
+            }
+        }
+    }
+
+}
+
+@keyframes upDown {
+    0% {
+        transform: translate(0, 0px);
+    }
+
+    50% {
+        transform: translate(0, -10px);
+    }
+    
+
+    100% {
+        transform: translate(0, 0px);
+        
+    }
+}
+
+@keyframes growUp {
+    0% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.2);
+        
+    }
+
+    75% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+
+
+@keyframes leftRight {
+    0% {
+        transform: translate(-1200px, -700px);
+    }
+
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes leftRight--2 {
+    0% {
+        transform: translate(300px, -200px);
+    }
+
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes leftRight--3 {
+    0% {
+        transform: translate(0, -600px);
+    }
+
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+
+@keyframes leftRight--4 {
+    0% {
+        transform: translate(0, -300px);
+    }
+
+
+    100% {
+        transform: translate(0, 0);
+    }
+}

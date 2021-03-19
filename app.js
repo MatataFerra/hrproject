@@ -37,6 +37,7 @@ app.set('view engine', 'ejs');
 app.use((req, res, next) => {
     app.locals.singupMessage =  req.flash('singupMessage');
     app.locals.singinMessage =  req.flash('singinMessage');
+    app.locals.user = req.user
     next()
 })
 
@@ -61,7 +62,7 @@ app.use('/rol', RolRoute);
 app.use('/users', UserRoute)
 
 
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public/'))
 
 
 app.listen(PORT, ()=> {

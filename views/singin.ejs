@@ -1,9 +1,18 @@
 <%- layout('layouts/main.ejs') %> 
+<div class="title">
+    <h1>Bienvenido</h1>
+    <h3>La base de datos de Recursos Humanos</h3>
+</div>
 
-<form method="POST" id="login" action="/users/login" >
-    <input type="email" name="email" value="" placeholder="Tu Email" >
-    <input type="password" name="password" value="" placeholder="Tu contraseña">
-    <!-- <input type="submit" name="submit" value="Login"> -->
-    <button type="submit">Login</button>
+<div class="form">
 
-</form>
+    <form method="POST" id="login" action="/users/login" class="formInside">
+        <input type="email" name="email" value="" placeholder="Tu Email" class="inputText">
+        <input type="password" name="password" value="" placeholder="Tu contraseña" class="inputText">
+        <!-- <input type="submit" name="submit" value="Login"> -->
+        <button type="submit">Login</button>
+    
+    </form>
+</div>
+
+
