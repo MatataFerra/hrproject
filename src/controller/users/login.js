@@ -8,7 +8,7 @@ const loginGet = router.get('/', (req, res)=> {
 })
 
 const loginPost = router.post('/',  passport.authenticate('local-singin', {
-    successRedirect: '/schools',
+    successRedirect: '/users/profile',
     failureRedirect: '/users/login',
     passReqToCallback: true
 }));

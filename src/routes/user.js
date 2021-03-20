@@ -4,18 +4,22 @@ const router = express.Router();
 const { loginGet } = require('../controller/users/login');
 const { singUpGet } = require('../controller/users/singup');
 const { logOut } = require('../controller/users/logout');
+const { profile } = require('../controller/users/profile')
 
-const { isAuthenticate } = require('../middleware/isAuthenticate')
 
 router.use('/login', loginGet);
 router.use('/singup', singUpGet);
 
 router.use((req, res, next) => {
-    isAuthenticate(req, res, next, '/users/login');
-    next()
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    req.flash('authMessage', 'You don´t have permission. Please login first')
+    res.redirect('/users/login')
 })
 
 router.use('/logout', logOut);
+router.use('/profile', profile)
 
 
 module.exports = router

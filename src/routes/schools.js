@@ -14,6 +14,14 @@ const schoolByCM = require('../controller/school/search/schoolFindByCM');
 const schoolByAddress = require('../controller/school/search/schoolFindByAddress');
 const schoolByLevel = require('../controller/school/search/schoolFindBylevel');
 
+router.use((req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    req.flash('authMessage', 'You don´t have permission. Please login first')
+    res.redirect('/users/login')
+})
+
 
 router.use('/', allSchools);
 router.use('/', oneSchool);

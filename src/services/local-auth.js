@@ -19,13 +19,19 @@ passport.use('local-singup', new LocalStrategy({
     passReqToCallback: true
 }, async (req, email, password, done) => {
 
+    const username  = req.body.username
+
+    if(username === '' ){
+        return done(null, false, req.flash('singupMessage', 'Todos los campos son obligatorios'))
+    }
+
+
     const user = await User.findOne({where: {email: email}})
 
     if(user) {
         return done(null, false, req.flash('singupMessage', 'The email is already taken'))
     } else {
         const hashPass = encryptPassword(password)
-        const username = 'Default'
         const newUser = await User.create({
             email, 
             password: hashPass,

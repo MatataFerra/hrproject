@@ -1,10 +1,24 @@
 <%- layout('layouts/main.ejs') %> 
+<div class="title">
+    <h1>Registro</h1>
+    <h3>Por favor complete los datos solicitados</h3>
+</div>
 
-    <form method="POST" id="login" action="/users/singup">
-        <input type="email" name="email" value="" placeholder="Tu Email" >
-        <input type="password" name="password" value="" placeholder="Tu contraseña">
-        <!-- <input type="submit" name="submit" value="Login"> -->
-        <button type="submit">Login</button>
+
+<div class="form">
+
+    <form method="POST" id="singup" action="/users/singup" class="formInside">
+        <input type="text" name="username" id="username" value="" placeholder="Elija nombre de usuario" class="inputText">
+        <input type="email" name="email" value="" placeholder="Ingrese su Email" class="inputText">
+        <input type="password" name="password" value="" placeholder="Ingrese contraseña" class="inputText">
+        <button type="submit" id="btn-submit">Login</button>
     
     </form>
+
+</div>
+
+<div class="newUser">
+    <p> <a href="/users/login"> <i class="fas fa-caret-left"></i>Volver</a> </p>
+    
+</div>
 

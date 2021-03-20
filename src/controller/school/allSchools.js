@@ -11,7 +11,7 @@ module.exports = router.get('/', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.send({Error: error})
+        return res.send({Error: error})
     }
 
 

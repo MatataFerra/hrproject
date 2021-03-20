@@ -18,10 +18,36 @@ body {
   position: relative;
 }
 
-body .singInMessage {
+body .singInMessage,
+body .singUpMessage,
+body .authMessage {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: crimson;
+  -webkit-animation: tilt 0.5s infinite forwards;
+          animation: tilt 0.5s infinite forwards;
+}
+
+.newUser {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   color: aliceblue;
+}
+
+.newUser a {
+  text-decoration: none;
+  color: chartreuse;
+}
+
+.newUser a:hover {
+  -webkit-animation: tilt 0.5s infinite forwards;
+          animation: tilt 0.5s infinite forwards;
+}
+
+.newUser i {
+  margin-right: 0.3rem;
 }
 
 .triangle {
@@ -353,6 +379,42 @@ body .singInMessage {
   100% {
     -webkit-transform: translate(0, 0);
             transform: translate(0, 0);
+  }
+}
+
+@-webkit-keyframes tilt {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes tilt {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
   }
 }
 /*# sourceMappingURL=main.css.map */

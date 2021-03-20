@@ -11,6 +11,8 @@
 </head>
 <body>
 
+    
+
     <div class="triangle"></div>
     <div class="triangle2"></div>
     <div class="triangle3"></div>
@@ -31,6 +33,12 @@
         </div>
     <% } %> 
 
+    <% if(authMessage.length > 0) {%> 
+        <div class="authMessage">
+            <%= authMessage %> 
+        </div>
+    <% } %> 
 
+    <script src="https://kit.fontawesome.com/f45567b7c1.js" crossorigin="anonymous"></script>
 </body>
 </html>
