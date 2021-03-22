@@ -1,0 +1,76 @@
+@import 'fonts';
+
+.titleEmployee {
+    font-size: 3rem;
+    padding: 2rem;
+    
+}
+
+.containerEmployee {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+
+    .searchAndAddEmployee{
+
+        
+        .addEmployee {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4rem ;
+            img {
+                height: 25px;
+                margin-right: 1rem;
+                cursor: pointer;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+        }
+
+        .searchEmployee {
+            input{
+                height: 45px;
+                width: 500px;
+                font-family: $fontFamilyBold;
+                padding: 0.5rem;
+                
+                
+            }
+
+            select {
+                height: 45px
+            }
+        }
+
+        .results {
+            display: flex;
+            border: 1px solid black;
+            align-items: center;
+            margin-top: 2rem;
+            background: crimson;
+            .employeeResult {
+                display: flex;
+                
+                p {
+                    font-size: 1.5rem;
+                    
+                    padding: 0.5rem;
+                }
+            }
+            img {
+                height: 25px;
+                margin: 0 0.5rem;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .employeesImg {
+        img {
+            height: 400px;
+        }
+    }
+}

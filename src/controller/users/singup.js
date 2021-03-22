@@ -8,7 +8,7 @@ const singUpGet = router.get('/', (req, res) => {
 
 const singUpPost = router.post('/', passport.authenticate('local-singup', {
         successRedirect: '/users/login',
-        failureRedirect: '/users/singup',
+        failureRedirect: '/home',
         passReqToCallback: true
 }));
 

@@ -1,0 +1,185 @@
+$backColor: #50ccb1;
+@import 'fonts';
+
+.imgLogin {
+
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin-top: 2rem;
+
+    img {
+        height: 300px;
+        
+    }
+}
+
+
+
+.containerForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items:  end;
+    padding: 0 4rem;
+
+    .imgSingup {
+        img {
+            height: 400px;
+            
+        }
+    }
+    
+    .singupForm {
+
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        // width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+
+        .formInside {
+            display: block;
+            width: 75%;
+
+            .inputText {
+                width: 80%;
+                margin: 0 auto;
+                padding: 10px;
+                border: $backColor 2px solid;
+                background-color: whitesmoke;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                color: rgb(49, 195, 221);
+                outline: none;
+    
+                &::placeholder{
+                    color: rgba(100, 100, 100, 0.692);
+                }
+
+            }
+            
+
+            button {
+                padding: 10px;
+                width: 80%;
+                margin: 0 auto;
+                border-radius: 5px;
+                border: none;
+                text-transform: uppercase;
+                font-weight: 700;
+                color: black;
+                background: #64EB4B;
+                cursor: pointer;
+                outline: none;
+                font-family: $fontFamilyBold;
+                font-size: 1.5rem;
+
+                &:hover {
+                    color: whitesmoke;
+                }
+                
+            }
+        }
+
+        .newUser {
+
+            margin-top: 1rem;
+            
+        
+            a {
+                text-decoration: none;
+                color:rgb(223, 83, 27);
+                &:hover {
+                    animation: tilt 0.7s  infinite forwards;
+                }
+
+                i {
+                    margin-right: 0.2rem;
+                }
+            }
+        }
+    }
+    
+}
+
+.titleSingup {
+    font-size: 3rem;
+    padding: 1rem;
+    
+}
+
+.form {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .formInside {
+    
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        
+        .inputText {
+            width: 80%;
+            margin: 0 auto;
+            padding: 10px;
+            border: $backColor 2px solid;
+            background-color: whitesmoke;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: rgb(49, 195, 221);
+            outline: none;
+
+            &::placeholder{
+                color: rgba(100, 100, 100, 0.692);
+            }
+
+
+            
+        }
+        button {
+            padding: 10px;
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 5px;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: black;
+            background: #FFD240;
+            cursor: pointer;
+            outline: none;
+            font-family: $fontFamilyBold;
+            font-size: 1.5rem;
+            &:hover {
+                color: whitesmoke;
+            }
+        }
+    }
+
+}
+
+
+
+.newUser {
+    text-align: center;
+    margin-top: 1rem;
+
+    a {
+        text-decoration: none;
+        color:rgb(223, 83, 27);
+        &:hover {
+            animation: tilt 0.7s  infinite forwards;
+        }
+
+        i {
+            margin-right: 0.2rem;
+        }
+    }
+}

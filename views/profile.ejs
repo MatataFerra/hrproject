@@ -1,3 +1,46 @@
-<%- layout('layouts/main.ejs') %> 
+<%- layout('layouts/main.ejs') %>
 
-<h1>Funciona</h1>
+<nav class="navbar">
+    <div class="logo">
+        <img src="/assets/SVG/homeVector.svg" alt="Logo Mesa" class="imgNavbar">
+        <p>HR | DataBase</p>
+    </div>
+    <ul class="ulNavbar">
+        <li><a href="/home/"> <img src="/assets/SVG/igloo-solid.svg" alt="Home" class="homeLogo"> </a></li>
+        <li><a href="/users/logout"> <img src="/assets/SVG/power-off-solid.svg" alt="Logout" class="logoutLogo"> </a>
+        </li>
+    </ul>
+</nav>
+
+
+
+<div class="camposDeBusqueda">
+
+    <div class="imgProfile">
+        <img src="/assets/SVG/desktopBlue.svg" alt="Blue Desktop">
+    </div>
+
+    <div class="options">
+        <div class="module employees">
+            <p><a href="/employees">Módulo Empleados</a></p>
+        </div>
+
+        <div class="module schools">
+            <p><a href="#">Módulo Escuelas</a></p>
+        </div>
+
+        <div class="module claims">
+            <p><a href="#">Módulo Reclamos</a></p>
+        </div>
+
+        <div class="module absences">
+            <p><a href="#">Módulo Ausentismo</a></p>
+        </div>
+
+        <div class="module contracts">
+            <p><a href="#">Módulo Contrataciones</a></p>
+        </div>
+
+    </div>
+
+</div>

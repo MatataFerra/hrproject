@@ -6,48 +6,159 @@
           box-sizing: border-box;
 }
 
-body {
-  font-family: "Montserrat", sans-serif;
-  background-image: url("../assets/GuardarSVG.svg");
-  background-position: center;
-  background-clip: border-box;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  height: 100vh;
-  position: relative;
-}
-
-body .singInMessage,
-body .singUpMessage,
-body .authMessage {
-  margin-top: 0.5rem;
-  text-align: center;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  color: crimson;
-  -webkit-animation: tilt 0.5s infinite forwards;
-          animation: tilt 0.5s infinite forwards;
-}
-
-.newUser {
-  text-align: center;
-  font-family: "Montserrat", sans-serif;
+.navbar {
   color: aliceblue;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 1rem;
+  background: -webkit-gradient(linear, left top, right top, from(#eb6ec8), to(#973a7c));
+  background: linear-gradient(90deg, #eb6ec8 0%, #973a7c 100%);
+  height: 70px;
+  z-index: 1;
 }
 
-.newUser a {
+.navbar .logo {
+  height: 30px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navbar .logo img {
+  height: 50px;
+}
+
+.navbar .logo p {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
+.navbar .ulNavbar {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.navbar .ulNavbar li {
+  margin-right: 1rem;
+  font-weight: 600;
+}
+
+.navbar .ulNavbar li a {
   text-decoration: none;
-  color: chartreuse;
 }
 
-.newUser a:hover {
-  -webkit-animation: tilt 0.5s infinite forwards;
-          animation: tilt 0.5s infinite forwards;
+.navbar .ulNavbar li a .homeLogo {
+  height: 30px;
 }
 
-.newUser i {
-  margin-right: 0.3rem;
+.navbar .ulNavbar li a .logoutLogo {
+  height: 30px;
+}
+
+.navbar .ulNavbar li:last-child {
+  margin-right: 0;
+}
+
+.camposDeBusqueda {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 2rem 4rem;
+}
+
+.camposDeBusqueda .imgProfile img {
+  width: 450px;
+}
+
+.camposDeBusqueda .options {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+  -ms-flex-line-pack: center;
+      align-content: center;
+  gap: 1rem;
+}
+
+.camposDeBusqueda .options .module {
+  border-radius: 30px;
+  height: 60px;
+  width: 100%;
+  background: whitesmoke;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.camposDeBusqueda .options .module:hover {
+  background: #6BFF6B;
+  border: none;
+  color: whitesmoke;
+}
+
+.camposDeBusqueda .options .module a {
+  text-decoration: none;
+  color: #000000;
+  line-height: 60px;
+}
+
+.camposDeBusqueda .options .employees {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+}
+
+.camposDeBusqueda .options .schools {
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 2;
+  grid-column: 3 / 5;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+}
+
+.camposDeBusqueda .options .claims {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2 / 3;
+}
+
+.camposDeBusqueda .options .absences {
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 2;
+  grid-column: 3 / 5;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2 / 3;
+}
+
+.camposDeBusqueda .options .contracts {
+  grid-column: -4 / -2;
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  grid-row: 3 / 4;
 }
 
 .triangle {
@@ -115,93 +226,6 @@ body .authMessage {
   left: 650px;
   -webkit-animation: leftRight--4 8s 1 forwards, rotate 4s 8s infinite;
           animation: leftRight--4 8s 1 forwards, rotate 4s 8s infinite;
-}
-
-.title {
-  padding: 1rem;
-  color: whitesmoke;
-  font-family: "Montserrat", sans-serif;
-  font-size: 3rem;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.title h3 {
-  font-size: 1.3rem;
-  text-transform: lowercase;
-}
-
-.form {
-  margin-top: 4rem;
-  margin-bottom: 0.5rem;
-  width: 100%;
-  text-align: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.form .formInside {
-  width: 25%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.form .formInside .inputText {
-  width: 80%;
-  margin: 0 auto;
-  padding: 10px;
-  border: #50ccb1 2px solid;
-  background-color: transparent;
-  margin-bottom: 10px;
-  border-radius: 50px;
-  color: #fff;
-  outline: none;
-}
-
-.form .formInside .inputText::-webkit-input-placeholder {
-  color: rgba(199, 196, 196, 0.692);
-}
-
-.form .formInside .inputText:-ms-input-placeholder {
-  color: rgba(199, 196, 196, 0.692);
-}
-
-.form .formInside .inputText::-ms-input-placeholder {
-  color: rgba(199, 196, 196, 0.692);
-}
-
-.form .formInside .inputText::placeholder {
-  color: rgba(199, 196, 196, 0.692);
-}
-
-.form .formInside button {
-  padding: 10px;
-  width: 80%;
-  margin: 0 auto;
-  border-radius: 50px;
-  border: none;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #fff;
-  background: #50ccb1;
-  cursor: pointer;
-  outline: none;
-}
-
-.form .formInside button:hover {
-  background: #50ac96;
 }
 
 @-webkit-keyframes upDown {
@@ -416,5 +440,654 @@ body .authMessage {
   100% {
     opacity: 1;
   }
+}
+
+@font-face {
+  font-family: "MAXWELL_BOLD";
+  src: url("../assets/fonts/MAXWELL_BOLD.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_REGULAR";
+  src: url("../assets/fonts/MAXWELL_REGULAR.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_LIGHT";
+  src: url("../assets/fonts/MAXWELL_LIGHT.ttf");
+}
+
+.imgLogin {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.imgLogin img {
+  height: 300px;
+}
+
+.containerForm {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  justify-items: end;
+  padding: 0 4rem;
+}
+
+.containerForm .imgSingup img {
+  height: 400px;
+}
+
+.containerForm .singupForm {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.containerForm .singupForm .formInside {
+  display: block;
+  width: 75%;
+}
+
+.containerForm .singupForm .formInside .inputText {
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+  border: #50ccb1 2px solid;
+  background-color: whitesmoke;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #31c3dd;
+  outline: none;
+}
+
+.containerForm .singupForm .formInside .inputText::-webkit-input-placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.containerForm .singupForm .formInside .inputText:-ms-input-placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.containerForm .singupForm .formInside .inputText::-ms-input-placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.containerForm .singupForm .formInside .inputText::placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.containerForm .singupForm .formInside button {
+  padding: 10px;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 5px;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: black;
+  background: #64EB4B;
+  cursor: pointer;
+  outline: none;
+  font-family: "MAXWELL_BOLD";
+  font-size: 1.5rem;
+}
+
+.containerForm .singupForm .formInside button:hover {
+  color: whitesmoke;
+}
+
+.containerForm .singupForm .newUser {
+  margin-top: 1rem;
+}
+
+.containerForm .singupForm .newUser a {
+  text-decoration: none;
+  color: #df531b;
+}
+
+.containerForm .singupForm .newUser a:hover {
+  -webkit-animation: tilt 0.7s  infinite forwards;
+          animation: tilt 0.7s  infinite forwards;
+}
+
+.containerForm .singupForm .newUser a i {
+  margin-right: 0.2rem;
+}
+
+.titleSingup {
+  font-size: 3rem;
+  padding: 1rem;
+}
+
+.form {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.form .formInside {
+  width: 25%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.form .formInside .inputText {
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+  border: #50ccb1 2px solid;
+  background-color: whitesmoke;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #31c3dd;
+  outline: none;
+}
+
+.form .formInside .inputText::-webkit-input-placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.form .formInside .inputText:-ms-input-placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.form .formInside .inputText::-ms-input-placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.form .formInside .inputText::placeholder {
+  color: rgba(100, 100, 100, 0.692);
+}
+
+.form .formInside button {
+  padding: 10px;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 5px;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: black;
+  background: #FFD240;
+  cursor: pointer;
+  outline: none;
+  font-family: "MAXWELL_BOLD";
+  font-size: 1.5rem;
+}
+
+.form .formInside button:hover {
+  color: whitesmoke;
+}
+
+.newUser {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.newUser a {
+  text-decoration: none;
+  color: #df531b;
+}
+
+.newUser a:hover {
+  -webkit-animation: tilt 0.7s  infinite forwards;
+          animation: tilt 0.7s  infinite forwards;
+}
+
+.newUser a i {
+  margin-right: 0.2rem;
+}
+
+@font-face {
+  font-family: "MAXWELL_BOLD";
+  src: url("../assets/fonts/MAXWELL_BOLD.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_REGULAR";
+  src: url("../assets/fonts/MAXWELL_REGULAR.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_LIGHT";
+  src: url("../assets/fonts/MAXWELL_LIGHT.ttf");
+}
+
+.titleEmployee {
+  font-size: 3rem;
+  padding: 2rem;
+}
+
+.containerEmployee {
+  padding: 1rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+}
+
+.containerEmployee .searchAndAddEmployee .addEmployee {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 4rem;
+}
+
+.containerEmployee .searchAndAddEmployee .addEmployee img {
+  height: 25px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.containerEmployee .searchAndAddEmployee .addEmployee p {
+  font-size: 1.5rem;
+}
+
+.containerEmployee .searchAndAddEmployee .searchEmployee input {
+  height: 45px;
+  width: 500px;
+  font-family: "MAXWELL_BOLD";
+  padding: 0.5rem;
+}
+
+.containerEmployee .searchAndAddEmployee .searchEmployee select {
+  height: 45px;
+}
+
+.containerEmployee .searchAndAddEmployee .results {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid black;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 2rem;
+  background: crimson;
+}
+
+.containerEmployee .searchAndAddEmployee .results .employeeResult {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.containerEmployee .searchAndAddEmployee .results .employeeResult p {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+.containerEmployee .searchAndAddEmployee .results img {
+  height: 25px;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.containerEmployee .employeesImg img {
+  height: 400px;
+}
+
+@font-face {
+  font-family: "MAXWELL_BOLD";
+  src: url("../assets/fonts/MAXWELL_BOLD.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_REGULAR";
+  src: url("../assets/fonts/MAXWELL_REGULAR.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_LIGHT";
+  src: url("../assets/fonts/MAXWELL_LIGHT.ttf");
+}
+
+.triangle {
+  width: 50px;
+  height: 50px;
+  background-image: url("../assets/SVG/Recurso1.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  overflow: hidden;
+  top: 400px;
+  left: 200px;
+  -webkit-animation: leftRight--3 5s 1 forwards, rotate 4s 5s infinite;
+          animation: leftRight--3 5s 1 forwards, rotate 4s 5s infinite;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.triangle2 {
+  background-image: url("../assets/SVG/Recurso3.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  overflow: hidden;
+  height: 50px;
+  width: 15px;
+  top: 100px;
+  left: 1200px;
+  -webkit-animation: leftRight--2 5s 1 forwards, growUp 1s 5s infinite;
+          animation: leftRight--2 5s 1 forwards, growUp 1s 5s infinite;
+}
+
+.triangle3 {
+  width: 25px;
+  height: 25px;
+  background-image: url("../assets/SVG/Recurso4.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  overflow: hidden;
+  top: 500px;
+  left: 1000px;
+  -webkit-animation: leftRight 3s 1 forwards;
+          animation: leftRight 3s 1 forwards;
+}
+
+.triangle4 {
+  width: 15px;
+  height: 25px;
+  background-image: url("../assets/SVG/Recurso1.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  overflow: hidden;
+  top: 200px;
+  left: 300px;
+  -webkit-animation: leftRight 10s 1 forwards;
+          animation: leftRight 10s 1 forwards;
+}
+
+.triangle5 {
+  width: 15px;
+  height: 25px;
+  background-image: url("../assets/SVG/Recurso1.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  overflow: hidden;
+  top: 200px;
+  left: 650px;
+  -webkit-animation: leftRight--4 8s 1 forwards, rotate 4s 8s infinite;
+          animation: leftRight--4 8s 1 forwards, rotate 4s 8s infinite;
+}
+
+@keyframes upDown {
+  0% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+  50% {
+    -webkit-transform: translate(0, -10px);
+            transform: translate(0, -10px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+}
+
+@keyframes growUp {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  25% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+  75% {
+    -webkit-transform: scale(1.3);
+            transform: scale(1.3);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg);
+  }
+}
+
+@keyframes leftRight {
+  0% {
+    -webkit-transform: translate(-1200px, -700px);
+            transform: translate(-1200px, -700px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@keyframes leftRight--2 {
+  0% {
+    -webkit-transform: translate(300px, -200px);
+            transform: translate(300px, -200px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@keyframes leftRight--3 {
+  0% {
+    -webkit-transform: translate(0, -600px);
+            transform: translate(0, -600px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@keyframes leftRight--4 {
+  0% {
+    -webkit-transform: translate(0, -300px);
+            transform: translate(0, -300px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@keyframes tilt {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.black {
+  font-family: "MAXWELL_BOLD";
+}
+
+.mainHome {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 2rem;
+  height: 100vh;
+}
+
+.mainHome .homeVector img {
+  height: 450px;
+}
+
+.mainHome .rightSide {
+  padding: 1rem;
+}
+
+.mainHome .rightSide h1 {
+  font-size: 5rem;
+}
+
+.mainHome .rightSide .parraf {
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+.mainHome .rightSide .parraf--1 {
+  margin-bottom: 0.8rem;
+}
+
+.mainHome .rightSide .parraf--2 {
+  font-family: "MAXWELL_REGULAR";
+  margin-bottom: 0.8rem;
+}
+
+.mainHome .rightSide .parraf--3 {
+  margin-bottom: 1.5rem;
+}
+
+.mainHome .rightSide .parraf--3 a {
+  text-decoration: none;
+  color: crimson;
+}
+
+.mainHome .rightSide .parraf--3 a:hover {
+  -webkit-animation: tilt 0.7s  infinite forwards;
+          animation: tilt 0.7s  infinite forwards;
+}
+
+.mainHome .rightSide .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.mainHome .rightSide .buttons .btnLogin, .mainHome .rightSide .buttons .btnRegister {
+  width: 150px;
+  height: 40px;
+  background: #FFD240;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-right: 1rem;
+}
+
+.mainHome .rightSide .buttons .btnLogin a, .mainHome .rightSide .buttons .btnRegister a {
+  text-decoration: none;
+  line-height: 40px;
+  color: black;
+}
+
+.mainHome .rightSide .buttons .btnLogin a:hover, .mainHome .rightSide .buttons .btnRegister a:hover {
+  color: aliceblue;
+}
+
+.mainHome .rightSide .buttons .btnRegister {
+  background: transparent;
+  border: 1px solid #64EB4B;
+}
+
+.mainHome .rightSide .buttons .btnRegister:hover {
+  color: aliceblue;
+}
+
+@font-face {
+  font-family: "MAXWELL_BOLD";
+  src: url("../assets/fonts/MAXWELL_BOLD.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_REGULAR";
+  src: url("../assets/fonts/MAXWELL_REGULAR.ttf");
+}
+
+@font-face {
+  font-family: "MAXWELL_LIGHT";
+  src: url("../assets/fonts/MAXWELL_LIGHT.ttf");
+}
+
+body {
+  font-family: "MAXWELL_BOLD";
+  background: -webkit-gradient(linear, left top, right top, from(#1aedf3), to(#10a0a4));
+  background: linear-gradient(90deg, #1aedf3 0%, #10a0a4 100%);
+}
+
+body .singInMessage,
+body .singUpMessage,
+body .authMessage {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-family: "MAXWELL_BOLD";
+  font-weight: 600;
+  color: crimson;
+  -webkit-animation: tilt 0.5s infinite forwards;
+          animation: tilt 0.5s infinite forwards;
+}
+
+body .logoutMessage {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-family: "MAXWELL_BOLD";
+  font-weight: 600;
+  color: chartreuse;
+  -webkit-animation: tilt 0.5s infinite forwards;
+          animation: tilt 0.5s infinite forwards;
 }
 /*# sourceMappingURL=main.css.map */

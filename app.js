@@ -37,7 +37,8 @@ app.set('view engine', 'ejs');
 app.use((req, res, next) => {
     app.locals.singupMessage =  req.flash('singupMessage');
     app.locals.singinMessage =  req.flash('singinMessage');
-    app.locals.authMessage = req.flash('authMessage')
+    app.locals.authMessage = req.flash('authMessage');
+    app.locals.logoutMessage = req.flash('logoutMessage')
     app.locals.user = req.user
     next()
 })
@@ -51,6 +52,7 @@ const ClaimRoute = require('./src/routes/claims');
 const AbsenceRoute = require('./src/routes/absence');
 const RolRoute = require('./src/routes/rol');
 const UserRoute = require('./src/routes/user')
+const Home = require('./src/routes/home')
 
 
 app.use('/users', UserRoute)
@@ -61,6 +63,7 @@ app.use('/enroll', EnrollRoute);
 app.use('/claim', ClaimRoute);
 app.use('/absence', AbsenceRoute);
 app.use('/rol', RolRoute);
+app.use('/home', Home)
 
 
 app.use(express.static(__dirname + '/public/'))

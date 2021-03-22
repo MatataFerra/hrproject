@@ -5,28 +5,39 @@
     box-sizing: border-box;
 }
 
+@import 'profile';
+@import 'backgrAnim';
+@import 'formLogin';
+@import 'employees';
+@import 'home';
+@import 'fonts';
 
-$fontFamily: 'Montserrat', sans-serif;
+
+
 
 body {
-    font-family: $fontFamily;
-    background-image: url('../assets/GuardarSVG.svg');
-    background-position: center;
-    background-clip: border-box;
-    background-size: cover;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    height: 100vh;
-    position: relative;
+
+    font-family: $fontFamilyBold;
+
+    background: linear-gradient(90deg, rgba(26,237,243,1) 0%, rgba(16,160,164,1) 100%);
 
     .singInMessage, 
     .singUpMessage, 
     .authMessage{
         margin-top: 0.5rem;
         text-align: center;
-        font-family: $fontFamily;
+        font-family: $fontFamilyBold;
         font-weight: 600;
         color:crimson;
+        animation: tilt 0.5s infinite forwards;
+    }
+
+    .logoutMessage {
+        margin-top: 0.5rem;
+        text-align: center;
+        font-family: $fontFamilyBold;
+        font-weight: 600;
+        color:chartreuse;
         animation: tilt 0.5s infinite forwards;
     }
     
@@ -34,269 +45,3 @@ body {
     
 }
 
-.newUser {
-
-    text-align: center;
-    font-family: $fontFamily;
-    color: aliceblue;
-    
-    a {
-        text-decoration: none;
-        color: chartreuse;
-        
-
-        &:hover {
-            animation: tilt 0.5s infinite forwards;
-        }
-    }
-
-    i {
-        margin-right: 0.3rem;
-    }
-
-}
-
-.triangle {
-    width: 50px;
-    height: 50px;
-    background-image: url('../assets/SVG/Recurso1.svg');
-    background-repeat: no-repeat;
-    position: absolute;
-    overflow: hidden;
-    top: 400px;
-    left: 200px;
-    animation: leftRight--3 5s 1 forwards, rotate 4s 5s infinite;
-    transition: all 0.5s ease-in-out;
-}
-
-.triangle2 {
-    background-image: url('../assets/SVG/Recurso3.svg');
-    background-repeat: no-repeat;
-    position: absolute;
-    overflow: hidden;
-    height: 50px;
-    width: 15px;
-    top: 100px;
-    left: 1200px;
-    animation: leftRight--2 5s 1 forwards, growUp 1s 5s infinite;
-}
-
-.triangle3 {
-    width: 25px;
-    height: 25px;
-    background-image: url('../assets/SVG/Recurso4.svg');
-    background-repeat: no-repeat;
-    position: absolute;
-    overflow: hidden;
-    top: 500px;
-    left: 1000px;   
-    animation: leftRight 3s 1 forwards;
-
-}
-
-.triangle4 {
-    width: 15px;
-    height: 25px;
-    background-image: url('../assets/SVG/Recurso1.svg');
-    background-repeat: no-repeat;
-    position: absolute;
-    overflow: hidden;
-    top: 200px;
-    left: 300px;   
-    animation: leftRight 10s 1 forwards;
-}
-
-.triangle5 {
-    width: 15px;
-    height: 25px;
-    background-image: url('../assets/SVG/Recurso1.svg');
-    background-repeat: no-repeat;
-    position: absolute;
-    overflow: hidden;
-    top: 200px;
-    left: 650px;   
-    animation: leftRight--4 8s 1 forwards, rotate 4s 8s infinite;;
-}
-
-.title {
-    padding: 1rem;
-    color: whitesmoke;
-    font-family: $fontFamily;
-    font-size: 3rem;
-    text-transform: uppercase;
-    text-align: center;
-
-    h3 {
-        font-size: 1.3rem;
-        text-transform: lowercase;
-    }
-
-}
-
-$backColor: #50ccb1;
-
-.form {
-    margin-top: 4rem;
-    margin-bottom: 0.5rem;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .formInside {
-    
-        width: 25%;
-        display: flex;
-        flex-direction: column;
-        
-        .inputText {
-            width: 80%;
-            margin: 0 auto;
-            padding: 10px;
-            border: $backColor 2px solid;
-            background-color: transparent;
-            margin-bottom: 10px;
-            border-radius: 50px;
-            color: #fff;
-            outline: none;
-
-            &::placeholder{
-                color: rgba(199, 196, 196, 0.692);
-            }
-
-
-            
-        }
-        button {
-            padding: 10px;
-            width: 80%;
-            margin: 0 auto;
-            border-radius: 50px;
-            border: none;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: #fff;
-            background: $backColor;
-            cursor: pointer;
-            outline: none;
-            &:hover {
-                background: #50ac96
-            }
-        }
-    }
-
-}
-
-@keyframes upDown {
-    0% {
-        transform: translate(0, 0px);
-    }
-
-    50% {
-        transform: translate(0, -10px);
-    }
-    
-
-    100% {
-        transform: translate(0, 0px);
-        
-    }
-}
-
-@keyframes growUp {
-    0% {
-        transform: scale(1);
-    }
-
-    25% {
-        transform: scale(1.2);
-        
-    }
-
-    75% {
-        transform: scale(1.3);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(-360deg);
-    }
-}
-
-
-
-@keyframes leftRight {
-    0% {
-        transform: translate(-1200px, -700px);
-    }
-
-
-    100% {
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes leftRight--2 {
-    0% {
-        transform: translate(300px, -200px);
-    }
-
-
-    100% {
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes leftRight--3 {
-    0% {
-        transform: translate(0, -600px);
-    }
-
-
-    100% {
-        transform: translate(0, 0);
-    }
-}
-
-
-@keyframes leftRight--4 {
-    0% {
-        transform: translate(0, -300px);
-    }
-
-
-    100% {
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes tilt {
-    0% {
-        opacity: 0;
-    }
-
-    25% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.7;
-    }
-
-    75% {
-        opacity: 0.6;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}

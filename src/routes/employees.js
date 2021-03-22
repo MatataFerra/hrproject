@@ -14,8 +14,14 @@ const employeeByLast = require('../controller/employee/search/employeefindByLast
 const employeeByEmail = require('../controller/employee/search/employeefindByEmail');
 const employeeByPhone = require('../controller/employee/search/employeefindByPhone');
 
+//View
 
-router.use('/', allEmployees);
+const { employeeView } = require('../controller/render/employees')
+
+
+router.use('/', employeeView)
+
+router.use('/all', allEmployees);
 router.use('/id', oneEmployee);
 router.use('/create', createEmployee);
 router.use('/update', updateEmployee);

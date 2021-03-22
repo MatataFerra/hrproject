@@ -1,0 +1,22 @@
+$fontFamilyBold: 'MAXWELL_BOLD';
+$fontFamilyRegular: 'MAXWELL_REGULAR';
+$fontFamilyLight: 'MAXWELL_LIGHT';
+
+$fontSrcBold: url('../assets/fonts/MAXWELL_BOLD.ttf');
+$fontSrcRegular: url('../assets/fonts/MAXWELL_REGULAR.ttf');
+$fontSrcLight: url('../assets/fonts/MAXWELL_LIGHT.ttf');
+
+@font-face {
+    font-family: $fontFamilyBold;
+    src: $fontSrcBold
+}
+
+@font-face {
+    font-family: $fontFamilyRegular;
+    src: $fontSrcRegular
+}
+
+@font-face {
+    font-family: $fontFamilyLight;
+    src: $fontSrcLight;
+}

@@ -13,7 +13,7 @@ module.exports = router.put('/:_id', async (req, res)=> {
 
         await employee.update(req.body);
         return res.status(200).send({
-            Message: 'Empleado actualizado con éxito',
+            Message: 'Empleado dado de baja con éxito',
             update: req.body
         })
 

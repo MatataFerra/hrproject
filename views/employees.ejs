@@ -1,0 +1,52 @@
+<%- layout('layouts/main.ejs') %>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="/assets/SVG/homeVector.svg" alt="Logo Mesa" class="imgNavbar">
+        <p>HR | DataBase</p>
+    </div>
+    <ul class="ulNavbar">
+        <li><a href="/home/"> <img src="/assets/SVG/igloo-solid.svg" alt="Home" class="homeLogo"> </a></li>
+        <li><a href="/users/logout"> <img src="/assets/SVG/power-off-solid.svg" alt="Logout" class="logoutLogo"> </a>
+        </li>
+    </ul>
+</nav>
+
+<h1 class="titleEmployee">Employees</h1>
+
+<div class="containerEmployee">
+
+    <div class="searchAndAddEmployee">
+        <div class="addEmployee">
+            <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento">
+            <p>Agregar Colaborador</p>
+        </div>
+        <div class="searchEmployee">
+            <input type="text" name="employee" id="employee">
+            <select name="busquedas" id="busquedas">
+                <option value="error">Elija una opción</option>
+                <option value="error">-------</option>
+                <option value="dni">DNI</option>
+                <option value="lastname">Apellido</option>
+                <option value="phone">Teléfono</option>
+                <option value="email">Email</option>
+            </select>
+        </div>
+        <div class="results">
+            <div class="employeeResult">
+                <p class="lastname">Apellido</p>
+                <p class="name">Nombre</p>
+                <p class="dni">34452517</p>
+                <p class="phone">1559364212</p>
+                <p class="email">yo@gmail.com</p>
+            </div>
+            <img src="/assets/SVG/user-edit-solid.svg" alt="Edit">
+            <img src="/assets/SVG/plus-solid.svg" alt="More Info">
+        </div>
+    </div>
+
+    <div class="employeesImg">
+        <img src="/assets/SVG/PeoplePuzzle.svg" alt="People work together">
+    </div>
+
+</div>

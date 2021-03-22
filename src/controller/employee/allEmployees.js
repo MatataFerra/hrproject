@@ -14,7 +14,7 @@ module.exports = router.get('/', async (req, res) => {
                 activeEmployee.push(empl)
             }
         })
-        res.status(200).send({Empleados: activeEmployee});
+        return res.status(200).send({Empleados: activeEmployee});
 
     } catch (error) {
         console.log(error);
