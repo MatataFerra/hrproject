@@ -2,8 +2,6 @@ const { Employee, Schools, level ,Contract, Days, ABM, Article, Claim } = requir
 const { createDate, createTime } = require('../services/time')
 
 
-
-
 async function init () {
 
     await Employee.bulkCreate([

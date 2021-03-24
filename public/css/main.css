@@ -723,9 +723,17 @@
   font-size: 1.5rem;
 }
 
+.containerEmployee .searchAndAddEmployee .searchEmployee {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 60% 20% 20%;
+      grid-template-columns: 60% 20% 20%;
+  gap: 0.1rem;
+  width: 659px;
+}
+
 .containerEmployee .searchAndAddEmployee .searchEmployee input {
   height: 45px;
-  width: 500px;
   font-family: "MAXWELL_BOLD";
   padding: 0.5rem;
 }
@@ -734,33 +742,60 @@
   height: 45px;
 }
 
+.containerEmployee .searchAndAddEmployee .searchEmployee button {
+  height: 45px;
+}
+
 .containerEmployee .searchAndAddEmployee .results {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border: 1px solid black;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-top: 2rem;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: 1rem;
   background: crimson;
 }
 
 .containerEmployee .searchAndAddEmployee .results .employeeResult {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+  width: 659px;
+  -ms-grid-columns: (1fr)[5] 10% 10%;
+      grid-template-columns: repeat(5, 1fr) 10% 10%;
 }
 
-.containerEmployee .searchAndAddEmployee .results .employeeResult p {
-  font-size: 1.5rem;
+.containerEmployee .searchAndAddEmployee .results .employeeResult .employeeData {
+  font-size: 1rem;
   padding: 0.5rem;
 }
 
-.containerEmployee .searchAndAddEmployee .results img {
+.containerEmployee .searchAndAddEmployee .results .imgEmployee {
   height: 25px;
   margin: 0 0.5rem;
   cursor: pointer;
+}
+
+.containerEmployee .searchAndAddEmployee .results .imgEmployee:nth-child(1) {
+  -ms-grid-column: 8;
+  -ms-grid-column-span: 1;
+  grid-column: 8 / 9;
+}
+
+.containerEmployee .searchAndAddEmployee .results .imgEmployee:nth-child(2) {
+  -ms-grid-column: 9;
+  -ms-grid-column-span: 1;
+  grid-column: 9 / 10;
+}
+
+.containerEmployee .searchAndAddEmployee .textResult {
+  margin: 0.5rem 0;
 }
 
 .containerEmployee .employeesImg img {

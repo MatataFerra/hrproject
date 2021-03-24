@@ -2,7 +2,11 @@ const { Employee } = require('../../database/tables');
 const express = require('express');
 const router = express.Router();
 
-module.exports = router.post('/', async (req, res)=> {
+const getAddEmployee = router.get('/', (req, res) => {
+    res.render('addemployee')
+})
+
+const createEmployee =   router.post('/', async (req, res)=> {
 
     try {
         await Employee.create(req.body);
@@ -12,3 +16,8 @@ module.exports = router.post('/', async (req, res)=> {
         res.status(404).send({Error: error});
     }
 })
+
+module.exports = {
+    getAddEmployee,
+    createEmployee
+}

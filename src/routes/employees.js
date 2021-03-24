@@ -3,7 +3,7 @@ const router = express.Router();
 
 const allEmployees = require('../controller/employee/allEmployees');
 const oneEmployee = require('../controller/employee/oneEmployee');
-const createEmployee = require('../controller/employee/createEmployee');
+const { getAddEmployee, createEmployee } = require('../controller/employee/createEmployee');
 const updateEmployee = require('../controller/employee/updateEmployee');
 const deleteEmployee = require('../controller/employee/deleteEmployee');
 
@@ -16,10 +16,12 @@ const employeeByPhone = require('../controller/employee/search/employeefindByPho
 
 //View
 
-const { employeeView } = require('../controller/render/employees')
+const { employeeView } = require('../controller/render/employees');
+
 
 
 router.use('/', employeeView)
+router.use('/add', getAddEmployee);
 
 router.use('/all', allEmployees);
 router.use('/id', oneEmployee);

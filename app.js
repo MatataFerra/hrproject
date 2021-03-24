@@ -54,7 +54,7 @@ const RolRoute = require('./src/routes/rol');
 const UserRoute = require('./src/routes/user')
 const Home = require('./src/routes/home')
 
-
+app.use('/', Home)
 app.use('/users', UserRoute)
 app.use('/employees', EmployeeRoute);
 app.use('/schools', SchoolRoute);

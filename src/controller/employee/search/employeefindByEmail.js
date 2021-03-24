@@ -3,10 +3,10 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 
-module.exports = router.get('/email', async (req, res) => {
+module.exports = router.get('/email/:email', async (req, res) => {
     
     try {
-        const email = req.body.email
+        const email = req.params.email
         const employee = await Employee.findOne({
             where: {email: {
                 [Op.like]: `${email}%`
@@ -17,8 +17,8 @@ module.exports = router.get('/email', async (req, res) => {
             return res.status(404).send({Message: 'El empleado que busca no se encuentra'})
         }
 
-        if(!employee.dataValues.isactive) {
-            return res.status(404).send({Message: 'El empleado que busca no se encuentra'})
+        if(employee.isactive === 0 || employee.isactive === false) {
+            return res.status(404).send({Message: 'El empleado que busca está inactivo'})
         }
 
 

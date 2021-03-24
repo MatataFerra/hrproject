@@ -18,7 +18,7 @@
 
     <div class="searchAndAddEmployee">
         <div class="addEmployee">
-            <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento">
+            <a href="/employees/add"><img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento"></a> 
             <p>Agregar Colaborador</p>
         </div>
         <div class="searchEmployee">
@@ -31,17 +31,11 @@
                 <option value="phone">Teléfono</option>
                 <option value="email">Email</option>
             </select>
+            <button type="submit" id="btnSearch">Buscar</button>
         </div>
-        <div class="results">
-            <div class="employeeResult">
-                <p class="lastname">Apellido</p>
-                <p class="name">Nombre</p>
-                <p class="dni">34452517</p>
-                <p class="phone">1559364212</p>
-                <p class="email">yo@gmail.com</p>
-            </div>
-            <img src="/assets/SVG/user-edit-solid.svg" alt="Edit">
-            <img src="/assets/SVG/plus-solid.svg" alt="More Info">
+        <h3 class="textResult">Acá se van a mostrar los resultados</h3>
+        <div class="results" id="results">
+            <div class="employeeResult" id="employeeResult"></div>
         </div>
     </div>
 
@@ -50,3 +44,148 @@
     </div>
 
 </div>
+
+<script>
+    const option = document.getElementById('busquedas');
+    const input = document.getElementById('employee');
+    const search = document.getElementById('btnSearch');
+    
+
+    search.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        let optionValue = option.value;
+
+        if(optionValue === 'error') {
+            input.value = 'La opción a buscar debe ser válida'
+            input.style.background = '#6BFF6B'
+
+            input.addEventListener('click', inputFun = (e) => {
+                e.preventDefault()
+                input.value = ''
+                input.style.background = '#fff'
+
+                input.removeEventListener('click', inputFun)
+            })
+        }
+
+        
+
+        fetch(`/employees/search/${optionValue}/${input.value}`)
+        .then( res => {
+            return res.json()
+        })
+        .then( data => {
+            
+            if(Array.isArray(data.Empleados)) {
+                const employeesArray = data.Empleados
+                
+                return employeesArray.map( empl => {
+
+
+                    let employeeResult = document.getElementById('employeeResult');
+                    let results = document.getElementById('results')
+
+                    while (employeeResult.hasChildNodes()) {
+                        employeeResult.lastChild.remove();
+                    }
+
+                    employeeResult.style.height = '2.5rem';
+
+                    let lastname = document.createElement('p');
+                    let name = document.createElement('p');
+                    let dni = document.createElement('p');
+                    let phone = document.createElement('p');
+                    let email = document.createElement('p');
+
+                    lastname.classList.add('employeeData');
+                    name.classList.add('employeeData');
+                    dni.classList.add('employeeData');
+                    phone.classList.add('employeeData');
+                    email.classList.add('employeeData');
+
+                    lastname.innerText = empl.lastname;
+                    name.innerText = empl.name;
+                    dni.innerText = empl.dni;
+                    phone.innerText = empl.phone;
+                    email.innerText = empl.email;
+
+                    const edit = document.createElement('img');
+                    const info = document.createElement('img');
+
+                    edit.classList.add('imgEmployee')
+                    info.classList.add('imgEmployee')
+
+                    edit.src = "/assets/SVG/user-edit-solid.svg";
+                    info.src = "/assets/SVG/info-circle-solid.svg";
+
+                    employeeResult.appendChild(lastname)
+                    employeeResult.appendChild(name)
+                    employeeResult.appendChild(dni)
+                    employeeResult.appendChild(phone)
+                    employeeResult.appendChild(email)
+
+                    employeeResult.appendChild(edit)
+                    employeeResult.appendChild(info)
+                })
+                
+            } else {
+
+                //DA ERROR NO ES ITERABLE
+
+                let employeeResult = document.getElementById('employeeResult');
+                let results = document.getElementById('results')
+
+                while (employeeResult.hasChildNodes()) {
+                    employeeResult.lastChild.remove();
+                }
+
+                employeeResult.style.height = '2.5rem';
+
+                let lastname = document.createElement('p');
+                let name = document.createElement('p');
+                let dni = document.createElement('p');
+                let phone = document.createElement('p');
+                let email = document.createElement('p');
+
+                lastname.classList.add('employeeData');
+                name.classList.add('employeeData');
+                dni.classList.add('employeeData');
+                phone.classList.add('employeeData');
+                email.classList.add('employeeData');
+
+                lastname.innerText = data.Empleados.lastname;
+                name.innerText = data.Empleados.name;
+                dni.innerText = data.Empleados.dni;
+                phone.innerText = data.Empleados.phone;
+                email.innerText = data.Empleados.email;
+
+
+                const edit = document.createElement('img');
+                const info = document.createElement('img');
+
+                edit.classList.add('imgEmployee')
+                info.classList.add('imgEmployee')
+
+                edit.src = "/assets/SVG/user-edit-solid.svg";
+                info.src = "/assets/SVG/info-circle-solid.svg"
+
+                employeeResult.appendChild(lastname)
+                employeeResult.appendChild(name)
+                employeeResult.appendChild(dni)
+                employeeResult.appendChild(phone)
+                employeeResult.appendChild(email)
+
+                employeeResult.appendChild(edit)
+                employeeResult.appendChild(info)
+            }
+            
+        })
+        .catch (err => {
+            console.log(err);
+        })
+        
+    })
+
+
+</script>
