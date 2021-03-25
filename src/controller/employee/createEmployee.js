@@ -10,10 +10,11 @@ const createEmployee =   router.post('/', async (req, res)=> {
 
     try {
         await Employee.create(req.body);
-        return res.status(200).send({Message: 'Empleado creado con éxito'})
-
+        req.flash('successEmployee', 'Empleado creado con éxito')
+        return res.status(200).redirect('/employees')
     } catch (error) {
-        res.status(404).send({Error: error});
+        req.flash('failureEmployee', 'Hubo un error a la hora de crear el empleado')
+        res.status(404).redirect('/employees/add');
     }
 })
 

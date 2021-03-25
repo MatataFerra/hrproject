@@ -5,6 +5,7 @@ const router = express.Router();
 module.exports = router.put('/:_id', async (req, res)=> {
     try {
 
+        console.log(req.body);
         const employee = await Employee.findByPk(req.params._id)
 
         if(!employee) {

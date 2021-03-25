@@ -55,31 +55,37 @@
             align-items: center;
             flex-wrap: wrap;
             margin-top: 1rem;
-            background: crimson;
+            
             .employeeResult {
                 display: grid;
                 align-items: center;
-                justify-items: center;
                 width: 659px;
-                grid-template-columns: repeat(5, 1fr) 10% 10%;
+                height: 50px;
+                grid-template-columns: repeat(7, minmax(70px, 100px));
+                background: #dc143c;
+                margin-bottom: 0.5rem;
                 .employeeData {
                     font-size: 1rem;
                     padding: 0.5rem;
-                }
-            }
-            .imgEmployee {
-                height: 25px;
-                margin: 0 0.5rem;
-                cursor: pointer;
-
-                &:nth-child(1) {
-                    grid-column: 8 / 9;
+                    
                 }
 
-                &:nth-child(2) {
-                    grid-column: 9 / 10;
+                .imgEmployee {
+                    height: 25px;
+                    margin: 0 0.5rem;
+                    cursor: pointer;
+                    justify-self: self-end;
+    
+                    &:nth-child(1) {
+                        grid-column: 8 / 9;
+                    }
+    
+                    &:nth-child(2) {
+                        grid-column: 9 / 10;
+                    }
                 }
             }
+           
         }
 
         .textResult {
@@ -91,5 +97,71 @@
         img {
             height: 400px;
         }
+
+        .createEmployeeFormDiv {
+            display: none;
+
+            .createEmployeeForm {
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                //grid-template-rows: repeat(7, 1fr);
+                gap: 0.5rem 2rem;
+                //width: 600px;
+                align-items: center;
+                $lineHeight: 40px;
+        
+                input {
+                    padding: 0.5rem;
+                    height: $lineHeight;
+                    background: rgb(255, 255, 255);
+                    font-weight: 600;
+                    font-size: 1rem;
+                    border: none;
+                    //grid-column: 1 / 2;
+        
+        
+                    // &:nth-child(7) {
+                    //     grid-column: 2 / 3;
+                    //     grid-row: 3 / 4;
+                    // }
+        
+                    // &:nth-child(8) {
+                    //     grid-column: 2 / 3;
+                    //     grid-row: 4 / 5;
+                    // }
+        
+                    &:nth-child(9) {
+                        grid-column: 1 / 3;
+    
+                        
+                    }
+                    
+                }
+        
+                input[type=number]::-webkit-inner-spin-button, 
+                input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+                }
+        
+                button {
+                    border-radius: 20px;
+                    background: transparent;
+                    border: 1px solid chartreuse;
+                    grid-column: 2 / 3;
+                    height: 50px;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                    font-size: 1.5rem;
+    
+                    &:hover {
+                        background: chartreuse;
+                    }
+                    
+                }
+            }
+        }
+        
+        
     }
 }

@@ -1,0 +1,123 @@
+@import 'backgrAnim';
+
+.formAndImgEmployee {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 20%;
+    align-items: center;
+    justify-items: center;
+
+    .titleEmployee {
+        font-size: 3rem;
+        padding: 2rem;
+        grid-column: 1 / 2;
+        justify-self: self-start;
+    }
+
+    .back {
+        grid-column: 2 / 3;
+        justify-self: end;
+        padding: 2rem;
+        
+        
+        a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: aliceblue;
+
+            &:hover  img {
+                animation: sides 1s infinite forwards;
+            }
+
+            img {
+                height: 20px;
+                margin-right: 0.5rem;
+                color: aliceblue;
+                
+                
+
+            }
+        }
+    }
+
+    .createEmployeeForm {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: repeat(7, 1fr);
+        gap: 0.5rem 2rem;
+        width: 600px;
+        align-items: center;
+        $lineHeight: 40px;
+
+        input {
+            padding: 0.5rem;
+            height: $lineHeight;
+            background: rgb(255, 255, 255);
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            grid-column: 1 / 2;
+
+
+            &:nth-child(7) {
+                grid-column: 2 / 3;
+                grid-row: 3 / 4;
+            }
+
+            &:nth-child(8) {
+                grid-column: 2 / 3;
+                grid-row: 4 / 5;
+            }
+
+            &:nth-child(9) {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                
+            }
+            
+        }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+        }
+
+        button {
+            //border-radius: 50px;
+            //background-color: #6BFF6B;
+            background: transparent;
+            border: none;
+            grid-column: 2 / 3;
+            grid-row: 6 / 8;
+            img { 
+                
+                //height: 50px;
+                //outline: none;
+                cursor: pointer;
+                width: 90px;
+                justify-self: center;
+            }
+            
+        }
+
+        .personales {
+            grid-column: 1 / 2;
+        }
+
+        .domicilio {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+
+        .contacto {
+            grid-column: 1 / 2;
+        }
+    }
+
+    .containerImgEmployee {
+        width: 400px;
+    }
+}
+

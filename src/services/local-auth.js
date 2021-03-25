@@ -42,7 +42,6 @@ passport.use('local-singup', new LocalStrategy({
 
 }))
 
-
 passport.use('local-singin', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',

@@ -38,7 +38,9 @@ app.use((req, res, next) => {
     app.locals.singupMessage =  req.flash('singupMessage');
     app.locals.singinMessage =  req.flash('singinMessage');
     app.locals.authMessage = req.flash('authMessage');
-    app.locals.logoutMessage = req.flash('logoutMessage')
+    app.locals.logoutMessage = req.flash('logoutMessage');
+    app.locals.successEmployee = req.flash('successEmployee');
+    app.locals.failureEmployee = req.flash('failureEmployee')
     app.locals.user = req.user
     next()
 })

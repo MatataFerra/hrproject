@@ -26,7 +26,7 @@ module.exports = router.get('/email/:email', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.send({Error: error})
+        return res.status(404).send({Error: error})
     }
 
 

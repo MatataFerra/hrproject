@@ -11,8 +11,11 @@
 @import 'employees';
 @import 'home';
 @import 'fonts';
+@import 'createEmployee';
 
-
+input, button {
+    font-family: $fontFamilyBold;
+}
 
 
 body {
@@ -23,7 +26,7 @@ body {
 
     .singInMessage, 
     .singUpMessage, 
-    .authMessage{
+    .authMessage {
         margin-top: 0.5rem;
         text-align: center;
         font-family: $fontFamilyBold;
@@ -32,12 +35,29 @@ body {
         animation: tilt 0.5s infinite forwards;
     }
 
-    .logoutMessage {
+    .failureEmployee {
+        margin-top: 0.5rem;
+        grid-column: 2 / 3;
+        font-family: $fontFamilyBold;
+        font-weight: 600;
+        color:crimson;
+        animation: tilt 0.5s infinite forwards;
+    }
+
+    .logoutMessage{
         margin-top: 0.5rem;
         text-align: center;
         font-family: $fontFamilyBold;
         font-weight: 600;
         color:chartreuse;
+        animation: tilt 0.5s infinite forwards;
+    }
+
+    .successEmployee{
+        margin-top: 0.5rem;
+        font-family: $fontFamilyBold;
+        font-weight: 600;
+        color:#b52cc5;
         animation: tilt 0.5s infinite forwards;
     }
     

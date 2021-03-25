@@ -12,4 +12,41 @@
     </ul>
 </nav>
 
-<h1 class="titleEmployee">Agregar Empleado</h1>
+<section class="formAndImgEmployee">
+    <h1 class="titleEmployee">Agregar Empleado</h1>
+    
+    <div class="back"><a href="/employees"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+    <form action="/employees/add" method="post" class="createEmployeeForm" id="createEmployeeForm">
+        <label for="" class="personales">Datos Personales</label>
+        <input type="text" name="name" id="name" placeholder="Nombre">
+        <input type="text" name="lastname" id="lastname" placeholder="Apellido">
+        <input type="number" name="dni" id="dni" placeholder="DNI">
+        <input type="text" name="cuil" id="cuil" placeholder="CUIL ej: 20-9999999-0">
+        <label for="" class="domicilio">Domicilio</label>
+        <input type="text" name="address" id="address" placeholder="Calle">
+        <input type="number" name="streetnumber" id="streetnumber" placeholder="Altura">
+        <input type="number" name="postalcode" id="postalcode" placeholder="Código postal">
+        <label for="" class="contacto">Datos de Contacto</label>
+        <input type="number" name="phone" id="phone" placeholder="Celular">
+        <input type="email" name="email" id="email" placeholder="Email">
+
+        <button type="submit"> <img src="/assets/SVG/addIcon.png" alt="Add Employee"> </button>
+
+        <% if(failureEmployee.length > 0) {%> 
+            <div class="failureEmployee">
+                <%= failureEmployee %> 
+            </div>
+        <% } %>
+
+    </form>
+
+    <div class="containerImgEmployee">
+        <img src="/assets/SVG/workerMind.svg" alt="Worker Mind">
+    </div>
+</section>
+
+
+<script>
+    const form = document.getElementById('createEmployeeForm')
+    console.log(form.name.value);
+</script>
