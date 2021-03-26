@@ -23,7 +23,11 @@ app.use(morgan('dev'))
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    rolling: true,
+    cookie: {
+        maxAge: 6000
+    }
 }))
 app.use(flash())
 app.use(passport.initialize());
@@ -40,7 +44,7 @@ app.use((req, res, next) => {
     app.locals.authMessage = req.flash('authMessage');
     app.locals.logoutMessage = req.flash('logoutMessage');
     app.locals.successEmployee = req.flash('successEmployee');
-    app.locals.failureEmployee = req.flash('failureEmployee')
+    app.locals.failureEmployee = req.flash('failureEmployee');
     app.locals.user = req.user
     next()
 })

@@ -12,8 +12,10 @@
     </ul>
 </nav>
 
-<h1 class="titleEmployee">Employees</h1>
+<section class="formAndImgEmployee">
 
+<h1 class="titleEmployee">Employees</h1>
+<div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
 <div class="containerEmployee">
 
     <div class="searchAndAddEmployee">
@@ -39,44 +41,45 @@
                 <%= successEmployee %> 
             </div>
         <% } %>
-    
+            
         
         <div class="results" id="results">
             <div id="employeeResult"></div>
         </div>
     </div>
 
-    <div class="employeesImg" id="employeesImg">
-        <img src="/assets/SVG/PeoplePuzzle.svg" alt="People work together" id="peopleWordImg">
-
-        <div class="createEmployeeFormDiv" id="createEmployeeFormDiv">
-            <form action="" class="createEmployeeForm" id="createEmployeeForm">
-                <label for="name">Nombre</label>
-                <input type="text" name="name" id="name" >
-                <label for="lastname">Apellido</label>
-                <input type="text" name="lastname" id="lastname" >
-                <label for="dni">DNI</label>
-                <input type="number" name="dni" id="dni" >
-                <label for="cuil">CUIL</label>
-                <input type="text" name="cuil" id="cuil" >
-                <label for="address">Domicilio (Calle)</label>
-                <input type="text" name="address" id="address" >
-                <label for="streetnumber">altura</label>
-                <input type="number" name="streetnumber" id="streetnumber" >
-                <label for="postalcode">Código Postal</label>
-                <input type="number" name="postalcode" id="postalcode" >
-                <label for="phone">Teléfono</label>
-                <input type="number" name="phone" id="phone" >
-                <label for="email">E-Mail</label>
-                <input type="email" name="email" id="email" >
-
-                <button type="submit" id="actualizar"> Actualizar </button>
-            </form>
-        </div>
-    </div>
-
 </div>
 
+<div class="employeesImg" id="employeesImg">
+    <img src="/assets/SVG/PeoplePuzzle.svg" alt="People work together" id="peopleWordImg">
+
+    <div class="createEmployeeFormDiv" id="createEmployeeFormDiv">
+        <h3 id="h3SuccessUpdate" ></h3>
+        <form action="" class="createEmployeeForm" id="createEmployeeForm">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" >
+            <label for="lastname">Apellido</label>
+            <input type="text" name="lastname" id="lastname" >
+            <label for="dni">DNI</label>
+            <input type="number" name="dni" id="dni" >
+            <label for="cuil">CUIL</label>
+            <input type="text" name="cuil" id="cuil" >
+            <label for="address">Domicilio (Calle)</label>
+            <input type="text" name="address" id="address" >
+            <label for="streetnumber">Altura</label>
+            <input type="number" name="streetnumber" id="streetnumber" >
+            <label for="postalcode">Código Postal</label>
+            <input type="number" name="postalcode" id="postalcode" >
+            <label for="phone">Teléfono</label>
+            <input type="number" name="phone" id="phone" >
+            <label for="email">E-Mail</label>
+            <input type="email" name="email" id="email" >
+
+            <button type="submit" id="actualizar"> Actualizar </button>
+        </form>
+    </div>
+</div>
+</section>
 <script>
     const option = document.getElementById('busquedas');
     const input = document.getElementById('employee');
@@ -112,6 +115,7 @@
             const createEmployeeFormDiv = document.getElementById('createEmployeeFormDiv');
             const updateBtn = document.getElementById('actualizar')
             const createEmployeeForm = document.getElementById('createEmployeeForm');
+            const h3SuccessUpdate = document.getElementById('h3SuccessUpdate')
 
             while (employeeResult.hasChildNodes()) {
                     employeeResult.lastChild.remove();
@@ -133,6 +137,7 @@
             let infoBtn = null
 
             if(data.Message) {
+                console.log(data);
                 textResult.style.color = '#dc143c'
                 while (employeeResult.hasChildNodes()) {
                         employeeResult.lastChild.remove();
@@ -194,62 +199,85 @@
 
                 edit.addEventListener('click', (e)=> {
                     e.preventDefault()
+
                     const peopleWordImg = document.getElementById('peopleWordImg');
-                    
+                    h3SuccessUpdate.classList.add('h3SuccessUpdate')
                     peopleWordImg.style.display = 'none';
                     createEmployeeFormDiv.style.display = 'block'
 
-                    const name = document.getElementById('name')
-                    const lastname = document.getElementById('lastname')
-                    const dni = document.getElementById('dni')
-                    const cuil = document.getElementById('cuil')
-                    const address = document.getElementById('address')
-                    const streetnumber = document.getElementById('streetnumber')
-                    const postalcode = document.getElementById('postalcode')
-                    const phone = document.getElementById('phone')
-                    const email = document.getElementById('email')
+                    let name = document.getElementById('name')
+                    let lastname = document.getElementById('lastname')
+                    let dni = document.getElementById('dni')
+                    let cuil = document.getElementById('cuil')
+                    let address = document.getElementById('address')
+                    let streetnumber = document.getElementById('streetnumber')
+                    let postalcode = document.getElementById('postalcode')
+                    let phone = document.getElementById('phone')
+                    let email = document.getElementById('email')
 
-
-                    // const name = createEmployeeForm.name.value
-                    // const lastname = createEmployeeForm.lastname.value 
-                    // const dni = createEmployeeForm.dni.value 
-                    // const cuil = createEmployeeForm.cuil.value 
-                    // const address = createEmployeeForm.address.value 
-                    // const streetnumber = createEmployeeForm.streetnumber.value
-                    // const postalcode = createEmployeeForm.postalcode.value 
-                    // const phone = createEmployeeForm.phone.value 
-                    // const email =  createEmployeeForm.email.value 
-
-                    
-                    const data = { 
-                        name: name.value, lastname: lastname.value, dni: dni.value, cuil: cuil.value, 
-                        address: address.value, streetnumber: streetnumber.value,
-                        postalcode: postalcode.value, phone: phone.value, email: email.value,
+                    const inputsForms = {
+                        name, lastname, dni, cuil, address, streetnumber,
+                        postalcode, phone, email
                     }
 
-                    
-
-                    const options = {
-                        body: JSON.stringify(data),
-                        method: 'PUT',
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                    for(let key in inputsForms){
+                        inputsForms[key].placeholder = ''
+                        inputsForms[key].value = ''
+                        inputsForms[key].placeholder = empl[key]
                     }
 
                     updateBtn.addEventListener('click', (e) => {
+
                         e.preventDefault()
+
+                        const oldDataEmployee = {...empl}
+
+                        const dataValuesForm = {
+                            name: name.value,
+                            lastname: lastname.value,
+                            dni: dni.value,
+                            cuil: cuil.value,
+                            address: address.value,
+                            streetnumber: streetnumber.value,
+                            postalcode: postalcode.value,
+                            phone: phone.value,
+                            email: email.value,
+                        }
+
+                        for(let key in dataValuesForm){
+
+                            if(dataValuesForm[key] === null || dataValuesForm[key] === ''){
+                                dataValuesForm[key] = oldDataEmployee[key]
+                            }
+                        }
+
+
+                        const options = {
+                            body: JSON.stringify(dataValuesForm),
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                        
 
                         fetch(`/employees/update/${empl._id}`, options)
                         .then( res => {
-                            console.log(res);
                             return res.json()
                         })
                         .then( data => {
-                            console.log(data);
+                            h3SuccessUpdate.innerText = data.success
+                            for(let key in inputsForms){
+                                inputsForms[key].placeholder = ''
+                                inputsForms[key].value = ''
+                                inputsForms[key].placeholder = empl[key]
+                            }
+
+
+
                         })
                         .catch(error => {
-                            console.log(error);
+                            h3SuccessUpdate.innerText = error.Error
                         })
                     })
 

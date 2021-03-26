@@ -22,12 +22,8 @@ module.exports = router.get('/lastname/:lastname', async (req, res) => {
         })
         
         
-        if(!employee) {
+        if(employee.length === 0) {
             return res.status(404).send({Message: 'El empleado que busca no se encuentra'})
-        }
-
-        if(employee.isactive === 0 || employee.isactive === false) {
-            return res.status(404).send({Message: 'El empleado que busca está inactivo'})
         }
 
 
@@ -35,7 +31,7 @@ module.exports = router.get('/lastname/:lastname', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(404).send({Error: error})
+        res.status(404).send({Error: error})
     }
 
 
