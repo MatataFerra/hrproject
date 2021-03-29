@@ -976,7 +976,7 @@
   -ms-grid-columns: 60% 20% 20%;
       grid-template-columns: 60% 20% 20%;
   gap: 0.1rem;
-  width: 659px;
+  width: 700px;
 }
 
 .containerEmployee .searchAndAddEmployee .searchEmployee input {
@@ -1011,10 +1011,9 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 659px;
   height: 50px;
-  -ms-grid-columns: (minmax(70px, 100px))[7];
-      grid-template-columns: repeat(7, minmax(70px, 100px));
+  -ms-grid-columns: (minmax(100px, 120px))[7];
+      grid-template-columns: repeat(7, minmax(100px, 120px));
   background: #dc143c;
   margin-bottom: 0.5rem;
 }
@@ -1024,7 +1023,23 @@
   padding: 0.5rem;
 }
 
-.containerEmployee .searchAndAddEmployee .results .employeeResult .imgEmployee {
+.containerEmployee .searchAndAddEmployee .results .employeeResult .divContainerImg {
+  -ms-grid-column: 7;
+  -ms-grid-column-span: 1;
+  grid-column: 7 / 8;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+}
+
+.containerEmployee .searchAndAddEmployee .results .employeeResult .divContainerImg .imgEmployee {
   height: 25px;
   margin: 0 0.5rem;
   cursor: pointer;
@@ -1032,13 +1047,13 @@
       justify-self: self-end;
 }
 
-.containerEmployee .searchAndAddEmployee .results .employeeResult .imgEmployee:nth-child(1) {
+.containerEmployee .searchAndAddEmployee .results .employeeResult .divContainerImg .imgEmployee:nth-child(1) {
   -ms-grid-column: 8;
   -ms-grid-column-span: 1;
   grid-column: 8 / 9;
 }
 
-.containerEmployee .searchAndAddEmployee .results .employeeResult .imgEmployee:nth-child(2) {
+.containerEmployee .searchAndAddEmployee .results .employeeResult .divContainerImg .imgEmployee:nth-child(2) {
   -ms-grid-column: 9;
   -ms-grid-column-span: 1;
   grid-column: 9 / 10;
@@ -1050,10 +1065,12 @@
 
 .employeesImg img {
   height: 400px;
+  display: none;
 }
 
 .employeesImg .createEmployeeFormDiv {
   display: none;
+  height: 400px;
 }
 
 .employeesImg .createEmployeeFormDiv .h3SuccessUpdate {
@@ -1177,6 +1194,61 @@
 
 .employeesImg .createEmployeeFormDiv .createEmployeeForm button:hover {
   background: chartreuse;
+}
+
+.moreInfoEmployee {
+  display: none;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2 / 3;
+  width: 100%;
+  padding: 1rem;
+}
+
+.moreInfoEmployee .barEmployee {
+  height: 35px;
+  width: 100%;
+  background: grey;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+}
+
+.moreInfoEmployee .listEmployee {
+  margin: 0.7rem 0;
+}
+
+.moreInfoEmployee .listEmployee .ulListEmployeeNotFlex .fullDataEmployee {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.moreInfoEmployee .listEmployee .ulListEmployeeNotFlex .fullDataEmployee p {
+  margin-right: 0.5rem;
+}
+
+.moreInfoEmployee .listEmployee .ulListEmployeeGrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(100px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  padding: 0.5rem;
+  background: rgba(240, 255, 255, 0.467);
+}
+
+.moreInfoEmployee .listEmployee .ulListEmployeeGrid .headerGridEmployee {
+  background: #B24B95;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.moreInfoEmployee .listEmployee .ulListEmployeeGrid .dataGridEmployee {
+  background: aliceblue;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 @font-face {

@@ -39,9 +39,6 @@ Hours.belongsToMany(Contract, {through: ContractHours});
 Contract.belongsToMany(ABM, {through: ContractABM});
 ABM.belongsToMany(Contract, {through: ContractABM});
 
-// Employee.belongsToMany(Article, {through: EmployeesArticles})
-// Article.belongsToMany(Employee, {through: EmployeesArticles})
-
 Schools.belongsToMany(Days, {through: SchoolsDays})
 Days.belongsToMany(Schools, {through: SchoolsDays})
 

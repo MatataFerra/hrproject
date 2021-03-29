@@ -14,71 +14,104 @@
 
 <section class="formAndImgEmployee">
 
-<h1 class="titleEmployee">Employees</h1>
-<div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
-<div class="containerEmployee">
+    <h1 class="titleEmployee">Employees</h1>
+    <div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+    <div class="containerEmployee">
 
-    <div class="searchAndAddEmployee">
-        <div class="addEmployee">
-            <a href="/employees/add"><img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento"></a> 
-            <p>Agregar Colaborador</p>
-        </div>
-        <div class="searchEmployee">
-            <input type="text" name="employee" id="employee">
-            <select name="busquedas" id="busquedas">
-                <option value="error">Elija una opción</option>
-                <option value="error">-------</option>
-                <option value="dni">DNI</option>
-                <option value="lastname">Apellido</option>
-                <option value="phone">Teléfono</option>
-                <option value="email">Email</option>
-            </select>
-            <button type="submit" id="btnSearch">Buscar</button>
-        </div>
-        <h3 class="textResult" id="textResult">Acá se van a mostrar los resultados</h3>
-        <% if(successEmployee.length > 0) {%> 
-            <div class="successEmployee">
-                <%= successEmployee %> 
+        <div class="searchAndAddEmployee">
+            <div class="addEmployee">
+                <a href="/employees/add"><img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento"></a> 
+                <p>Agregar Colaborador</p>
             </div>
-        <% } %>
+            <div class="searchEmployee">
+                <input type="text" name="employee" id="employee">
+                <select name="busquedas" id="busquedas">
+                    <option value="error">Elija una opción</option>
+                    <option value="error">-------</option>
+                    <option value="dni">DNI</option>
+                    <option value="lastname">Apellido</option>
+                    <option value="phone">Teléfono</option>
+                    <option value="email">Email</option>
+                </select>
+                <button type="submit" id="btnSearch">Buscar</button>
+            </div>
+            <h3 class="textResult" id="textResult">Acá se van a mostrar los resultados</h3>
+            <% if(successEmployee.length > 0) {%> 
+                <div class="successEmployee">
+                    <%= successEmployee %> 
+                </div>
+            <% } %>
+                
             
-        
-        <div class="results" id="results">
-            <div id="employeeResult"></div>
+            <div class="results" id="results">
+                <div id="employeeResult"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="employeesImg" id="employeesImg">
+        <img src="/assets/SVG/PeoplePuzzle.svg" alt="People work together" id="peopleWordImg">
+
+        <div class="createEmployeeFormDiv" id="createEmployeeFormDiv">
+            <h3 id="h3SuccessUpdate" ></h3>
+            <form action="" class="createEmployeeForm" id="createEmployeeForm">
+                <label for="name">Nombre</label>
+                <input type="text" name="name" id="name" >
+                <label for="lastname">Apellido</label>
+                <input type="text" name="lastname" id="lastname" >
+                <label for="dni">DNI</label>
+                <input type="number" name="dni" id="dni" >
+                <label for="cuil">CUIL</label>
+                <input type="text" name="cuil" id="cuil" >
+                <label for="address">Domicilio (Calle)</label>
+                <input type="text" name="address" id="address" >
+                <label for="streetnumber">Altura</label>
+                <input type="number" name="streetnumber" id="streetnumber" >
+                <label for="postalcode">Código Postal</label>
+                <input type="number" name="postalcode" id="postalcode" >
+                <label for="phone">Teléfono</label>
+                <input type="number" name="phone" id="phone" >
+                <label for="email">E-Mail</label>
+                <input type="email" name="email" id="email" >
+
+                <button type="submit" id="actualizar"> Actualizar </button>
+            </form>
         </div>
     </div>
 
-</div>
+    <div class="moreInfoEmployee" id="moreInfoEmployee">
+        <!-- <div class="barEmployee">
+            Test
+        </div>
+        <div class="listEmployee">
+            <div class="ulListEmployeeGrid" id="ulListEmployeeGrid">
+            </div>
+            <div class="ulListSchoolGrid" id="ulListSchoolGrid">
+            </div>
 
-<div class="employeesImg" id="employeesImg">
-    <img src="/assets/SVG/PeoplePuzzle.svg" alt="People work together" id="peopleWordImg">
 
-    <div class="createEmployeeFormDiv" id="createEmployeeFormDiv">
-        <h3 id="h3SuccessUpdate" ></h3>
-        <form action="" class="createEmployeeForm" id="createEmployeeForm">
-            <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" >
-            <label for="lastname">Apellido</label>
-            <input type="text" name="lastname" id="lastname" >
-            <label for="dni">DNI</label>
-            <input type="number" name="dni" id="dni" >
-            <label for="cuil">CUIL</label>
-            <input type="text" name="cuil" id="cuil" >
-            <label for="address">Domicilio (Calle)</label>
-            <input type="text" name="address" id="address" >
-            <label for="streetnumber">Altura</label>
-            <input type="number" name="streetnumber" id="streetnumber" >
-            <label for="postalcode">Código Postal</label>
-            <input type="number" name="postalcode" id="postalcode" >
-            <label for="phone">Teléfono</label>
-            <input type="number" name="phone" id="phone" >
-            <label for="email">E-Mail</label>
-            <input type="email" name="email" id="email" >
 
-            <button type="submit" id="actualizar"> Actualizar </button>
-        </form>
+            <div class="ulListEmployeeNotFlex">
+                <div class="fullDataEmployee">
+                    <p>Fullname</p>
+                    <p>Escuela</p>
+                </div>
+                <div class="fullDataEmployee">
+                    <p>Fullname</p>
+                    <p>Escuela</p>
+                </div>
+
+                <div class="fullDataEmployee">
+                    <p>Clave</p>
+                    <p>Valor</p>
+                </div>
+            </div> -->
+
+
+
+        </div>
     </div>
-</div>
 </section>
 <script>
     const option = document.getElementById('busquedas');
@@ -173,6 +206,9 @@
                 phone.innerText = empl.phone;
                 email.innerText = empl.email;
 
+                const divContainerImg = document.createElement('div');
+                divContainerImg.classList.add('divContainerImg');
+
                 const edit = document.createElement('img');
                 const info = document.createElement('img');
 
@@ -182,6 +218,8 @@
                 edit.classList.add('editEmployee')
                 info.classList.add('infoEmployee')
 
+                divContainerImg.appendChild(edit);
+                divContainerImg.appendChild(info)
 
                 edit.src = "/assets/SVG/user-edit-solid.svg";
                 info.src = "/assets/SVG/info-circle-solid.svg";
@@ -192,8 +230,7 @@
                 divContainer.appendChild(phone)
                 divContainer.appendChild(email)
 
-                divContainer.appendChild(edit)
-                divContainer.appendChild(info)
+                divContainer.appendChild(divContainerImg)
 
                 employeeResult.appendChild(divContainer)
 
@@ -282,6 +319,174 @@
                     })
 
                     
+                })
+
+                info.addEventListener('click', async (e)=> {
+                    e.preventDefault();
+
+                    //Seleccionar elemento del DOM
+                    const moreInfoEmployee = document.getElementById('moreInfoEmployee');
+
+                    moreInfoEmployee.style.display = 'block'
+
+                    while (moreInfoEmployee.hasChildNodes()) {
+                        moreInfoEmployee.lastChild.remove();
+                    }
+
+                    //Contenedor específico
+                    const barEmployee = document.createElement('div');
+                    barEmployee.classList.add('barEmployee');
+                    barEmployee.innerText = 'Datos del Empleado'
+                    moreInfoEmployee.appendChild(barEmployee);
+
+                    //Contenedores generales para barras e info
+                    const listEmployee = document.createElement('div');
+                    const ulListEmployeeGrid = document.createElement('div');
+
+                    //Estilos para los contenedores
+                    moreInfoEmployee.classList.add('moreInfoEmployee');
+                    listEmployee.classList.add('listEmployee');
+                    ulListEmployeeGrid.classList.add('ulListEmployeeGrid');
+
+                    //Appendear contenedores hijos a padres
+                    listEmployee.appendChild(ulListEmployeeGrid)
+                    moreInfoEmployee.appendChild(listEmployee)
+                    
+                    //Datos del empleado
+
+                    const employeeData = {
+                        lastname: 'Apellido', name: 'Nombre', dni: 'DNI', phone: 'Celular', 
+                        address: 'Domicilio', streetnumber: 'numero',
+                    }
+
+                    for(key in employeeData) {
+                        
+                        const columnGrid = document.createElement('div');
+                        const dataGridEmployee = document.createElement('div');
+                        const headerGridEmployee = document.createElement('div');
+
+                        dataGridEmployee.classList.add('dataGridEmployee');
+                        headerGridEmployee.classList.add('headerGridEmployee');
+
+
+                        dataGridEmployee.innerText = empl[key]
+                        headerGridEmployee.innerText= employeeData[key]
+
+                        columnGrid.appendChild(headerGridEmployee)
+                        columnGrid.appendChild(dataGridEmployee)
+
+                        ulListEmployeeGrid.appendChild(columnGrid)
+
+                    }
+                    //Fin de datos de Empleado
+
+                    //Traerse todos los datos de la base
+                    const toFetch = async (toFind, URL) => {                       
+                        const info = await fetch(`${URL}${toFind}`)
+                        const response = await info.json()
+                        return response
+                    }
+
+                    const allProfileOfEmployee = await toFetch(empl.dni, '/employees/search/info/')
+
+                    console.log(allProfileOfEmployee);
+
+                    //Datos Laborales
+                    const barEmployeeJobData = document.createElement('div');
+                    const listJob = document.createElement('div');
+                    const ulListSchoolGrid = document.createElement('div');
+
+                    barEmployeeJobData.classList.add('barEmployee');
+                    barEmployeeJobData.innerText = 'Datos Laborales';
+
+                    listJob.classList.add('listEmployee');
+                    ulListSchoolGrid.classList.add('ulListEmployeeGrid')
+
+                    moreInfoEmployee.appendChild(barEmployeeJobData);
+                    moreInfoEmployee.appendChild(listJob)
+                    listJob.appendChild(ulListSchoolGrid);
+
+                    
+                    const fullnameSchool = allProfileOfEmployee.Employee.Schools.map( elem => {
+                        const fullname = elem.fullname
+                        return fullname;
+
+                    })
+
+                    const addressSchool = allProfileOfEmployee.Employee.Schools.map( elem => {
+                        const address = elem.address
+                        return address;
+
+                    })
+
+                    const daysSchool = allProfileOfEmployee.Employee.Schools.map( elem => {
+                        const days = elem.Days
+                        return days
+                    })
+
+
+                    for(let i = 0; i < daysSchool.length; i++) {
+                        const columnGrid = document.createElement('div');
+                        const headerGridEmployee = document.createElement('div');
+                        headerGridEmployee.classList.add('headerGridEmployee');
+                        headerGridEmployee.innerText= 'Días'
+                        columnGrid.appendChild(headerGridEmployee)
+                        ulListSchoolGrid.appendChild(columnGrid)
+                        
+                        for(let j = 0; j < daysSchool[i].length; j++){
+                            const dataGridEmployee = document.createElement('div');
+                            const dataGridHourOpen = document.createElement('div');
+                            const dataGridHourClose = document.createElement('div');
+
+                            dataGridEmployee.classList.add('dataGridEmployee');
+                            dataGridHourOpen.classList.add('dataGridEmployee');
+                            dataGridHourClose.classList.add('dataGridEmployee');
+
+                            dataGridHourClose.innerText = daysSchool[i][j].close
+                            dataGridHourOpen.innerText = daysSchool[i][j].open
+                            dataGridEmployee.innerText = daysSchool[i][j].days
+
+                            columnGrid.appendChild(dataGridEmployee)
+                            columnGrid.appendChild(dataGridHourOpen)
+                            columnGrid.appendChild(dataGridHourClose)
+                        }
+
+                        
+                    }
+
+                    const idRole = allProfileOfEmployee.Employee.RolId
+
+                    const getRole = await toFetch(idRole, '/rol/')
+
+                    console.log(getRole);
+
+
+                    const employeeJobData = {
+                        fullname: fullnameSchool, address: addressSchool, 
+                        rol: getRole.Rol.position,
+                    }
+
+                    for(key in employeeJobData) {
+
+                        const columnGrid = document.createElement('div');
+                        const dataGridEmployee = document.createElement('div');
+                        const headerGridEmployee = document.createElement('div');
+
+                        dataGridEmployee.classList.add('dataGridEmployee');
+                        headerGridEmployee.classList.add('headerGridEmployee');
+
+
+                        dataGridEmployee.innerText = employeeJobData[key]
+                        headerGridEmployee.innerText= key
+
+                        columnGrid.appendChild(headerGridEmployee)
+                        columnGrid.appendChild(dataGridEmployee)
+
+                        ulListSchoolGrid.appendChild(columnGrid)
+
+                    }
+                    
+
                 })
             }
             

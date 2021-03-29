@@ -13,6 +13,7 @@ const employeeByDni = require('../controller/employee/search/employeefindByDni')
 const employeeByLast = require('../controller/employee/search/employeefindByLastname');
 const employeeByEmail = require('../controller/employee/search/employeefindByEmail');
 const employeeByPhone = require('../controller/employee/search/employeefindByPhone');
+const { allEmployeeInfo } = require('../controller/employee/search/employeeFindInformation')
 
 //View
 
@@ -32,5 +33,6 @@ router.use('/search', employeeByDni);
 router.use('/search', employeeByLast);
 router.use('/search', employeeByEmail);
 router.use('/search', employeeByPhone);
+router.use('/search', allEmployeeInfo)
 
 module.exports = router
