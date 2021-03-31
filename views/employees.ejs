@@ -81,44 +81,12 @@
     </div>
 
     <div class="moreInfoEmployee" id="moreInfoEmployee">
-        <!-- <div class="barEmployee">
-            Test
-        </div>
-        <div class="listEmployee">
-            <div class="ulListEmployeeGrid" id="ulListEmployeeGrid">
-            </div>
-            <div class="ulListSchoolGrid" id="ulListSchoolGrid">
-            </div>
-
-
-
-            <div class="ulListEmployeeNotFlex">
-                <div class="fullDataEmployee">
-                    <p>Fullname</p>
-                    <p>Escuela</p>
-                </div>
-                <div class="fullDataEmployee">
-                    <p>Fullname</p>
-                    <p>Escuela</p>
-                </div>
-
-                <div class="fullDataEmployee">
-                    <p>Clave</p>
-                    <p>Valor</p>
-                </div>
-            </div> -->
-
-
-
-        </div>
     </div>
 </section>
 <script>
     const option = document.getElementById('busquedas');
     const input = document.getElementById('employee');
     const search = document.getElementById('btnSearch');
-    
-
 
     search.addEventListener('click', (e) => {
         e.preventDefault()
@@ -136,8 +104,6 @@
             })
         }
 
-        
-
         fetch(`/employees/search/${option.value}/${input.value}`)
         .then( res => {
             return res.json()
@@ -146,6 +112,7 @@
             const textResult = document.getElementById('textResult');
             const employeeResult = document.getElementById('employeeResult');
             const createEmployeeFormDiv = document.getElementById('createEmployeeFormDiv');
+            const moreInfoEmployee = document.getElementById('moreInfoEmployee');
             const updateBtn = document.getElementById('actualizar')
             const createEmployeeForm = document.getElementById('createEmployeeForm');
             const h3SuccessUpdate = document.getElementById('h3SuccessUpdate')
@@ -180,7 +147,6 @@
                 textResult.innerText = 'Acá se van a mostrar los resultados'
                 textResult.style.color = 'black'
             }
-
 
             for(let i = 0; i < arrayDataToIterate.length; i++) {
                 const divContainer = document.createElement('div')
@@ -240,7 +206,8 @@
                     const peopleWordImg = document.getElementById('peopleWordImg');
                     h3SuccessUpdate.classList.add('h3SuccessUpdate')
                     peopleWordImg.style.display = 'none';
-                    createEmployeeFormDiv.style.display = 'block'
+                    moreInfoEmployee.style.display = 'none';
+                    createEmployeeFormDiv.style.display = 'block';
 
                     let name = document.getElementById('name')
                     let lastname = document.getElementById('lastname')
@@ -288,7 +255,6 @@
                             }
                         }
 
-
                         const options = {
                             body: JSON.stringify(dataValuesForm),
                             method: 'PUT',
@@ -297,7 +263,6 @@
                             },
                         }
                         
-
                         fetch(`/employees/update/${empl._id}`, options)
                         .then( res => {
                             return res.json()
@@ -310,8 +275,6 @@
                                 inputsForms[key].placeholder = empl[key]
                             }
 
-
-
                         })
                         .catch(error => {
                             h3SuccessUpdate.innerText = error.Error
@@ -323,11 +286,10 @@
 
                 info.addEventListener('click', async (e)=> {
                     e.preventDefault();
-
-                    //Seleccionar elemento del DOM
-                    const moreInfoEmployee = document.getElementById('moreInfoEmployee');
-
+                    
+                    createEmployeeFormDiv.style.display = 'none';
                     moreInfoEmployee.style.display = 'block'
+                    //createEmployeeFormDiv.display = 'none';
 
                     while (moreInfoEmployee.hasChildNodes()) {
                         moreInfoEmployee.lastChild.remove();
@@ -387,9 +349,7 @@
                         return response
                     }
 
-                    const allProfileOfEmployee = await toFetch(empl.dni, '/employees/search/info/')
-
-                    console.log(allProfileOfEmployee);
+                    const allProfileOfEmployee = await toFetch(empl.dni, '/employees/search/info/');
 
                     //Datos Laborales
                     const barEmployeeJobData = document.createElement('div');
@@ -406,86 +366,129 @@
                     moreInfoEmployee.appendChild(listJob)
                     listJob.appendChild(ulListSchoolGrid);
 
-                    
-                    const fullnameSchool = allProfileOfEmployee.Employee.Schools.map( elem => {
-                        const fullname = elem.fullname
-                        return fullname;
-
-                    })
-
-                    const addressSchool = allProfileOfEmployee.Employee.Schools.map( elem => {
-                        const address = elem.address
-                        return address;
-
-                    })
-
-                    const daysSchool = allProfileOfEmployee.Employee.Schools.map( elem => {
-                        const days = elem.Days
-                        return days
-                    })
-
-
-                    for(let i = 0; i < daysSchool.length; i++) {
-                        const columnGrid = document.createElement('div');
-                        const headerGridEmployee = document.createElement('div');
-                        headerGridEmployee.classList.add('headerGridEmployee');
-                        headerGridEmployee.innerText= 'Días'
-                        columnGrid.appendChild(headerGridEmployee)
-                        ulListSchoolGrid.appendChild(columnGrid)
-                        
-                        for(let j = 0; j < daysSchool[i].length; j++){
-                            const dataGridEmployee = document.createElement('div');
-                            const dataGridHourOpen = document.createElement('div');
-                            const dataGridHourClose = document.createElement('div');
-
-                            dataGridEmployee.classList.add('dataGridEmployee');
-                            dataGridHourOpen.classList.add('dataGridEmployee');
-                            dataGridHourClose.classList.add('dataGridEmployee');
-
-                            dataGridHourClose.innerText = daysSchool[i][j].close
-                            dataGridHourOpen.innerText = daysSchool[i][j].open
-                            dataGridEmployee.innerText = daysSchool[i][j].days
-
-                            columnGrid.appendChild(dataGridEmployee)
-                            columnGrid.appendChild(dataGridHourOpen)
-                            columnGrid.appendChild(dataGridHourClose)
-                        }
-
-                        
-                    }
+                    const schools = allProfileOfEmployee.Employee.Schools
 
                     const idRole = allProfileOfEmployee.Employee.RolId
 
                     const getRole = await toFetch(idRole, '/rol/')
 
-                    console.log(getRole);
+                    let roleToFind = null
 
-
-                    const employeeJobData = {
-                        fullname: fullnameSchool, address: addressSchool, 
-                        rol: getRole.Rol.position,
+                    if(getRole.Error) {
+                        roleToFind = getRole.Error
+                    } else {
+                        roleToFind = getRole.Rol.position
                     }
 
-                    for(key in employeeJobData) {
-
-                        const columnGrid = document.createElement('div');
-                        const dataGridEmployee = document.createElement('div');
+                    for(let key in schools) {
                         const headerGridEmployee = document.createElement('div');
+                        const containerDay = document.createElement('div');
+                        const dataAddress = document.createElement('div');
+                        const dataRol = document.createElement('div');
+                        const datadistrict = document.createElement('div');
+                        const dataComune = document.createElement('div');
 
-                        dataGridEmployee.classList.add('dataGridEmployee');
                         headerGridEmployee.classList.add('headerGridEmployee');
+                        containerDay.classList.add('containerDay');
+                        dataAddress.classList.add('dataGridEmployee');
+                        dataRol.classList.add('dataGridEmployee');
+                        datadistrict.classList.add('dataGridEmployee');
+                        dataComune.classList.add('dataGridEmployee');
+                        
+                        ulListSchoolGrid.appendChild(headerGridEmployee);
+                        ulListSchoolGrid.appendChild(containerDay);
+                        containerDay.appendChild(dataAddress);
+                        containerDay.appendChild(dataRol);
+                        containerDay.appendChild(datadistrict);
+                        containerDay.appendChild(dataComune);
+                        
+                        
 
+                        headerGridEmployee.innerText = schools[key].fullname;
+                        dataAddress.innerText = schools[key].address;
+                        dataRol.innerText = roleToFind;
+                        datadistrict.innerText = `Distrito: ${schools[key].district}`;
+                        dataComune.innerText = `Comuna ${schools[key].commune}`;
 
-                        dataGridEmployee.innerText = employeeJobData[key]
-                        headerGridEmployee.innerText= key
+                        for(let i = 0; i < schools[key].Days.length; i++){
+                            const hourContainer = document.createElement('div');
 
-                        columnGrid.appendChild(headerGridEmployee)
-                        columnGrid.appendChild(dataGridEmployee)
+                            const oneSchool = schools[key].Days
 
-                        ulListSchoolGrid.appendChild(columnGrid)
+                            const dataDay = document.createElement('div');
+                            const dataHour = document.createElement('div');
+                            dataHour.classList.add('dataGridEmployee');
+                            dataDay.classList.add('dataGridEmployee');
+                            hourContainer.appendChild(dataDay);
+                            hourContainer.appendChild(dataHour);
+                            dataDay.innerText = oneSchool[i].days;
+                            dataHour.innerText = `${oneSchool[i].open} a ${oneSchool[i].close}`;
+                            
+
+                            containerDay.appendChild(hourContainer);
+
+                        }
 
                     }
-                    
+
+                    // Fin datos Laborales
+
+                    // Ausencias
+
+                    const barEmployeeAbsenceData = document.createElement('div');
+                    const listAbsence = document.createElement('div');
+                    const ulListAbsenceGrid = document.createElement('div');
+
+                    barEmployeeAbsenceData.classList.add('barEmployee');
+                    barEmployeeAbsenceData.innerText = 'Ausencias?';
+
+                    listAbsence.classList.add('listEmployee');
+                    ulListAbsenceGrid.classList.add('ulListEmployeeGrid')
+
+                    moreInfoEmployee.appendChild(barEmployeeAbsenceData);
+                    moreInfoEmployee.appendChild(listAbsence)
+                    listAbsence.appendChild(ulListAbsenceGrid);
+
+                    console.log(allProfileOfEmployee);
+
+                    const absences = allProfileOfEmployee.Employee.Absences
+
+                    console.log(absences);
+
+                    for(let i = 0; i < absences.length; i++){
+
+                        const articleAbsence = absences[i].Articles[0]
+                        console.log(articleAbsence);
+
+                        const date = absences[i].start
+                        const newDate = new Date(date)
+
+                        const dateEnd = absences[i].end
+                        const newDateEnd = new Date(dateEnd)
+
+                        const containerDay = document.createElement('div');
+                        const dataStart = document.createElement('div');
+                        const dataEnd = document.createElement('div');
+                        const dataSum = document.createElement('div');
+                        const article = document.createElement('div');
+
+                        containerDay.classList.add('containerDay');
+                        dataStart.classList.add('dataGridEmployee');
+                        dataEnd.classList.add('dataGridEmployee');
+                        dataSum.classList.add('dataGridEmployee');
+                        article.classList.add('dataGridEmployee')
+
+                        ulListAbsenceGrid.appendChild(containerDay);
+                        containerDay.appendChild(dataStart);
+                        containerDay.appendChild(dataEnd);
+                        containerDay.appendChild(dataSum);
+                        containerDay.appendChild(article);
+
+                        dataStart.innerText = `Fecha de inicio ${newDate.getDate() + 1}/${newDate.getDay()}/${newDate.getFullYear()}`
+                        dataEnd.innerText = `Fecha de fin ${newDateEnd.getDate() + 1}/${newDateEnd.getDay()}/${newDateEnd.getFullYear()}`
+                        dataSum.innerText = `Suma de días: ${absences[i].sumdays}`
+                        article.innerText = `${articleAbsence.number} ${articleAbsence.article} - ${articleAbsence.description}`
+                    }
 
                 })
             }
