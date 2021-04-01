@@ -1,0 +1,11 @@
+//Configuración para la Base de datos online
+
+
+DB_NAME=zVwqJq6sfq
+DB_USER=zVwqJq6sfq
+DB_PASS=XxzZk3I3ah
+DB_HOST=remotemysql.com
+DB_DIALECT=mysql
+DB_PORT=3306
+SECRET_KEY=secreto__
+PORT=3000

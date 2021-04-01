@@ -40,6 +40,7 @@
                 <div class="successEmployee">
                     <%= successEmployee %> 
                 </div>
+                <% console.log(successEmployee) %> 
             <% } %>
                 
             
@@ -286,7 +287,7 @@
 
                 info.addEventListener('click', async (e)=> {
                     e.preventDefault();
-                    
+                    h3SuccessUpdate.innerText = ''
                     createEmployeeFormDiv.style.display = 'none';
                     moreInfoEmployee.style.display = 'block'
                     //createEmployeeFormDiv.display = 'none';
@@ -449,22 +450,14 @@
                     moreInfoEmployee.appendChild(listAbsence)
                     listAbsence.appendChild(ulListAbsenceGrid);
 
-                    console.log(allProfileOfEmployee);
-
                     const absences = allProfileOfEmployee.Employee.Absences
-
-                    console.log(absences);
 
                     for(let i = 0; i < absences.length; i++){
 
                         const articleAbsence = absences[i].Articles[0]
-                        console.log(articleAbsence);
 
                         const date = absences[i].start
-                        const newDate = new Date(date)
-
                         const dateEnd = absences[i].end
-                        const newDateEnd = new Date(dateEnd)
 
                         const containerDay = document.createElement('div');
                         const dataStart = document.createElement('div');
@@ -484,11 +477,64 @@
                         containerDay.appendChild(dataSum);
                         containerDay.appendChild(article);
 
-                        dataStart.innerText = `Fecha de inicio ${newDate.getDate() + 1}/${newDate.getDay()}/${newDate.getFullYear()}`
-                        dataEnd.innerText = `Fecha de fin ${newDateEnd.getDate() + 1}/${newDateEnd.getDay()}/${newDateEnd.getFullYear()}`
+                        dataStart.innerText = `Fecha de inicio: ${date}`
+                        dataEnd.innerText = `Fecha de fin: ${dateEnd}`
                         dataSum.innerText = `Suma de días: ${absences[i].sumdays}`
                         article.innerText = `${articleAbsence.number} ${articleAbsence.article} - ${articleAbsence.description}`
                     }
+
+                    //Claims
+
+                    const barEmployeeClaimData = document.createElement('div');
+                    const listClaim = document.createElement('div');
+                    const ulListClaimGrid = document.createElement('div');
+
+                    barEmployeeClaimData.classList.add('barEmployee');
+                    barEmployeeClaimData.innerText = 'Reclamos?';
+
+                    listClaim.classList.add('listEmployee');
+                    ulListClaimGrid.classList.add('ulListEmployeeGrid')
+
+                    moreInfoEmployee.appendChild(barEmployeeClaimData);
+                    moreInfoEmployee.appendChild(listClaim)
+                    listClaim.appendChild(ulListClaimGrid);
+
+                    const claims = allProfileOfEmployee.Employee.Claims
+
+                    for (let i = 0; i < claims.length; i++){
+                        const claim = claims[i]
+
+                        const containerDay = document.createElement('div');
+                        const dataContent = document.createElement('div');
+                        const dataAttend = document.createElement('div');
+                        const dataDayClaim = document.createElement('div');
+                        const dataStatus = document.createElement('div')
+                        const dataTrack = document.createElement('div')
+
+                        containerDay.classList.add('containerDay');
+                        dataContent.classList.add('dataGridEmployee');
+                        dataAttend.classList.add('dataGridEmployee');
+                        dataDayClaim.classList.add('dataGridEmployee');
+                        dataStatus.classList.add('dataGridEmployee');
+                        dataTrack.classList.add('dataGridEmployee');
+                        
+
+                        ulListClaimGrid.appendChild(containerDay);
+                        containerDay.appendChild(dataContent);
+                        containerDay.appendChild(dataAttend);
+                        containerDay.appendChild(dataDayClaim);
+                        containerDay.appendChild(dataStatus);    
+                        containerDay.appendChild(dataTrack);
+
+                        dataContent.innerText = `Contenido: ${claim.content}`;
+                        dataAttend.innerText = `Relevancia: ${claim.attend}`;
+                        dataDayClaim.innerText = `Fecha de recibido: ${claim.dayofclaim}`;
+                        dataStatus.innerText = `Estado: ${claim.status}`;
+                        dataTrack.innerText = `Respuesta: ${claim.tracing}`;
+
+                    }
+
+
 
                 })
             }

@@ -1,6 +1,7 @@
 const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../../database/conect');
-const { nowTime } = require('../../services/time')
+const { nowTime } = require('../../services/time');
+const { getDate }  = require('../../services/time')
 
 
 class Absence extends Model {}
@@ -14,13 +15,21 @@ Absence.init({
 
     start: {
         type: DataTypes.DATEONLY,
-        defaultValue: nowTime.nowDate
+        defaultValue: nowTime.nowDate,
+        get() {
+            const getData = this.getDataValue('start');
+            return getDate(getData)
+        }
         
     },
 
     end: {
         type: DataTypes.DATEONLY,
-        defaultValue: nowTime.nowDate
+        defaultValue: nowTime.nowDate,
+        get() {
+            const getData = this.getDataValue('end');
+            return getDate(getData)
+        }
     },
 
     sumdays:{
