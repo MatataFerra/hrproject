@@ -3,10 +3,10 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 
-module.exports = router.get('/address', async (req, res) => {
+module.exports = router.get('/address/:address', async (req, res) => {
     
     try {
-        const address = req.body.address
+        const address = req.params.address
         const school = await Schools.findOne({
             where: {address: {
                 [Op.like]: `%${address}%`

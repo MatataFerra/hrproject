@@ -2,14 +2,17 @@ const { Schools, level } = require('../../database/tables');
 const express = require('express');
 const router = express.Router();
 
-module.exports = router.post('/', async (req, res)=> {
+const getAddSchool = router.get('/', (req, res) => {
+    res.render('addschool')
+})
+
+const createSchool = router.post('/', async (req, res)=> {
 
     try {
         
         const { educationlevel } = req.body
 
         const edLevel = Object.getOwnPropertyNames(level).find(lvl => lvl === educationlevel);
-        
 
         if(educationlevel !== edLevel){
             return res.status(403).send({
@@ -25,4 +28,10 @@ module.exports = router.post('/', async (req, res)=> {
     } catch (error) {
         res.status(404).send({Error: error});
     }
-})
+});
+
+
+module.exports = {
+    getAddSchool,
+    createSchool
+}

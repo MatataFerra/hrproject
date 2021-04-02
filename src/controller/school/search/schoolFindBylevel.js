@@ -2,11 +2,11 @@ const { Schools, level } = require('../../../database/tables');
 const express = require('express');
 const router = express.Router();
 
-module.exports = router.get('/level', async (req, res) => {
+module.exports = router.get('/level/:level', async (req, res) => {
     
     try {
         
-        const { educationlevel } = req.body
+        const educationlevel  = req.params.level
 
         const edLevel = Object.getOwnPropertyNames(level).find(lvl => lvl === educationlevel);
         

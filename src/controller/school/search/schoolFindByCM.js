@@ -2,10 +2,10 @@ const { Schools } = require('../../../database/tables');
 const express = require('express');
 const router = express.Router();
 
-module.exports = router.get('/commune', async (req, res) => {
+module.exports = router.get('/commune/:commune', async (req, res) => {
     
     try {
-        const commune = req.body.commune
+        const commune = req.params.commune
         const school = await Schools.findAll({
             where: {commune: commune}
         })

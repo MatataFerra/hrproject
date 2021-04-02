@@ -1932,6 +1932,58 @@
   width: 400px;
 }
 
+.findSchools {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+}
+
+.findSchools .titleEmployee {
+  font-size: 3rem;
+  padding: 2rem;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  -ms-grid-column-align: self-start;
+      justify-self: self-start;
+}
+
+.findSchools .back {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-column-align: end;
+      justify-self: end;
+  padding: 2rem;
+}
+
+.findSchools .back a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+  color: aliceblue;
+}
+
+.findSchools .back a:hover img {
+  -webkit-animation: sides 1s infinite forwards;
+          animation: sides 1s infinite forwards;
+}
+
+.findSchools .back a img {
+  height: 20px;
+  margin-right: 0.5rem;
+  color: aliceblue;
+}
+
 input, button {
   font-family: "MAXWELL_BOLD";
 }

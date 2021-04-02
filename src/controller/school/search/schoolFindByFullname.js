@@ -1,13 +1,16 @@
 const { Schools } = require('../../../database/tables');
 const express = require('express');
+const { Op } = require('sequelize');
 const router = express.Router();
 
-module.exports = router.get('/district/:district', async (req, res) => {
+module.exports = router.get('/fullname/:fullname', async (req, res) => {
     
     try {
-        const district = req.params.district
-        const school = await Schools.findAll({
-            where: {district: district}
+        const fullname = req.params.fullname
+        const school = await Schools.findOne({
+            where: {fullname: {
+                [Op.like]: `%${fullname}%`
+            }}
         })
 
         if(!school) {

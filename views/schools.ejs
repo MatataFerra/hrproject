@@ -1,0 +1,50 @@
+<%- layout('layouts/main.ejs') %>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="/assets/SVG/homeVector.svg" alt="Logo Mesa" class="imgNavbar">
+        <p>HR | DataBase</p>
+    </div>
+    <ul class="ulNavbar">
+        <li><a href="/home/"> <img src="/assets/SVG/igloo-solid.svg" alt="Home" class="homeLogo"> </a></li>
+        <li><a href="/users/logout"> <img src="/assets/SVG/power-off-solid.svg" alt="Logout" class="logoutLogo"> </a>
+        </li>
+    </ul>
+</nav>
+
+<section class="formAndImgEmployee">
+    <h1 class="titleEmployee">Schools</h1>
+    <div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+
+    <div class="containerEmployee">
+        <div class="searchAndAddEmployee">
+            <div class="addEmployee">
+                <a href="/schools/add"><img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento"></a> 
+                <p>Agregar Escuela</p>
+            </div>
+            <div class="searchEmployee">
+                <input type="text" name="employee" id="employee">
+                <select name="busquedas" id="busquedas">
+                    <option value="error">Elija una opción</option>
+                    <option value="error">-------</option>
+                    <option value="all">Mostrar todas</option>
+                    <option value="fullname">Nombre Completo</option>
+                    <option value="educationlevel">Nivel Educativo</option>
+                    <option value="district">Distrito</option>
+                    <option value="email">Email</option>
+                </select>
+                <button type="submit" id="btnSearch">Buscar</button>
+            </div>
+            <h3 class="textResult" id="textResult">Acá se van a mostrar los resultados</h3>
+            
+            
+            <div class="results" id="results">
+                <div id="employeeResult"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+</section>
+
