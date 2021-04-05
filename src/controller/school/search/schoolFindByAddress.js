@@ -14,14 +14,14 @@ module.exports = router.get('/address/:address', async (req, res) => {
         })
 
         if(!school) {
-            return res.status(404).send({Message: 'La escuela que busca no se encuentra'})
+            return res.send({Message: 'El domicilio de la escuela no está en la base de datos'})
         }
 
-        res.status(200).send({Escuelas: school});
+        return res.status(200).send({Escuelas: school});
 
     } catch (error) {
         console.log(error);
-        res.send({Error: error})
+        return res.send({Error: error})
     }
 
 

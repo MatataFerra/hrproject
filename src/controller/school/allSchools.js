@@ -5,7 +5,11 @@ const router = express.Router();
 module.exports = router.get('/', async (req, res) => {
     
     try {
-        const schools = await Schools.findAll();
+        const schools = await Schools.findAll({
+            order: [
+                ['district', 'ASC']
+            ]
+        });
 
         return res.status(200).send({Escuelas: schools});
 

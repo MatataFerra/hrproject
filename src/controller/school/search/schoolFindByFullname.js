@@ -14,7 +14,7 @@ module.exports = router.get('/fullname/:fullname', async (req, res) => {
         })
 
         if(!school) {
-            return res.status(404).send({Message: 'La escuela que busca no se encuentra'})
+            return res.send({Message: 'La escuela que busca no se encuentra'})
         }
 
         res.status(200).send({Escuelas: school});

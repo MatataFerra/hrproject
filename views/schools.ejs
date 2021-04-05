@@ -12,15 +12,24 @@
     </ul>
 </nav>
 
-<section class="formAndImgEmployee">
+<section class="formAndImgEmployee" id="formAndImgEmployee">
     <h1 class="titleEmployee">Schools</h1>
     <div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
 
     <div class="containerEmployee">
         <div class="searchAndAddEmployee">
-            <div class="addEmployee">
-                <a href="/schools/add"><img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Talento"></a> 
-                <p>Agregar Escuela</p>
+            <div class="addSchool">
+                <a href="/schools/add">
+                    <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Escuela">
+                    <p>Agregar Escuela</p>
+                </a> 
+            </div>
+
+            <div class="editEmployee">
+                <a href="/schools/update">
+                    <img src="/assets/SVG/user-edit-solid.svg" alt="Editar Escuela">
+                    <p>Editar Escuela</p>
+                </a>  
             </div>
             <div class="searchEmployee">
                 <input type="text" name="employee" id="employee">
@@ -29,9 +38,10 @@
                     <option value="error">-------</option>
                     <option value="all">Mostrar todas</option>
                     <option value="fullname">Nombre Completo</option>
-                    <option value="educationlevel">Nivel Educativo</option>
+                    <option value="address">Dirección</option>
                     <option value="district">Distrito</option>
-                    <option value="email">Email</option>
+                    <option value="level">Nivel Educativo</option>
+                    <option value="commune">Comuna</option>
                 </select>
                 <button type="submit" id="btnSearch">Buscar</button>
             </div>
@@ -45,6 +55,257 @@
 
     </div>
 
+    <div class="schoolsResultsContainer" id="schoolsResultsContainer">
+
+    </div>
 
 </section>
+
+<script>
+    const option = document.getElementById('busquedas');
+    const input = document.getElementById('employee');
+    const search = document.getElementById('btnSearch');
+    const formAndImgEmployee = document.getElementById('formAndImgEmployee');
+    const schoolsResultsContainer = document.getElementById('schoolsResultsContainer');
+    const textResult = document.getElementById('textResult');
+    
+
+    const toFetch = async (URL, toFind) => {                       
+        const info = await fetch(`${URL}${toFind}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchAll = async (URL) => {                       
+        const info = await fetch(`${URL}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchEndopoint = async (URL, endpoint, toFind) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${toFind}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+        
+
+    }
+
+    const createHeader = () => {
+
+        const showResultsSchools = document.createElement('div');
+        const schoolResult = document.createElement('div');
+        const address = document.createElement('div');
+        const commune = document.createElement('div');
+        const numschool = document.createElement('div');
+        const district = document.createElement('div');
+        const educationlevel = document.createElement('div');
+        const fullname = document.createElement('div');
+
+        showResultsSchools.classList.add('showResultsSchools');
+        schoolResult.classList.add('schoolResult');
+        schoolResult.classList.add('backHeader')
+        address.classList.add('schoolData');
+        commune.classList.add('schoolData');
+        numschool.classList.add('schoolData');
+        district.classList.add('schoolData');
+        educationlevel.classList.add('schoolData');
+        fullname.classList.add('schoolData');
+
+        address.innerText = 'Domicilio'
+        commune.innerText = 'Comuna'
+        district.innerText = 'Distrito'
+        educationlevel.innerText = 'Nivel Educativo'
+        fullname.innerText = 'Nombre Completo'
+        numschool.innerText = 'Numero'
+
+        schoolResult.appendChild(fullname)
+        schoolResult.appendChild(address)
+        schoolResult.appendChild(commune)
+        schoolResult.appendChild(numschool)
+        schoolResult.appendChild(district)
+        schoolResult.appendChild(educationlevel)
+        showResultsSchools.appendChild(schoolResult)
+        schoolsResultsContainer.appendChild(showResultsSchools)
+        
+    }
+
+    const notFoundResults = (fetched) => {
+        if(fetched.Message) {
+                textResult.style.color = '#dc143c'
+                while (schoolsResultsContainer.hasChildNodes()) {
+                        schoolsResultsContainer.lastChild.remove();
+                }
+                return textResult.innerText = fetched.Message
+        } else {
+            textResult.innerText = 'Acá se van a mostrar los resultados'
+            textResult.style.color = 'black'
+        }
+    }
+
+    const showResultsOnClick = async () => {
+        if(option.value === 'error') {
+            input.value = 'La opción a buscar debe ser válida'
+            input.style.background = '#6BFF6B'
+
+            input.addEventListener('click', inputFun = (e) => {
+                e.preventDefault()
+                input.value = ''
+                input.style.background = '#fff'
+
+                input.removeEventListener('click', inputFun)
+            })
+        }
+
+        while (schoolsResultsContainer.hasChildNodes()) {
+            schoolsResultsContainer.lastChild.remove();
+        }
+
+        let findOneResultOfFetch = null
+        let findAllResultOfFetch = null
+
+        if(option.value === 'all') {
+            const allSchools = await toFetchAll('/schools/all')
+
+            findAllResultOfFetch = allSchools
+            
+        }
+
+        if(option.value === 'fullname' || option.value === 'address') {
+
+            const foundedSchools = await toFetchEndopoint('/schools/search', option.value, input.value);
+
+            const checkFetch = notFoundResults(foundedSchools)
+
+            if(checkFetch){
+                return
+            } else {
+                findOneResultOfFetch = foundedSchools
+            }
+            
+        }
+
+        if(option.value === 'district' || option.value === 'level' || option.value === 'commune') {
+
+            const foundedSchools = await toFetchEndopoint('/schools/search', option.value, input.value);
+
+            const checkFetch = notFoundResults(foundedSchools)
+
+            if(checkFetch){
+                return
+            } else {
+                findAllResultOfFetch = foundedSchools
+            }
+
+
+        }
+
+        if(findOneResultOfFetch !== null ){
+            textResult.innerText = 'Acá se van a mostrar los resultados'
+            textResult.style.color = 'black'
+
+            createHeader();
+
+            const showResultsSchools = document.createElement('div');
+            const schoolResult = document.createElement('div');
+            const address = document.createElement('div');
+            const commune = document.createElement('div');
+            const district = document.createElement('div');
+            const educationlevel = document.createElement('div');
+            const fullname = document.createElement('div');
+            const numschool = document.createElement('div');
+
+            showResultsSchools.classList.add('showResultsSchools');
+            schoolResult.classList.add('schoolResult');
+            address.classList.add('schoolData');
+            commune.classList.add('schoolData');
+            district.classList.add('schoolData');
+            educationlevel.classList.add('schoolData');
+            fullname.classList.add('schoolData');
+            numschool.classList.add('schoolData');
+
+            address.innerText = findOneResultOfFetch.Escuelas.address
+            commune.innerText = findOneResultOfFetch.Escuelas.commune
+            district.innerText = findOneResultOfFetch.Escuelas.district
+            educationlevel.innerText = findOneResultOfFetch.Escuelas.educationlevel.toUpperCase()
+            fullname.innerText = findOneResultOfFetch.Escuelas.fullname
+            numschool.innerText = findOneResultOfFetch.Escuelas.numschool
+
+            schoolResult.appendChild(fullname)
+            schoolResult.appendChild(address)
+            schoolResult.appendChild(commune)
+            schoolResult.appendChild(numschool)
+            schoolResult.appendChild(district)
+            schoolResult.appendChild(educationlevel)
+            showResultsSchools.appendChild(schoolResult)
+            formAndImgEmployee.appendChild(showResultsSchools)
+            schoolsResultsContainer.appendChild(showResultsSchools)
+
+        }
+
+        if(findAllResultOfFetch !== null) {
+            textResult.innerText = 'Acá se van a mostrar los resultados'
+            textResult.style.color = 'black'
+
+            createHeader();
+
+            for (let i = 0; i < findAllResultOfFetch.Escuelas.length; i++) {
+                const school = findAllResultOfFetch.Escuelas[i];
+
+                const showResultsSchools = document.createElement('div');
+                const schoolResult = document.createElement('div');
+                const address = document.createElement('div');
+                const commune = document.createElement('div');
+                const district = document.createElement('div');
+                const educationlevel = document.createElement('div');
+                const fullname = document.createElement('div');
+                const numschool = document.createElement('div');
+
+                showResultsSchools.classList.add('showResultsSchools');
+                schoolResult.classList.add('schoolResult');
+                address.classList.add('schoolData');
+                commune.classList.add('schoolData');
+                district.classList.add('schoolData');
+                educationlevel.classList.add('schoolData');
+                fullname.classList.add('schoolData');
+                numschool.classList.add('schoolData');
+
+                address.innerText = school.address
+                commune.innerText = school.commune
+                district.innerText = school.district
+                educationlevel.innerText = school.educationlevel.toUpperCase()
+                fullname.innerText = school.fullname
+                numschool.innerText = school.numschool
+
+                schoolResult.appendChild(fullname)
+                schoolResult.appendChild(address)
+                schoolResult.appendChild(commune)
+                schoolResult.appendChild(numschool)
+                schoolResult.appendChild(district)
+                schoolResult.appendChild(educationlevel)
+                showResultsSchools.appendChild(schoolResult)
+                formAndImgEmployee.appendChild(showResultsSchools)
+                schoolsResultsContainer.appendChild(showResultsSchools)
+                
+            }
+        } 
+    }
+
+    search.addEventListener('click', searchBtn = async (e)=> {
+        e.preventDefault();
+        showResultsOnClick();
+    })
+
+    input.addEventListener('keyup', searchEnter = async (e) => {
+        if(e.keyCode == 13) {
+            e.preventDefault()
+            showResultsOnClick();
+        }
+    })
+
+
+
+</script>
 

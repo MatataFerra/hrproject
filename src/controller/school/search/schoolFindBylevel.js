@@ -1,39 +1,40 @@
 const { Schools, level } = require('../../../database/tables');
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize');
 
 module.exports = router.get('/level/:level', async (req, res) => {
     
     try {
-        
-        const educationlevel  = req.params.level
+
+        const educationlevel  = req.params.level.toLowerCase()
 
         const edLevel = Object.getOwnPropertyNames(level).find(lvl => lvl === educationlevel);
         
-
         if(educationlevel !== edLevel){
-            return res.status(403).send({
-                Error: 'El nivel educativo es incorrecto, debe seleccionar alguno de estos',
-                EducationalLevel: Object.keys(level)
+            return res.send({
+                Message: `El nivel educativo es incorrecto, debe seleccionar alguno de estos:
+                ${Object.keys(level)}`
             })
         }
 
-
         const school = await Schools.findAll({
             where: {
-                educationlevel: educationlevel
+                educationlevel: {
+                    [Op.like]: `%${educationlevel}%`
+                }
             }
         })
 
-        if(!school) {
-            return res.status(404).send({Message: 'La escuela que busca no se encuentra'})
+        if(!school || school.length == 0) {
+            return res.send({Message: 'La escuela que busca no se encuentra'})
         }
 
-        res.status(200).send({Escuelas: school});
+        return res.status(200).send({Escuelas: school});
 
     } catch (error) {
         console.log(error);
-        res.send({Error: error})
+        return res.send({Error: error})
     }
 
 
