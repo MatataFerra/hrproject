@@ -4,7 +4,7 @@ const router = express.Router();
 const allSchools = require('../controller/school/allSchools');
 const oneSchool = require('../controller/school/oneSchool');
 const { getAddSchool, createSchool } = require('../controller/school/createSchool');
-const updateSchool = require('../controller/school/updateSchool');
+const { getEditSchool, updateSchool } = require('../controller/school/updateSchool');
 const deleteSchool = require('../controller/school/deleteSchool');
 
 //Search
@@ -30,7 +30,8 @@ const { schoolView } = require('../controller/render/schools')
 // })
 
 router.use('/', schoolView);
-router.use('/add', getAddSchool)
+router.use('/add', getAddSchool);
+router.use('/edit', getEditSchool)
 
 
 router.use('/all', allSchools);

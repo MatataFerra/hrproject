@@ -1,23 +1,26 @@
-const { Schools } = require('../../database/tables');
+const { Schools, level } = require('../../database/tables');
 const express = require('express');
 const router = express.Router();
 
-module.exports = router.put('/:_id', async (req, res)=> {
+const getEditSchool = router.get('/', (req, res) => {
+    res.render('editSchool')
+});
+
+const updateSchool = router.put('/:_id', async (req, res)=> {
     try {
 
         const school = await Schools.findByPk(req.params._id)
 
         if(!school) {
-            return res.status(404).send({Message: 'School not found'})
+            return res.send({Message: 'School not found'})
         }
 
-        const { educationlevel } = req.body
+        const educationlevel  = req.body.educationlevel.toLowerCase()
 
         const edLevel = Object.getOwnPropertyNames(level).find(lvl => lvl === educationlevel);
-        
 
         if(educationlevel !== edLevel){
-            return res.status(403).send({
+            return res.send({
                 Error: 'El nivel educativo es incorrecto, debe seleccionar alguno de estos',
                 EducationalLevel: Object.keys(level)
             })
@@ -31,6 +34,12 @@ module.exports = router.put('/:_id', async (req, res)=> {
         })
 
     } catch (error) {
+        console.log(error);
         res.status(404).send({Error: error});
     }
-})
+});
+
+module.exports = {
+    getEditSchool,
+    updateSchool,
+}

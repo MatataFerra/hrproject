@@ -4,6 +4,9 @@ const passport = require('passport');
 
 
 const loginGet = router.get('/', (req, res)=> {
+    if(req.user) {
+        return res.render('profile')
+    }
     return res.render('singin');
 })
 

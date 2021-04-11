@@ -6,6 +6,8 @@ const { singUpGet } = require('../controller/users/singup');
 const { logOut } = require('../controller/users/logout');
 const { profile } = require('../controller/users/profile');
 
+
+
 router.use('/login', loginGet);
 router.use('/singup', singUpGet);
 

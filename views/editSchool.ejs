@@ -13,25 +13,12 @@
 </nav>
 
 <section class="formAndImgEmployee" id="formAndImgEmployee">
-    <h1 class="titleEmployee">Schools</h1>
-    <div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+    <h1 class="titleEmployee">Editar Escuela </h1>
+    <div class="back"><a href="/schools"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
 
     <div class="containerEmployee">
         <div class="searchAndAddEmployee">
-            <div class="addSchool">
-                <a href="/schools/add">
-                    <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Escuela">
-                    <p>Agregar Escuela</p>
-                </a> 
-            </div>
-
-            <div class="editEmployee">
-                <a href="/schools/edit">
-                    <img src="/assets/SVG/user-edit-solid.svg" alt="Editar Escuela">
-                    <p>Editar Escuela</p>
-                </a>  
-            </div>
-
+            
             <div class="searchEmployee">
                 <input type="text" name="employee" id="employee">
                 <select name="busquedas" id="busquedas">
@@ -56,8 +43,28 @@
 
     </div>
 
-    <div class="schoolsResultsContainer" id="schoolsResultsContainer">
+    <div class="schoolsEditContainer" id="schoolsResultsContainer">
 
+    </div>
+
+    <div class="editSchoolFormDiv" id="editSchoolFormDiv">
+        <h3 class="h3SuccessSchoolUpdate" id="h3SuccessSchoolUpdate"></h3>
+        <form action="" class="editSchoolForm" id="editSchoolForm">
+            <label for="fullname">Nombre Completo</label>
+            <input type="text" name="fullname" id="fullname" >
+            <label for="educationlevel">Nivel Educativo</label>
+            <input type="text" name="educationlevel" id="educationlevel" >
+            <label for="numschool">N° Escuela</label>
+            <input type="number" name="numschool" id="numschool" >
+            <label for="district">Distrito Escolar</label>
+            <input type="number" name="district" id="district" >
+            <label for="commune">Comuna</label>
+            <input type="number" name="commune" id="commune" >
+            <label for="address">Dirección</label>
+            <input type="text" name="address" id="address" >
+
+            <button type="submit" id="actualizar"> Actualizar </button>
+        </form>
     </div>
 
 </section>
@@ -69,6 +76,8 @@
     const formAndImgEmployee = document.getElementById('formAndImgEmployee');
     const schoolsResultsContainer = document.getElementById('schoolsResultsContainer');
     const textResult = document.getElementById('textResult');
+    const updateBtn = document.getElementById('actualizar');
+    const editSchoolFormDiv = document.getElementById('editSchoolFormDiv')
     
 
     const toFetch = async (URL, toFind) => {                       
@@ -91,7 +100,12 @@
         const response = await info.json();
         return response;
         
+    }
 
+    const toFetchUpdate = async (URL, options) => {
+        const info = await fetch(`${URL}`, options);
+        const response = await info.json()
+        return response
     }
 
     const createHeader = () => {
@@ -99,34 +113,22 @@
         const showResultsSchools = document.createElement('div');
         const schoolResult = document.createElement('div');
         const address = document.createElement('div');
-        const commune = document.createElement('div');
-        const numschool = document.createElement('div');
-        const district = document.createElement('div');
         const educationlevel = document.createElement('div');
         const fullname = document.createElement('div');
 
-        showResultsSchools.classList.add('showResultsSchools');
+        showResultsSchools.classList.add('showEditSchools');
         schoolResult.classList.add('schoolResult');
         schoolResult.classList.add('backHeader')
         address.classList.add('schoolData');
-        commune.classList.add('schoolData');
-        numschool.classList.add('schoolData');
-        district.classList.add('schoolData');
         educationlevel.classList.add('schoolData');
         fullname.classList.add('schoolData');
 
         address.innerText = 'Domicilio'
-        commune.innerText = 'Comuna'
-        district.innerText = 'Distrito'
         educationlevel.innerText = 'Nivel Educativo'
         fullname.innerText = 'Nombre Completo'
-        numschool.innerText = 'Numero'
 
         schoolResult.appendChild(fullname)
         schoolResult.appendChild(address)
-        schoolResult.appendChild(commune)
-        schoolResult.appendChild(numschool)
-        schoolResult.appendChild(district)
         schoolResult.appendChild(educationlevel)
         showResultsSchools.appendChild(schoolResult)
         schoolsResultsContainer.appendChild(showResultsSchools)
@@ -134,8 +136,6 @@
     }
 
     const notFoundResults = (fetched) => {
-
-        
         if(fetched.Message) {
                 textResult.style.color = '#dc143c'
                 while (schoolsResultsContainer.hasChildNodes()) {
@@ -147,8 +147,6 @@
             textResult.style.color = 'black'
         }
     }
-
-    
 
     const showResultsOnClick = async () => {
         if(option.value === 'error') {
@@ -165,15 +163,13 @@
             })
         }
 
-        if(input.value == '' && option.value != 'all' ) {
+        if(input.value == '' && option.value != 'all') {
             textResult.style.color = '#dc143c'
                 while (schoolsResultsContainer.hasChildNodes()) {
                         schoolsResultsContainer.lastChild.remove();
                 }
                 return textResult.innerText = 'El campo de búsqueda está vacío'
         }
-
-        
 
         while (schoolsResultsContainer.hasChildNodes()) {
             schoolsResultsContainer.lastChild.remove();
@@ -221,49 +217,120 @@
         if(findOneResultOfFetch !== null ){
             textResult.innerText = 'Acá se van a mostrar los resultados'
             textResult.style.color = 'black'
+            const h3Update = document.getElementById('h3SuccessSchoolUpdate')
+
+            const school = findOneResultOfFetch.Escuelas
+
 
             createHeader();
 
             const showResultsSchools = document.createElement('div');
             const schoolResult = document.createElement('div');
             const address = document.createElement('div');
-            const commune = document.createElement('div');
-            const district = document.createElement('div');
             const educationlevel = document.createElement('div');
             const fullname = document.createElement('div');
-            const numschool = document.createElement('div');
+            const divImgEdit = document.createElement('div');
+            const imgEdit = document.createElement('img')
 
-            showResultsSchools.classList.add('showResultsSchools');
+            showResultsSchools.classList.add('showEditSchools');
             schoolResult.classList.add('schoolResult');
             address.classList.add('schoolData');
-            commune.classList.add('schoolData');
-            district.classList.add('schoolData');
             educationlevel.classList.add('schoolData');
             fullname.classList.add('schoolData');
-            numschool.classList.add('schoolData');
+            divImgEdit.classList.add('schoolData');
 
-            address.innerText = findOneResultOfFetch.Escuelas.address
-            commune.innerText = findOneResultOfFetch.Escuelas.commune
-            district.innerText = findOneResultOfFetch.Escuelas.district
-            educationlevel.innerText = findOneResultOfFetch.Escuelas.educationlevel.toUpperCase()
-            fullname.innerText = findOneResultOfFetch.Escuelas.fullname
-            numschool.innerText = findOneResultOfFetch.Escuelas.numschool
+            address.innerText = findOneResultOfFetch.Escuelas.address;
+            educationlevel.innerText = findOneResultOfFetch.Escuelas.educationlevel.toUpperCase();
+            fullname.innerText = findOneResultOfFetch.Escuelas.fullname;
+            imgEdit.src = "/assets/SVG/user-edit-solid.svg";
 
+            divImgEdit.appendChild(imgEdit)
             schoolResult.appendChild(fullname)
             schoolResult.appendChild(address)
-            schoolResult.appendChild(commune)
-            schoolResult.appendChild(numschool)
-            schoolResult.appendChild(district)
             schoolResult.appendChild(educationlevel)
+            schoolResult.appendChild(divImgEdit)
             showResultsSchools.appendChild(schoolResult)
             formAndImgEmployee.appendChild(showResultsSchools)
             schoolsResultsContainer.appendChild(showResultsSchools)
+
+            imgEdit.addEventListener('click', editSearch = (e) => {
+                    e.preventDefault()
+
+                    const fullname = document.getElementById('fullname');
+                    const educationlevel = document.getElementById('educationlevel');
+                    const numschool = document.getElementById('numschool');
+                    const district = document.getElementById('district');
+                    const commune = document.getElementById('commune');
+                    const address = document.getElementById('address');
+                    
+
+                    h3Update.innerText = ''
+
+                    
+                    editSchoolFormDiv.style.display = 'block'
+
+                    const inputsEdit = {
+                        fullname, educationlevel, numschool, 
+                        district, commune, address,
+                    }
+
+                    for(let key in inputsEdit) {
+                        inputsEdit[key].value = ''
+                        inputsEdit[key].placeholder = school[key]
+                    }
+
+                    updateBtn.addEventListener('click', updateSchool = async (e) => {
+                        e.preventDefault()
+
+                        const oldDataSchool = {...school}
+
+                        const dataValuesForm = {
+                            fullname: fullname.value,
+                            educationlevel: educationlevel.value,
+                            numschool: numschool.value,
+                            district: district.value,
+                            commune: commune.value,
+                            address: address.value,
+                        }
+
+                        for(let key in dataValuesForm){
+
+                            if(dataValuesForm[key] === null || dataValuesForm[key] === ''){
+                                dataValuesForm[key] = oldDataSchool[key]
+                            }
+                        }
+
+                        const options = {
+                            body: JSON.stringify(dataValuesForm),
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+
+                        const url = `/schools/update/${school._id}`
+
+                        const schoolUpdate = await toFetchUpdate(url, options)
+                                            .catch(error => {
+                                                console.log(error);
+                                            });
+                        
+                        h3Update.innerText = schoolUpdate.Message
+                        
+                        setTimeout(async ()=> {
+                            editSchoolFormDiv.style.display = 'none'
+                        },2000)
+                    })
+                })
 
         }
 
         if(findAllResultOfFetch !== null) {
             textResult.innerText = 'Acá se van a mostrar los resultados'
             textResult.style.color = 'black'
+            const h3Update = document.getElementById('h3SuccessSchoolUpdate')
+
+            h3Update.innerText = ''
 
             createHeader();
 
@@ -273,37 +340,101 @@
                 const showResultsSchools = document.createElement('div');
                 const schoolResult = document.createElement('div');
                 const address = document.createElement('div');
-                const commune = document.createElement('div');
-                const district = document.createElement('div');
                 const educationlevel = document.createElement('div');
                 const fullname = document.createElement('div');
-                const numschool = document.createElement('div');
 
-                showResultsSchools.classList.add('showResultsSchools');
+                const divImgEdit = document.createElement('div');
+                const imgEdit = document.createElement('img')
+
+                showResultsSchools.classList.add('showEditSchools');
                 schoolResult.classList.add('schoolResult');
                 address.classList.add('schoolData');
-                commune.classList.add('schoolData');
-                district.classList.add('schoolData');
                 educationlevel.classList.add('schoolData');
                 fullname.classList.add('schoolData');
-                numschool.classList.add('schoolData');
+                divImgEdit.classList.add('schoolData')
 
                 address.innerText = school.address
-                commune.innerText = school.commune
-                district.innerText = school.district
                 educationlevel.innerText = school.educationlevel.toUpperCase()
                 fullname.innerText = school.fullname
-                numschool.innerText = school.numschool
+                imgEdit.src = "/assets/SVG/user-edit-solid.svg";
 
+                divImgEdit.appendChild(imgEdit)
                 schoolResult.appendChild(fullname)
                 schoolResult.appendChild(address)
-                schoolResult.appendChild(commune)
-                schoolResult.appendChild(numschool)
-                schoolResult.appendChild(district)
+                
                 schoolResult.appendChild(educationlevel)
+                schoolResult.appendChild(divImgEdit)
+
                 showResultsSchools.appendChild(schoolResult)
                 formAndImgEmployee.appendChild(showResultsSchools)
                 schoolsResultsContainer.appendChild(showResultsSchools)
+
+                imgEdit.addEventListener('click', editSearch = (e) => {
+                    e.preventDefault()
+
+                    const fullname = document.getElementById('fullname');
+                    const educationlevel = document.getElementById('educationlevel');
+                    const numschool = document.getElementById('numschool');
+                    const district = document.getElementById('district');
+                    const commune = document.getElementById('commune');
+                    const address = document.getElementById('address');
+
+                    
+                    editSchoolFormDiv.style.display = 'block'
+
+                    const inputsEdit = {
+                        fullname, educationlevel, numschool, 
+                        district, commune, address,
+                    }
+
+                    for(let key in inputsEdit) {
+                        inputsEdit[key].value = ''
+                        inputsEdit[key].placeholder = school[key]
+                    }
+
+                    updateBtn.addEventListener('click', updateSchool = async (e) => {
+                        e.preventDefault()
+
+                        
+                        const oldDataSchool = {...school}
+                        const dataValuesForm = {
+                            fullname: fullname.value,
+                            educationlevel: educationlevel.value,
+                            numschool: numschool.value,
+                            district: district.value,
+                            commune: commune.value,
+                            address: address.value,
+                        }
+
+                        for(let key in dataValuesForm){
+
+                            if(dataValuesForm[key] === null || dataValuesForm[key] === ''){
+                                dataValuesForm[key] = oldDataSchool[key]
+                            }
+                        }
+
+                        const options = {
+                            body: JSON.stringify(dataValuesForm),
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+
+                        const url = `/schools/update/${school._id}`
+
+                        const schoolUpdate = await toFetchUpdate(url, options)
+                                            .catch(error => {
+                                                console.log(error);
+                                            });
+                        
+                        h3Update.innerText = schoolUpdate.Message
+                        
+                        setTimeout(async ()=> {
+                            editSchoolFormDiv.style.display = 'none'
+                        },2000)
+                    })
+                })
                 
             }
         } 
@@ -320,8 +451,5 @@
             showResultsOnClick();
         }
     })
-
-
-
 </script>
 

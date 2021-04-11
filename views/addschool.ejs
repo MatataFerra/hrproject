@@ -15,4 +15,34 @@
 <section class="formAndImgEmployee">
     <h1 class="titleEmployee">Agregar Escuela</h1>
     <div class="back"><a href="/schools"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+    
+    <form action="/schools/create" method="post" class="createSchoolForm" id="createSchoolForm">
+        <label for="" class="personales">Datos de la Escuela</label>
+        <input type="text" name="fullname" id="fullname" placeholder="Nombre completo">
+        <input type="text" name="educationlevel" id="educationlevel" placeholder="Nivel Educativo">
+        <input type="number" name="numschool" id="numschool" placeholder="Numero de escuela">
+        <input type="number" name="district" id="district" placeholder="Distrito Escolar (Solo número)">
+        <input type="number" name="commune" id="commune" placeholder="Comuna">
+        <input type="text" name="address" id="address" placeholder="Domicilio">
+
+        <button type="submit"> <img src="/assets/SVG/addIcon.png" alt="Add Employee"> </button>
+
+        
+        <% if(errorSchool.length > 0) {%> 
+            <div class="errorSchool">
+                <%= errorSchool %> 
+            </div>
+        <% } %>
+
+        <% if(successSchool.length > 0) {%> 
+            <div class="successSchool">
+                <%= errorSchool %> 
+            </div>
+        <% } %>
+
+    </form>
+
+    <div class="containerImgEmployee">
+        <img src="/assets/SVG/Escuela.svg" alt="Worker Mind">
+    </div>
 </section>

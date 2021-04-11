@@ -45,6 +45,8 @@ app.use((req, res, next) => {
     app.locals.logoutMessage = req.flash('logoutMessage');
     app.locals.successEmployee = req.flash('successEmployee');
     app.locals.failureEmployee = req.flash('failureEmployee');
+    app.locals.errorSchool = req.flash('errorSchool');
+    app.locals.successSchool = req.flash('successSchool');
     app.locals.user = req.user
     next()
 })
