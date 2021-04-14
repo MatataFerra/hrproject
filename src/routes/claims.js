@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const getClaims = require('../controller/claims/getClaims');
+const {getClaim, getAllClaims} = require('../controller/claims/getClaims');
 const createClaim = require('../controller/claims/createClaim');
 const updateClaim = require('../controller/claims/updateClaim');
 const updateType = require('../controller/claims/updateType')
@@ -10,14 +10,24 @@ const updateType = require('../controller/claims/updateType')
 
 const newClaimsFirst = require('../controller/claims/querys/newClaimsFirst');
 const betweenClaim = require('../controller/claims/querys/betweenClaim');
-const typeOfClaim = require('../controller/claims/querys/typeOfClaim')
+const typeOfClaim = require('../controller/claims/querys/typeOfClaim');
+const onlyTypesClaim = require('../controller/claims/querys/onlyTypesClaim')
+const onlyNewClaims = require('../controller/claims/querys/onlyNewClaimsFirst')
 
-router.use('/', getClaims)
+const { claimView } = require('../controller/render/claims');
+
+
+router.use('/', claimView)
+
+router.use('/all', getAllClaims)
+router.use('/', getClaim)
 router.use('/create', createClaim);
 router.use('/update', updateClaim);
 router.use('/update/type', updateType)
-router.use('/q/new', newClaimsFirst)
-router.use('/q/between', betweenClaim);
-router.use('/q/type', typeOfClaim)
+router.use('/search', newClaimsFirst)
+router.use('/search', onlyNewClaims);
+router.use('/search/between', betweenClaim);
+router.use('/search/type', typeOfClaim);
+router.use('/search/typesclaim', onlyTypesClaim);
 
 module.exports = router

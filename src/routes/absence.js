@@ -16,7 +16,7 @@ router.use('/create', createAbsence)
 router.use('/get', getAbsence);
 router.use('/update', updateAbsence);
 router.use('/delete', deleteAbsence)
-router.use('/q/period', getPeriod);
-router.use('/q/absences', getAbsencesOnPerior)
+router.use('/search/period', getPeriod);
+router.use('/search/absences', getAbsencesOnPerior)
 
 module.exports = router

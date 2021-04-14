@@ -68,7 +68,7 @@ app.use('/employees', EmployeeRoute);
 app.use('/schools', SchoolRoute);
 app.use('/contract', ContractRoute);
 app.use('/enroll', EnrollRoute);
-app.use('/claim', ClaimRoute);
+app.use('/claims', ClaimRoute);
 app.use('/absence', AbsenceRoute);
 app.use('/rol', RolRoute);
 app.use('/home', Home)

@@ -5,10 +5,10 @@ const router = express.Router();
 const  { Claim, Employee } = require('../../../database/tables');
 const { createDate } = require('../../../services/time');
 
-module.exports = router.get('/', async (req, res) => {
+module.exports = router.get('/:dni/:start/:end', async (req, res) => {
     try {
 
-        const { dni, start, end } = req.body
+        const { dni, start, end } = req.params
 
         const startDate = createDate(start);
         const endDate = createDate(end);

@@ -1,0 +1,378 @@
+<%- layout('layouts/main.ejs') %>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="/assets/SVG/homeVector.svg" alt="Logo Mesa" class="imgNavbar">
+        <p>HR | DataBase</p>
+    </div>
+    <ul class="ulNavbar">
+        <li><a href="/home/"> <img src="/assets/SVG/igloo-solid.svg" alt="Home" class="homeLogo"> </a></li>
+        <li><a href="/users/logout"> <img src="/assets/SVG/power-off-solid.svg" alt="Logout" class="logoutLogo"> </a>
+        </li>
+    </ul>
+</nav>
+
+<section class="formAndImgEmployee" id="formAndImgEmployee">
+    <h1 class="titleEmployee">Claims</h1>
+    <div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+
+    <div class="containerClaim">
+        <div class="searchAndAddClaim">
+            <div class="addClaim">
+                <a href="/schools/add">
+                    <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Escuela">
+                    <p>Agregar Reclamo</p>
+                </a> 
+            </div>
+
+            <div class="searchClaim">
+                <input type="text" name="employee" id="employee">
+                <select name="busquedas" id="busquedas">
+                    <option value="error">Elija una opción</option>
+                    <option value="error">-------</option>
+                    <option value="all">Mostrar todos</option>
+                    <option value="new">Nuevos Primero</option>
+                    <option value="type">Tipos de Reclamo</option>
+                    <option value="between">Reclamos entre fechas</option>
+                </select>
+                <div id="datesStartEnd" class="datesStartEnd">
+                    <div class="start">
+                        <label for="start">Fecha de Inicio: </label>
+                        <input type="date" name="start" id="start">
+
+                    </div>
+
+                    <div class="end">
+                        <label for="end">Fecha de Fin: </label>
+                        <input type="date" name="end" id="end">
+                    </div>
+                </div>
+                <select name="typesOfClaims" id="typesOfClaims" class="typesOfClaims">
+                    <option value="error">Elija un tipo</option>
+                    <option value="error">-------</option>
+                    
+                </select>
+
+                <select name="statusOfClaims" id="statusOfClaims" class="statusOfClaims">
+                    <option value="error">Elija un Estado</option>
+                    <option value="error">-------</option>
+                    <option value="nuevo" >Nuevo</option>
+                    <option value="leido">Leido</option>
+                    <option value="constestado">Constestado</option>
+                    <option value="resuelto">Resuelto</option>
+                </select>
+                <button type="submit" id="btnSearch">Buscar</button>
+            </div>
+
+            <h3 id="textResult" class="textResult"></h3>
+        </div>
+
+    </div>
+    <div class="schoolsResultsContainer" id="schoolsResultsContainer"></div>
+</section>
+
+
+<script>
+    const option = document.getElementById('busquedas');
+    
+    const input = document.getElementById('employee');
+    const search = document.getElementById('btnSearch');
+    const formAndImgEmployee = document.getElementById('formAndImgEmployee');
+    const schoolsResultsContainer = document.getElementById('schoolsResultsContainer');
+    const textResult = document.getElementById('textResult');
+    const statusOfClaims = document.getElementById('statusOfClaims');
+    const datesStartEnd = document.getElementById('datesStartEnd');
+
+    let statusOption = null
+    let startDate = null
+    let endDate = null
+
+    option.addEventListener('change', changeOption = (e) => {
+
+        if(e.target.value == 'new') {
+            statusOfClaims.style.display = 'block'
+            datesStartEnd.style.display = 'none'
+            input.placeholder = 'Opcional: Ingrese DNI de la persona a buscar'
+
+            statusOfClaims.addEventListener('change', statusOption = (e) => {
+                if(e.target.value == 'error'){
+                    textResult.innerText = 'Estado no válido';
+                } else {
+                    textResult.innerText = '';
+                    statusOption = e.target.value
+                }
+            })
+        }
+
+        if(e.target.value == 'between'){
+            datesStartEnd.style.display = 'grid'
+            statusOfClaims.style.display = 'none'
+            input.placeholder = 'Ingrese DNI de la persona a buscar'
+            
+
+            datesStartEnd.addEventListener('change', startEndDate = (e) => {
+                const start = document.getElementById('start');
+                const end = document.getElementById('end');
+                startDate = start.value
+                endDate = end.value
+            })
+        }
+
+    })
+
+
+    const toFetch = async (URL, toFind) => {                       
+        const info = await fetch(`${URL}/${toFind}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchAll = async (URL) => {                       
+        const info = await fetch(`${URL}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchDniAndStatus = async (URL, endpoint, dni, status) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${dni}/${status}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchStatus= async (URL, endpoint, status) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${status}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const regExpToCheckNumbers = (dni) => {
+        const reg = new RegExp('^[0-9]*$')
+        const dniNumber = parseInt(dni)
+
+        if(reg.test(dniNumber) == false){
+            console.log({Invalid_type_Input: dniNumber});
+            return false
+        } else {
+            return true
+        }
+
+        
+    }
+
+    const createHeader = () => {
+
+        const showResultsSchools = document.createElement('div');
+        const schoolResult = document.createElement('div');
+        const dayOfClaim = document.createElement('div');
+        const attend = document.createElement('div');
+        const content = document.createElement('div');
+        const tracing = document.createElement('div');
+        const status = document.createElement('div');
+        const linkemail = document.createElement('div');
+        const employeeData = document.createElement('div');
+        
+        showResultsSchools.classList.add('showResultsClaims');
+        schoolResult.classList.add('claimResult');
+        schoolResult.classList.add('backHeader')
+        dayOfClaim.classList.add('claimData');
+        attend.classList.add('claimData');
+        content.classList.add('claimData');
+        tracing.classList.add('claimData');
+        status.classList.add('claimData');
+        linkemail.classList.add('claimData');
+        employeeData.classList.add('claimData');
+
+        dayOfClaim.innerText = 'Inicio del reclamo'
+        attend.innerText = 'Atención'
+        content.innerText = 'Contenido'
+        status.innerText = 'Estado'
+        linkemail.innerText = 'Link'
+        tracing.innerText = 'Respuesta'
+        employeeData.innerText = 'Empleado'
+
+        schoolResult.appendChild(dayOfClaim)
+        schoolResult.appendChild(attend)
+        schoolResult.appendChild(content)
+        schoolResult.appendChild(tracing)
+        schoolResult.appendChild(status)
+        schoolResult.appendChild(linkemail)
+        schoolResult.appendChild(employeeData)
+        showResultsSchools.appendChild(schoolResult)
+        schoolsResultsContainer.appendChild(showResultsSchools)
+        
+    }
+
+    const notFoundResults = (fetched) => {
+
+        if(fetched.Message) {
+                textResult.style.color = '#dc143c'
+                while (schoolsResultsContainer.hasChildNodes()) {
+                        schoolsResultsContainer.lastChild.remove();
+                }
+                return textResult.innerText = fetched.Message
+        } else {
+            textResult.innerText = '';
+            
+        }
+    }
+
+    
+
+    const showResultsOnClick = async () => {
+        if(option.value === 'error') {
+            input.value = 'La opción a buscar debe ser válida'
+            input.style.background = '#6BFF6B'
+            textResult.innerText = 'Opción no válida :/'
+
+            input.addEventListener('click', inputFun = (e) => {
+                e.preventDefault()
+                input.value = ''
+                input.style.background = '#fff'
+
+                input.removeEventListener('click', inputFun)
+            })
+        }
+
+        if((input.value == '' && option.value == 'type') || (input.value == '' && option.value == 'between')) {
+            textResult.style.color = '#dc143c'
+                while (schoolsResultsContainer.hasChildNodes()) {
+                        schoolsResultsContainer.lastChild.remove();
+                }
+                return textResult.innerText = 'El campo de búsqueda está vacío'
+        }
+
+        while (schoolsResultsContainer.hasChildNodes()) {
+            schoolsResultsContainer.lastChild.remove();
+        }
+
+        let findAllResultOfFetch = null
+
+        if(option.value === 'all') {
+            const allClaims = await toFetchAll('/claims/all')
+            findAllResultOfFetch = allClaims
+        }
+
+        if(option.value === 'new') {
+            if(input.value){
+                if(regExpToCheckNumbers(input.value)) {
+                    const claimsDniAndStatus = await toFetchDniAndStatus('/claims/search', 'new', input.value, statusOption)
+                    const checkFetch = notFoundResults(claimsDniAndStatus)
+                    
+                    if(checkFetch){
+                        return
+                    } else {
+                        findAllResultOfFetch = claimsDniAndStatus
+                    }
+                    
+                }
+            } else {
+                const claimsStatus = await toFetchStatus('/claims/search', 'status', statusOption);
+                const checkFetch = notFoundResults(claimsStatus)
+
+                    if(checkFetch){
+                        return
+                    } else {
+                        findAllResultOfFetch = claimsStatus
+                    }
+            }
+            
+        }
+
+        if(option.value === 'type' || option.value === 'between') {
+
+            const foundedSchools = await toFetchEndopoint('/schools/search', option.value, input.value);
+
+            const checkFetch = notFoundResults(foundedSchools)
+
+            if(checkFetch){
+                return
+            } else {
+                findAllResultOfFetch = foundedSchools
+            }
+
+
+        }
+
+        if(findAllResultOfFetch !== null) {
+
+            createHeader();
+
+            for (let i = 0; i < findAllResultOfFetch.Claims.length; i++) {
+                const claim = findAllResultOfFetch.Claims[i];
+
+                const showResultsSchools = document.createElement('div');
+                const schoolResult = document.createElement('div');
+                const dayOfClaim = document.createElement('div');
+                const attend = document.createElement('div');
+                const content = document.createElement('div');
+                const tracing = document.createElement('div');
+                const status = document.createElement('div');
+                const linkemail = document.createElement('a');
+                const employeeData = document.createElement('div');
+
+                showResultsSchools.classList.add('showResultsClaims');
+                schoolResult.classList.add('claimResult');
+                dayOfClaim.classList.add('claimData');
+                attend.classList.add('claimData');
+                content.classList.add('claimData');
+                tracing.classList.add('claimData');
+                status.classList.add('claimData');
+                linkemail.classList.add('claimData');
+                employeeData.classList.add('claimData');
+
+                dayOfClaim.innerText = claim.dayofclaim;
+                
+                content.innerText = claim.content;
+                status.innerText = claim.status.toUpperCase();
+                linkemail.href = claim.linkemail;
+                linkemail.innerText = 'Click para ir al mail';
+                tracing.innerText = claim.tracing;
+
+                if(claim.attend == 'importante') {
+                    attend.innerText = claim.attend.toUpperCase();
+                    attend.style.color = 'red'
+                    attend.style.fontWeight = 'bold'
+                    attend.style.fontSize = '1.2rem'
+                } else {
+                    attend.innerText = claim.attend;
+                }
+
+                if(claim.Employee !== null) {
+                    employeeData.innerText = `${claim.Employee.lastname}, ${claim.Employee.name}`
+                }
+
+                schoolResult.appendChild(dayOfClaim);
+                schoolResult.appendChild(attend);
+                schoolResult.appendChild(content);
+                schoolResult.appendChild(tracing);
+                schoolResult.appendChild(status);
+                schoolResult.appendChild(linkemail);
+                schoolResult.appendChild(employeeData);
+                showResultsSchools.appendChild(schoolResult);
+                schoolsResultsContainer.appendChild(showResultsSchools);
+                
+            }
+        } 
+    }
+
+    search.addEventListener('click', searchBtn = async (e)=> {
+        e.preventDefault();
+        showResultsOnClick();
+    })
+
+    input.addEventListener('keyup', searchEnter = async (e) => {
+        if(e.keyCode == 13) {
+            e.preventDefault()
+            showResultsOnClick();
+        }
+    })
+
+
+
+</script>

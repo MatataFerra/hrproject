@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const  { Claim, Employee, statusName } = require('../../../database/tables');
+const  { Claim, statusName, Employee } = require('../../../database/tables');
 
-module.exports = router.get('/new/:dni/:status', async (req, res) => {
+module.exports = router.get('/status/:status', async (req, res) => {
 
     try {
-        const { dni, status } = req.params
-
-        const employee = await Employee.findOne({
-            where: {
-                dni: dni
-            }
-        })
+        const { status } = req.params
 
         const downStatus = status.toLowerCase()
         
@@ -27,7 +21,6 @@ module.exports = router.get('/new/:dni/:status', async (req, res) => {
 
         const claims = await Claim.findAll({
             where: {
-                EmployeeId: employee._id,
                 status: status
             },
 
@@ -36,7 +29,7 @@ module.exports = router.get('/new/:dni/:status', async (req, res) => {
             attributes: {
                 exclude: ['EmployeeId', '_id']
             },
-
+            
             include: [
                 {
                     model: Employee
@@ -51,7 +44,7 @@ module.exports = router.get('/new/:dni/:status', async (req, res) => {
         }
 
 
-        return res.status(200).send({Claims: claims})
+        return res.send({Claims: claims})
 
     } catch (error) {
         console.log('-----------');

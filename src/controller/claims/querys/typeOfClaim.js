@@ -3,10 +3,10 @@ const router = express.Router();
 const  { Claim, TypeClaim } = require('../../../database/tables');
 const { Op } = require('sequelize');
 
-module.exports = router.get('/', async (req, res) => {
+module.exports = router.get('/:typeClaim', async (req, res) => {
     try {
 
-        const { typeClaim } = req.body
+        const { typeClaim } = req.params
 
         if(!typeClaim) {
             return res.status(404).send({Message: 'Debe ingresar un tipo para iniciar la búsqueda'})
