@@ -132,6 +132,9 @@
 
 }
 
+.textResult {
+    margin: 0.5rem 0;
+}
 
 
 .employeesImg {
@@ -291,6 +294,7 @@
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
                 gap: 0.3rem;
+                margin-bottom: 0.5rem;
             }
 
             .headerGridEmployee {

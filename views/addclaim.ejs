@@ -1,0 +1,306 @@
+<%- layout('layouts/main.ejs') %>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="/assets/SVG/homeVector.svg" alt="Logo Mesa" class="imgNavbar">
+        <p>HR | DataBase</p>
+    </div>
+    <ul class="ulNavbar">
+        <li><a href="/home/"> <img src="/assets/SVG/igloo-solid.svg" alt="Home" class="homeLogo"> </a></li>
+        <li><a href="/users/logout"> <img src="/assets/SVG/power-off-solid.svg" alt="Logout" class="logoutLogo"> </a>
+        </li>
+    </ul>
+</nav>
+
+<section class="formAndImgClaim" id="formAndImgEmployee">
+    <h1 class="titleClaim">Agregar Reclamo</h1>
+    <div class="back"><a href="/claims"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+    <% if(successClaim.length > 0) {%> 
+        <div class="successClaim">
+            <%= successClaim %> 
+        </div>
+    <% } %>
+    <form action="/claims/create" method="post" class="createClaimForm" id="createClaimForm">
+        <label for="" class="personales">Creá un reclamo</label>
+        <input type="number" name="dni" id="dni" placeholder="DNI del empleado">
+        <select name="typeClaim" id="typeClaim"></select>
+        <input type="date" name="dayofclaim" id="dayofclaim" placeholder="Inicio del reclamo">
+        <input type="text" name="content" id="content" placeholder="Contenido">
+        <input type="text" name="tracing" id="tracing" placeholder="Respuesta">
+        <input type="text" name="linkemail" id="linkemail" placeholder="Link al email">
+        <select name="statusOfClaims" id="statusOfClaims" class="statusOfClaims">
+            <option value="error">Estado del reclamo</option>
+            <option value="error">-------</option>
+            <option value="nuevo" >Nuevo</option>
+            <option value="leido">Leido</option>
+            <option value="constestado">Constestado</option>
+            <option value="resuelto">Resuelto</option>
+        </select>
+        <select name="attendClaim" id="attendClaim" class="attendClaim">
+            <option value="error">Grado de relevancia</option>
+            <option value="error">-------</option>
+            <option value="postergable" >Postergable</option>
+            <option value="importante">Importante</option>
+            <option value="urgente">Urgente</option>
+        </select>
+
+        <button type="submit" class="submitClaim"> <img src="/assets/SVG/addIcon.png" alt="Add Claim"> </button>
+
+    </form>
+
+    <div class="searchEmployeeClaim" id="searchEmployeeClaim">
+        <h4 class="h4Claim">Buscá el dni del empleado</h4>
+        <div class="toFind">
+            <input type="text" name="lastname" id="lastnameEmployee" placeholder="ingrese apellido" class="inputEmployee">
+            <button id="searchDNIEmployee" class="searchDNIEmployee">Buscar!</button>
+        </div>
+    </div>
+
+    <div class="containerImgClaim" id="containerImgClaim">
+        <img src="/assets/SVG/claims.svg" alt="Worker Mind">
+    </div>
+
+    <div class="showResultsEmployees" id="showResultsEmployees">
+    </div>
+
+    <div class="cardType" id="cardType">
+        <div class="titleAndClose">
+            <div class="titleType">Agregue Tipo</div>
+            <img src="/assets/SVG/times-circle-solid.svg" alt="" id="closeNewType">
+        </div>
+        <div class="actionToType">
+            <input type="text" name="newType" id="newType" placeholder="Agregue tipo">
+            <button type="submit" id="newTypeSubmit">Agregar</button>
+        </div>
+    </div>
+</section>
+
+<script>
+    const typeClaim = document.getElementById('typeClaim');
+    const showResultsEmployees = document.getElementById('showResultsEmployees');
+    const dniInput = document.getElementById('dni');
+    const formAndImgEmployee = document.getElementById('formAndImgEmployee');
+    const lastnameEmployee = document.getElementById('lastnameEmployee');
+    const searchDNIEmployee = document.getElementById('searchDNIEmployee');
+    const containerImgClaim = document.getElementById('containerImgClaim');
+    const cardType = document.getElementById('cardType');
+    const createClaimForm = document.getElementById('createClaimForm');
+    const dayofclaim = document.getElementById('dayofclaim')
+
+    let typeClaimSelected = null
+
+    /* Global Functions */
+
+    const toFetch = async (URL, toFind) => {                       
+        const info = await fetch(`${URL}/${toFind}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchAll = async (URL) => {                       
+        const info = await fetch(`${URL}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithTwoParams = async (URL, endpoint, paramOne, paramTwo) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithOneParam = async (URL, endpoint, param) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${param}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithThreeParams= async (URL, endpoint, paramOne, paramTwo, paramThree) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}/${paramThree}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const regExpToCheckNumbers = (dni) => {
+        const reg = new RegExp('^[0-9]*$')
+        const dniNumber = parseInt(dni)
+
+        if(reg.test(dniNumber) == false){
+            console.log({Invalid_type_Input: dniNumber});
+            return false
+        } else {
+            return true
+        }
+
+    }
+
+    const typeClaimsAviable = async () => {
+        const allTypes = await toFetchAll('/claims/search/typesclaim')
+
+        while (typeClaim.hasChildNodes()) {
+            typeClaim.lastChild.remove();
+        }
+
+        const chooseOption = document.createElement('option');
+        chooseOption.innerText = 'Elija un Tipo';
+        chooseOption.value = 'error'
+
+        const chooseLinesOption = document.createElement('option');
+        chooseLinesOption.innerText = '--------';
+        chooseLinesOption.value = 'error'
+
+        const createNewType = document.createElement('option');
+        createNewType.innerText = 'Nuevo Tipo'
+        createNewType.value = 'newType'
+
+        typeClaim.appendChild(chooseOption)
+        typeClaim.appendChild(chooseLinesOption)
+
+
+        setTimeout(() => {
+            const chooseLinesOption = document.createElement('option');
+            chooseLinesOption.innerText = '--------';
+            chooseLinesOption.value = 'error'
+            typeClaim.appendChild(chooseLinesOption)
+            typeClaim.appendChild(createNewType)
+        }, 100)
+
+        for (let i = 0; i < allTypes.Types.length; i++) {
+            const typeClaimFetched = allTypes.Types[i];
+            const optionClaim = document.createElement('option');
+
+            optionClaim.innerText = typeClaimFetched.typeClaim;
+            optionClaim.value = typeClaimFetched.typeClaim;
+            typeClaim.appendChild(optionClaim);
+            
+        }
+
+        typeClaim.addEventListener('change', changeType = (e) => {
+            const typeSelected = e.target.value
+            typeClaimSelected = typeSelected
+
+        })
+    }
+    /* End of global Functions */
+
+    searchDNIEmployee.addEventListener('click', initFetchDni = async (e) => {
+        showResultsEmployees.style.display = 'grid';
+        containerImgClaim.style.display = 'none';
+        showResultsEmployees.style.animation = 'growup 0.5s forwards'
+
+        while (showResultsEmployees.hasChildNodes()) {
+                showResultsEmployees.lastChild.remove();
+            }
+
+        e.preventDefault()
+        const foundEmployee = await toFetchWithOneParam('/employees/search', 'lastname', lastnameEmployee.value);
+        document.addEventListener("click", clickOutside = (e) => {
+            let clic = e.target;
+            showResultsEmployees.style.animation = 'growin 0.5s forwards'
+
+            if (showResultsEmployees.style.display == 'grid' && clic != showResultsEmployees ) {
+                setTimeout(()=> {
+                    showResultsEmployees.style.display = 'none'
+                    containerImgClaim.style.display = 'block'
+                }, 500)
+                
+            }
+
+            document.removeEventListener('click', clickOutside)
+        });
+
+        for(let i = 0; i < foundEmployee.Empleados.length; i++) {
+            const employee = foundEmployee.Empleados[i];
+
+            const name = document.createElement('div');
+            const lastname = document.createElement('div');
+            const dni = document.createElement('div');
+            const copy = document.createElement('div');
+            const imgCopy = document.createElement('img')
+
+            copy.classList.add('copy')
+
+            name.innerText = employee.name
+            lastname.innerText = employee.lastname
+            dni.innerText = employee.dni
+            imgCopy.src = '/assets/SVG/copy-regular.svg'
+            
+
+            copy.appendChild(imgCopy)
+            showResultsEmployees.appendChild(name)
+            showResultsEmployees.appendChild(lastname)
+            showResultsEmployees.appendChild(dni)
+            showResultsEmployees.appendChild(copy)
+
+            imgCopy.addEventListener('click', copyDni = (e) => {
+                e.preventDefault()
+
+                const preExistsuccessCopy = document.querySelector('.successCopy')
+
+                if(preExistsuccessCopy) {
+                    showResultsEmployees.removeChild(preExistsuccessCopy)
+                }
+                
+                const successCopy = document.createElement('div')
+                successCopy.classList.add('successCopy')
+                successCopy.innerText = 'Copiado con éxito!';
+                showResultsEmployees.appendChild(successCopy)
+
+                setTimeout(()=> {
+                    showResultsEmployees.removeChild(successCopy)
+                }, 1500)
+                dniInput.value = employee.dni
+            })
+
+        }
+    })
+
+    typeClaim.addEventListener('change', addNewType = async (e) => {
+        e.preventDefault()
+
+        const newType = document.getElementById('newType');
+        const newTypeSubmit = document.getElementById('newTypeSubmit');
+        const closeNewType = document.getElementById('closeNewType');
+
+        newType.value = ''
+
+        if(e.target.value == 'newType') {
+            cardType.style.display = 'block'
+
+            newTypeSubmit.addEventListener('click', newTypeFunc = (e) => {
+                e.preventDefault()
+
+                const chooseOption = document.createElement('option');
+
+                chooseOption.innerText = newType.value;
+                chooseOption.value = newType.value
+                
+                typeClaim.appendChild(chooseOption)
+                cardType.style.display = 'none'
+                typeClaim.value = chooseOption.value
+                newTypeSubmit.removeEventListener('click', newTypeFunc)
+            })
+
+            closeNewType.addEventListener('click', ()=> {
+                cardType.style.display = 'none'
+                e.target.value = 'error'
+            })
+
+        }
+
+    })
+
+    typeClaimsAviable()
+
+    
+
+</script>

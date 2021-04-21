@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {getClaim, getAllClaims} = require('../controller/claims/getClaims');
-const createClaim = require('../controller/claims/createClaim');
+const { createClaim, getcreateClaim } = require('../controller/claims/createClaim');
 const updateClaim = require('../controller/claims/updateClaim');
 const updateType = require('../controller/claims/updateType')
 
@@ -18,6 +18,7 @@ const { claimView } = require('../controller/render/claims');
 
 
 router.use('/', claimView)
+router.use('/add', getcreateClaim)
 
 router.use('/all', getAllClaims)
 router.use('/', getClaim)
@@ -26,8 +27,8 @@ router.use('/update', updateClaim);
 router.use('/update/type', updateType)
 router.use('/search', newClaimsFirst)
 router.use('/search', onlyNewClaims);
-router.use('/search/between', betweenClaim);
-router.use('/search/type', typeOfClaim);
+router.use('/search', betweenClaim);
+router.use('/search', typeOfClaim);
 router.use('/search/typesclaim', onlyTypesClaim);
 
 module.exports = router

@@ -16,6 +16,7 @@
 @import 'editSchool';
 @import 'createSchool';
 @import 'claims';
+@import 'addclaim';
 
 input, button {
     font-family: $fontFamilyBold;
@@ -62,6 +63,17 @@ body {
         grid-column: 1 / 3;
         font-family: $fontFamilyBold;
         font-weight: 600;
+        color:chartreuse;
+        animation: tilt 0.5s infinite forwards;
+    }
+
+    .successClaim {
+
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        font-family: $fontFamilyBold;
+        font-weight: 600;
+        font-size: 1.3rem;
         color:chartreuse;
         animation: tilt 0.5s infinite forwards;
     }

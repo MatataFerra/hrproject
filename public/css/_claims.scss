@@ -40,12 +40,29 @@
 
             .datesStartEnd {
                 display: none;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(4, 1fr);
+                grid-column: 1 / 5;
                 margin-top: 1rem;
 
                 .start {
                     margin-right: 1rem;
                     
+                }
+
+                .searchEmployee{
+
+                    grid-column: 3 / 5;
+                    .toFind {
+                        display: flex;
+
+                        .inputEmployee{
+                            width: 200px;
+                        }
+
+                        .searchDNIEmployee {
+                            width: 90px;
+                        }
+                    }
                 }
 
             }
@@ -116,5 +133,47 @@
         
     }
 }
+
+.showResultsEmployees {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    padding: 0.5rem;
+    background-color: #dbdbdb;
+    height: 300px;
+    width: 450px;
+    transition: all 1s ease-in;
+    animation: growup 0.5s forwards;
+    justify-items: center;
+
+    .copy {
+        
+        img {
+            height: 19px;
+            cursor: pointer;
+        }
+    }
+
+    .successCopy {
+        grid-column: 1 / 5;
+        background: aliceblue;
+        padding: 0.5rem;
+        animation: tilt 0.5s infinite forwards;
+    }
+    
+}
+
+@keyframes growup {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 
 

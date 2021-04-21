@@ -5,13 +5,17 @@ const router = express.Router();
 const  { Claim, Employee } = require('../../../database/tables');
 const { createDate } = require('../../../services/time');
 
-module.exports = router.get('/:dni/:start/:end', async (req, res) => {
+module.exports = router.get('/between/dni/:dni/start/:start/end/:end', async (req, res) => {
     try {
-
+        console.log('aca');
         const { dni, start, end } = req.params
 
         const startDate = createDate(start);
         const endDate = createDate(end);
+
+        if(!start || !end || (!start && !end)){
+            return res.send({Message: 'Falta ingresar fechas'})
+        }
         const reg = new RegExp('^[0-9]*$')
         const dniNumber = parseInt(dni)
         
@@ -28,11 +32,15 @@ module.exports = router.get('/:dni/:start/:end', async (req, res) => {
 
         if(employee) {
 
+            if(!start || !end){
+                return res.send({Message: 'Falta ingresar fechas'})
+            }
+
             const claims = await Claim.findAll({
                 where: {
-                    EmployeeId: employee.dataValues._id,
+                    EmployeeId: employee._id,
                     dayofclaim: {
-                        [Op.between]: [startDate, endDate]
+                        [Op.between]: [start, end]
                     }
                 },
 
@@ -40,6 +48,12 @@ module.exports = router.get('/:dni/:start/:end', async (req, res) => {
                     [sequelize.fn('FIELD', sequelize.col('status'), 'Nuevo', 'Leído', 'Contestado', 'Resuelto')],
                     ['dayofclaim', 'ASC']
                 ],
+
+                include: [
+                    {
+                        model: Employee
+                    }
+                ]
 
             })
         
@@ -49,10 +63,10 @@ module.exports = router.get('/:dni/:start/:end', async (req, res) => {
                 })
             }
 
-            return res.status(200).send({Query: claims})
+            return res.status(200).send({Claims: claims})
 
         } else {          
-            return res.status(404).send({Message: 'No existe el empleado que busca'})
+            return res.send({Message: 'No existe el empleado que busca'})
         }
 
     } catch (error) {

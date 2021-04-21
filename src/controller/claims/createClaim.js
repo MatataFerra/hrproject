@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const  { Claim, Employee, statusName, attendStatus, TypeClaim } = require('../../database/tables');
-const { createDate }  = require('../../services/time');
+//const { createDate }  = require('../../services/time');
 const { checkObject, checkRegExp } = require('../../services/checkFunctions');
 
 
-module.exports = router.post('/', async (req, res) => {
+const getcreateClaim = router.get('/', (req, res) => {
+    res.render('addclaim')
+})
+
+const createClaim = router.post('/', async (req, res) => {
 
     try {
         
@@ -14,7 +18,7 @@ module.exports = router.post('/', async (req, res) => {
         const dniChecked = checkRegExp(dni, res);
         
         if(!dniChecked){
-            return res.status(403).send({Message: 'Debe introducir un DNI válido'})
+            return res.send({Message: 'Debe introducir un DNI válido'})
         }
 
         const employee = await Employee.findOne({
@@ -24,7 +28,7 @@ module.exports = router.post('/', async (req, res) => {
         });
 
         if(!employee) {
-            return res.status(404).send({Message: 'No se encontró al empleado'})
+            return res.send({Message: 'No se encontró al empleado'})
         }
 
         let newClaim = null
@@ -54,10 +58,10 @@ module.exports = router.post('/', async (req, res) => {
             attendChecked = checkObject(attend, attendStatus, res)
         }
         
-        const date = createDate(dayofclaim)
+        
 
         const claim = await Claim.create({
-            dayofclaim: date,
+            dayofclaim,
             content,
             tracing,
             linkemail,
@@ -68,8 +72,8 @@ module.exports = router.post('/', async (req, res) => {
         await newClaim.addClaim(claim)
         await employee.addClaim(claim)
         
-
-        return res.status(200).send({Claims: claim})
+        req.flash('successClaim', `Reclamo registrado con éxito para el empleado ${employee.name} ${employee.lastname}`)
+        return res.redirect('/claims/add')
 
     } catch (error) {
         console.log(error);
@@ -77,3 +81,9 @@ module.exports = router.post('/', async (req, res) => {
     }
 
 })
+
+
+module.exports = {
+    createClaim,
+    getcreateClaim
+}

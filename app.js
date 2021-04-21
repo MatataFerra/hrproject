@@ -26,7 +26,7 @@ app.use(session({
     saveUninitialized: false,
     rolling: true,
     cookie: {
-        maxAge: 6000
+        maxAge: 16000
     }
 }))
 app.use(flash())
@@ -47,6 +47,7 @@ app.use((req, res, next) => {
     app.locals.failureEmployee = req.flash('failureEmployee');
     app.locals.errorSchool = req.flash('errorSchool');
     app.locals.successSchool = req.flash('successSchool');
+    app.locals.successClaim = req.flash('successClaim');
     app.locals.user = req.user
     next()
 })
@@ -69,7 +70,7 @@ app.use('/schools', SchoolRoute);
 app.use('/contract', ContractRoute);
 app.use('/enroll', EnrollRoute);
 app.use('/claims', ClaimRoute);
-app.use('/absence', AbsenceRoute);
+app.use('/absences', AbsenceRoute);
 app.use('/rol', RolRoute);
 app.use('/home', Home)
 

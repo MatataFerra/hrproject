@@ -1,12 +1,8 @@
-const checkObject = (inputBody, object, res) => {
+const checkObject = (inputBody, object) => {
     const downField = inputBody.toLowerCase()
     const oneObject = Object.getOwnPropertyNames(object).find(singleKey => singleKey === downField)
     if(oneObject !== downField){
-        return res.send({
-            Error: 'El parámetro ingresado no es válido',
-            User_Input: inputBody,
-            Approved_Fields: Object.keys(object)
-        })
+        return false
     }
 
     return downField

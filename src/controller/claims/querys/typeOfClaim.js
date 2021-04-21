@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const  { Claim, TypeClaim } = require('../../../database/tables');
+const  { Claim, TypeClaim, Employee } = require('../../../database/tables');
 const { Op } = require('sequelize');
 
-module.exports = router.get('/:typeClaim', async (req, res) => {
+module.exports = router.get('/typeclaim/:typeClaim', async (req, res) => {
     try {
 
         const { typeClaim } = req.params
@@ -13,28 +13,35 @@ module.exports = router.get('/:typeClaim', async (req, res) => {
         }
 
         const typeClaimInModel = await TypeClaim.findOne({
-
             where: {typeClaim: {
                 [Op.like]: `%${typeClaim}%`
             }},
             
         })
 
+
         const typeOfClaim = await Claim.findAll({
             where: {
-                TypeClaimId: typeClaimInModel.dataValues._id
+                TypeClaimId: typeClaimInModel._id
             },
 
             order: [
                 ['dayofclaim', 'ASC']
             ],
+
+            include: [
+                {
+                    model: Employee
+                }
+            ]
         })
 
+
         if(typeOfClaim.length == 0) {
-            return res.status(404).send({Message: 'No se encontraron reclamos con este tipo'})
+            return res.send({Message: 'No se encontraron reclamos con este tipo'})
         }
 
-        return res.status(200).send({Query: typeOfClaim })
+        return res.send({Claims: typeOfClaim })
 
         
     } catch (error) {

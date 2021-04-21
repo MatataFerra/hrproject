@@ -19,7 +19,7 @@
     <div class="containerClaim">
         <div class="searchAndAddClaim">
             <div class="addClaim">
-                <a href="/schools/add">
+                <a href="/claims/add">
                     <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Escuela">
                     <p>Agregar Reclamo</p>
                 </a> 
@@ -31,7 +31,7 @@
                     <option value="error">Elija una opción</option>
                     <option value="error">-------</option>
                     <option value="all">Mostrar todos</option>
-                    <option value="new">Nuevos Primero</option>
+                    <option value="state">Por Estado</option>
                     <option value="type">Tipos de Reclamo</option>
                     <option value="between">Reclamos entre fechas</option>
                 </select>
@@ -46,12 +46,15 @@
                         <label for="end">Fecha de Fin: </label>
                         <input type="date" name="end" id="end">
                     </div>
+
+                    <div class="searchEmployee" id="searchEmployee">
+                        <h4>Buscá el dni del empleado</h4>
+                        <div class="toFind">
+                            <input type="text" name="lastname" id="lastnameEmployee" placeholder="ingrese apellido" class="inputEmployee">
+                            <button type="submit" id="searchDNIEmployee" class="searchDNIEmployee">Buscar!</button>
+                        </div>
+                    </div>
                 </div>
-                <select name="typesOfClaims" id="typesOfClaims" class="typesOfClaims">
-                    <option value="error">Elija un tipo</option>
-                    <option value="error">-------</option>
-                    
-                </select>
 
                 <select name="statusOfClaims" id="statusOfClaims" class="statusOfClaims">
                     <option value="error">Elija un Estado</option>
@@ -61,6 +64,9 @@
                     <option value="constestado">Constestado</option>
                     <option value="resuelto">Resuelto</option>
                 </select>
+
+                <select name="typeOfClaims" id="typeOfClaims" class="statusOfClaims">
+                </select>
                 <button type="submit" id="btnSearch">Buscar</button>
             </div>
 
@@ -69,7 +75,17 @@
 
     </div>
     <div class="schoolsResultsContainer" id="schoolsResultsContainer"></div>
+
+    <div class="showResultsEmployees" id="showResultsEmployees">
+        
+        <div class="header">Nombre</div>
+        <div class="header">Apellido</div>
+        <div class="header">Dni</div>
+        <div class="header">Copiar ;) </div>
+
+    </div>
 </section>
+
 
 
 <script>
@@ -82,21 +98,46 @@
     const textResult = document.getElementById('textResult');
     const statusOfClaims = document.getElementById('statusOfClaims');
     const datesStartEnd = document.getElementById('datesStartEnd');
+    const searchDNIEmployee = document.getElementById('searchDNIEmployee');
+    const showResultsEmployees = document.getElementById('showResultsEmployees');
+    const typeOfClaims = document.getElementById('typeOfClaims')
 
     let statusOption = null
     let startDate = null
     let endDate = null
+    let typeClaimSelected = null
 
-    option.addEventListener('change', changeOption = (e) => {
+    option.addEventListener('change', changeOption = async (e) => {
 
-        if(e.target.value == 'new') {
+        if(e.target.value == 'all') {
+            datesStartEnd.style.display = 'none'
+            statusOfClaims.style.display = 'none'
+            showResultsEmployees.style.display = 'none'
+            typeOfClaims.style.display = 'none'
+            textResult.innerText = ''
+            input.disabled = true
+            input.placeholder = 'Deshabilitado'
+        }
+
+        if(e.target.value == 'state') {
             statusOfClaims.style.display = 'block'
             datesStartEnd.style.display = 'none'
+            showResultsEmployees.style.display = 'none'
+            typeOfClaims.style.display = 'none'
             input.placeholder = 'Opcional: Ingrese DNI de la persona a buscar'
+            input.disabled = false
+            textResult.innerText = ''
+
+            while (schoolsResultsContainer.hasChildNodes()) {
+                schoolsResultsContainer.lastChild.remove();
+            }
 
             statusOfClaims.addEventListener('change', statusOption = (e) => {
                 if(e.target.value == 'error'){
                     textResult.innerText = 'Estado no válido';
+                    while (schoolsResultsContainer.hasChildNodes()) {
+                        schoolsResultsContainer.lastChild.remove();
+                    }
                 } else {
                     textResult.innerText = '';
                     statusOption = e.target.value
@@ -107,14 +148,119 @@
         if(e.target.value == 'between'){
             datesStartEnd.style.display = 'grid'
             statusOfClaims.style.display = 'none'
+            showResultsEmployees.style.display = 'none'
+            typeOfClaims.style.display = 'none'
+            textResult.innerText = ''
+            input.disabled = false
             input.placeholder = 'Ingrese DNI de la persona a buscar'
             
+            while (schoolsResultsContainer.hasChildNodes()) {
+                schoolsResultsContainer.lastChild.remove();
+            }
 
             datesStartEnd.addEventListener('change', startEndDate = (e) => {
                 const start = document.getElementById('start');
                 const end = document.getElementById('end');
                 startDate = start.value
                 endDate = end.value
+
+            })
+
+            const lastnameEmployee = document.getElementById('lastnameEmployee');
+            const searchDNIEmployee = document.getElementById('searchDNIEmployee');
+            
+            searchDNIEmployee.addEventListener('click', initFetchDni = async (e) => {
+                showResultsEmployees.style.display = 'grid'
+                e.preventDefault()
+                const foundEmployee = await toFetchWithOneParam('/employees/search', 'lastname', lastnameEmployee.value);
+
+                for(let i = 0; i < foundEmployee.Empleados.length; i++) {
+                    const employee = foundEmployee.Empleados[i];
+
+                    const name = document.createElement('div');
+                    const lastname = document.createElement('div');
+                    const dni = document.createElement('div');
+                    const copy = document.createElement('div');
+                    const imgCopy = document.createElement('img')
+
+                    copy.classList.add('copy')
+
+                    name.innerText = employee.name
+                    lastname.innerText = employee.lastname
+                    dni.innerText = employee.dni
+                    imgCopy.src = '/assets/SVG/copy-regular.svg'
+                    
+
+                    copy.appendChild(imgCopy)
+                    showResultsEmployees.appendChild(name)
+                    showResultsEmployees.appendChild(lastname)
+                    showResultsEmployees.appendChild(dni)
+                    showResultsEmployees.appendChild(copy)
+
+                    imgCopy.addEventListener('click', copyDni = (e) => {
+                        e.preventDefault()
+
+                        const preExistsuccessCopy = document.querySelector('.successCopy')
+
+                        if(preExistsuccessCopy) {
+                            showResultsEmployees.removeChild(preExistsuccessCopy)
+                        }
+                        
+                        const successCopy = document.createElement('div')
+                        successCopy.classList.add('successCopy')
+                        successCopy.innerText = 'Copiado con éxito!';
+                        showResultsEmployees.appendChild(successCopy)
+
+                        setTimeout(()=> {
+                            showResultsEmployees.removeChild(successCopy)
+                        }, 1500)
+                        input.value = employee.dni
+                    })
+
+                }
+            })
+        }
+
+        if(e.target.value == 'type'){
+            datesStartEnd.style.display = 'none'
+            statusOfClaims.style.display = 'none'
+            showResultsEmployees.style.display = 'none'
+            typeOfClaims.style.display = 'block'
+            textResult.innerText = ''
+            input.placeholder = 'Deshabilitado'
+            input.disabled = true
+
+            const allTypes = await toFetchAll('/claims/search/typesclaim')
+
+            while (typeOfClaims.hasChildNodes()) {
+                typeOfClaims.lastChild.remove();
+            }
+
+
+            const chooseOption = document.createElement('option');
+            chooseOption.innerText = 'Elija un Tipo';
+            chooseOption.value = 'error'
+
+            const chooseLinesOption = document.createElement('option');
+            chooseLinesOption.innerText = '--------';
+            chooseLinesOption.value = 'error'
+
+            typeOfClaims.appendChild(chooseOption)
+            typeOfClaims.appendChild(chooseLinesOption)
+
+            for (let i = 0; i < allTypes.Types.length; i++) {
+                const typeClaim = allTypes.Types[i];
+                const optionClaim = document.createElement('option');
+
+                optionClaim.innerText = typeClaim.typeClaim;
+                optionClaim.value = typeClaim.typeClaim;
+                typeOfClaims.appendChild(optionClaim);
+                
+            }
+
+            typeOfClaims.addEventListener('change', changeType = (e) => {
+                const typeSelected = e.target.value
+                typeClaimSelected = typeSelected
             })
         }
 
@@ -133,8 +279,8 @@
         return response;
     }
 
-    const toFetchDniAndStatus = async (URL, endpoint, dni, status) => {                 
-        const info = await fetch(`${URL}/${endpoint}/${dni}/${status}`);
+    const toFetchWithTwoParams = async (URL, endpoint, paramOne, paramTwo) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}`);
         if(info.status == 404) {
             return console.log('Not Found')
         } 
@@ -142,8 +288,17 @@
         return response;
     }
 
-    const toFetchStatus= async (URL, endpoint, status) => {                 
-        const info = await fetch(`${URL}/${endpoint}/${status}`);
+    const toFetchWithOneParam = async (URL, endpoint, param) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${param}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithThreeParams= async (URL, endpoint, paramOne, paramTwo, paramThree) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}/${paramThree}`);
         if(info.status == 404) {
             return console.log('Not Found')
         } 
@@ -220,9 +375,9 @@
             textResult.innerText = '';
             
         }
-    }
 
-    
+        //return textResult.innerText = 'Hubo un error'
+    }
 
     const showResultsOnClick = async () => {
         if(option.value === 'error') {
@@ -239,7 +394,7 @@
             })
         }
 
-        if((input.value == '' && option.value == 'type') || (input.value == '' && option.value == 'between')) {
+        if((input.value == '' && option.value == 'between')) {
             textResult.style.color = '#dc143c'
                 while (schoolsResultsContainer.hasChildNodes()) {
                         schoolsResultsContainer.lastChild.remove();
@@ -258,10 +413,10 @@
             findAllResultOfFetch = allClaims
         }
 
-        if(option.value === 'new') {
+        if(option.value === 'state') {
             if(input.value){
                 if(regExpToCheckNumbers(input.value)) {
-                    const claimsDniAndStatus = await toFetchDniAndStatus('/claims/search', 'new', input.value, statusOption)
+                    const claimsDniAndStatus = await toFetchWithTwoParams('/claims/search', 'state', input.value, statusOption)
                     const checkFetch = notFoundResults(claimsDniAndStatus)
                     
                     if(checkFetch){
@@ -272,7 +427,7 @@
                     
                 }
             } else {
-                const claimsStatus = await toFetchStatus('/claims/search', 'status', statusOption);
+                const claimsStatus = await toFetchWithOneParam('/claims/search', 'status', statusOption);
                 const checkFetch = notFoundResults(claimsStatus)
 
                     if(checkFetch){
@@ -284,20 +439,41 @@
             
         }
 
-        if(option.value === 'type' || option.value === 'between') {
+        if(option.value === 'between') {
+            showResultsEmployees.style.display = 'none'
 
-            const foundedSchools = await toFetchEndopoint('/schools/search', option.value, input.value);
+            if(!startDate || !endDate || (!startDate && !endDate)){
+                textResult.style.color = '#dc143c'
+                return textResult.innerText = 'Falta ingresar fechas'
+            }
 
-            const checkFetch = notFoundResults(foundedSchools)
+            const foundClaimsWithDates = await toFetchWithThreeParams('/claims/search', 'between', `dni/${input.value}`, `start/${startDate}`, `end/${endDate}`)
+
+            const checkFetch = notFoundResults(foundClaimsWithDates)
 
             if(checkFetch){
                 return
             } else {
-                findAllResultOfFetch = foundedSchools
+
+                findAllResultOfFetch = foundClaimsWithDates
             }
 
+        }
+
+        if(option.value === 'type') {
+            input.disabled = 'true'
+            const allClaimsForType = await toFetchWithOneParam('/claims/search', 'typeclaim', `${typeClaimSelected}`)
+            const checkFetch = notFoundResults(allClaimsForType)
+
+            if(checkFetch){
+                return
+            } else {
+                findAllResultOfFetch = allClaimsForType
+            }
 
         }
+
+        
 
         if(findAllResultOfFetch !== null) {
 
@@ -334,7 +510,7 @@
                 linkemail.innerText = 'Click para ir al mail';
                 tracing.innerText = claim.tracing;
 
-                if(claim.attend == 'importante') {
+                if(claim.attend.toLowerCase() == 'urgente') {
                     attend.innerText = claim.attend.toUpperCase();
                     attend.style.color = 'red'
                     attend.style.fontWeight = 'bold'

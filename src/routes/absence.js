@@ -6,11 +6,17 @@ const getAbsence = require('../controller/absences/getAbsence');
 const updateAbsence = require('../controller/absences/updateAbsence');
 const deleteAbsence = require('../controller/absences/deleteAbsence');
 
+//Views
+
+const { absenceView } = require('../controller/render/absences')
+
 
 //Querys
 
 const getPeriod = require('../controller/absences/querys/getPeriod');
-const getAbsencesOnPerior = require('../controller/absences/querys/getAbsenceOnPeriod')
+const getAbsencesOnPerior = require('../controller/absences/querys/getAbsenceOnPeriod');
+
+router.use('/', absenceView)
 
 router.use('/create', createAbsence)
 router.use('/get', getAbsence);

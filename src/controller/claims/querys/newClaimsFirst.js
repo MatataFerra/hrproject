@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const  { Claim, Employee, statusName } = require('../../../database/tables');
 
-module.exports = router.get('/new/:dni/:status', async (req, res) => {
+module.exports = router.get('/state/:dni/:status', async (req, res) => {
 
     try {
         const { dni, status } = req.params
