@@ -55,10 +55,12 @@
         .buttons {
             display: flex;
             margin-bottom: 1rem;
+
+            width: 100%;
             .btnLogin {
                 $height: 40px;
                 
-                width: 150px;
+                width: 25%;
                 height: $height;
                 background: #FFD240;
                 text-align: center;
@@ -87,6 +89,12 @@
                 &:hover {
                     color: aliceblue;
                 }
+            }
+
+            .btnProfile {
+                @extend .btnLogin;
+                background: #64EB4B;
+                width: 50%;
             }
         }
         

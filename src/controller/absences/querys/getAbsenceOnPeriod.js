@@ -5,23 +5,23 @@ const { createDate }  = require('../../../services/time')
 const { Op }  = require('sequelize')
 
 
-module.exports = router.get('/', async (req, res) => {
+module.exports = router.get('/all/:start/:end', async (req, res) => {
 
     try {
-        const { start, end } = req.body
+        const { start, end } = req.params
 
-        const createStart = createDate(start)
-        const createEnd = createDate(end)
+        // const createStart = createDate(start)
+        // const createEnd = createDate(end)
 
-        if(createEnd < createStart) {
-            return res.status(400).send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
+        if(end < start) {
+            return res.send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
         }
 
         const absences = await Absence.findAll({
 
             where: {
                 start: {
-                    [Op.between]: [createStart, createEnd]
+                    [Op.between]: [start, end]
                 }
             },
 
@@ -37,7 +37,7 @@ module.exports = router.get('/', async (req, res) => {
 
         })
 
-        return res.status(200).send({Absences: absences})
+        return res.send({Absences: absences})
 
     } catch (error) {
         console.log(error);

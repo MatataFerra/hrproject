@@ -33,8 +33,14 @@
                 <a href="/users/login"> Login </a>
             </div>
             <div class="btnRegister">
-            <a href="/users/singup"> Registro </a>
+                <a href="/users/singup"> Registro </a>
             </div>
+
+            <% if(user) { %> 
+            <div class="btnProfile">
+                <a href="/users/profile"> Al menú principal </a>
+            </div>
+            <% } %> 
         </div>
         
     </div>

@@ -6,10 +6,10 @@ const { createDate }  = require('../../../services/time')
 const { Op }  = require('sequelize')
 
 
-module.exports = router.get('/', async (req, res) => {
+module.exports = router.get('/period/dni/:dni/start/:start/end/:end', async (req, res) => {
 
     try {
-        const { dni, start, end } = req.body
+        const { dni, start, end } = req.params
 
         const dniChecked = checkRegExp(dni, res);
 
@@ -17,43 +17,37 @@ module.exports = router.get('/', async (req, res) => {
             return res.status(403).send({Message: 'Debe introducir un DNI válido'})
         }
 
-        const createStart = createDate(start)
-        const createEnd = createDate(end)
+        // const createStart = createDate(start)
+        // const createEnd = createDate(end)
 
-        if(createEnd < createStart) {
-            return res.status(400).send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
+        if(end < start) {
+            return res.send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
         }
 
-        
-
-        const employee = await Employee.findAll({
+        const absences = await Absence.findAll({
 
             where: {
-                dni: dniChecked
+                start: {
+                    [Op.between]: [start, end]
+                }
             },
 
             include: [
                 {
-                    model: Absence,
+                    model: Article
+                },
+
+                {
+                    model: Employee,
                     where: {
-                        start: {
-                            [Op.between]: [createStart, createEnd]
-                        }
-                    },
-
-                    include: [
-                        {
-                            model: Article
-                        }
-                    ]
+                        dni: dniChecked
+                    }
                 }
-
-                
             ]
 
         })
 
-        return res.status(200).send({Employee: employee})
+        return res.send({Absences: absences})
 
     } catch (error) {
         console.log(error);

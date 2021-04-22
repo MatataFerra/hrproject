@@ -11,3 +11,441 @@
         </li>
     </ul>
 </nav>
+
+
+<section class="formAndImgEmployee" id="formAndImgEmployee">
+    <h1 class="titleEmployee">Absences</h1>
+    <div class="back"><a href="/users/profile"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+
+    <div class="containerClaim">
+        <div class="searchAndAddClaim">
+            <div class="addClaim">
+                <a href="/claims/add">
+                    <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Escuela">
+                    <p>Agregar Ausencia</p>
+                </a> 
+            </div>
+
+            <div class="searchClaim">
+                <input type="text" name="employee" id="employee">
+                <select name="busquedas" id="busquedas">
+                    <option value="error">Elija una opción</option>
+                    <option value="error">-------</option>
+                    <option value="all">Ausencias dentro de un período</option>
+                    <option value="period">Ausencias empleado en período</option>
+
+                </select>
+                <div id="datesStartEnd" class="datesStartEnd">
+                    <div class="start">
+                        <label for="start">Fecha de Inicio: </label>
+                        <input type="date" name="start" id="start" value="2021-03-01">
+
+                    </div>
+
+                    <div class="end">
+                        <label for="end">Fecha de Fin: </label>
+                        <input type="date" name="end" id="end" value="2021-04-22">
+                    </div>
+
+                    <div class="searchEmployee" id="searchEmployee">
+                        <h4>Buscá el dni del empleado</h4>
+                        <div class="toFind">
+                            <input type="text" name="lastname" id="lastnameEmployee" placeholder="ingrese apellido" class="inputEmployee">
+                            <button type="submit" id="searchDNIEmployee" class="searchDNIEmployee">Buscar!</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="btnSearch">Buscar</button>
+            </div>
+
+            <h3 id="textResult" class="textResult"></h3>
+        </div>
+
+    </div>
+
+    <div class="schoolsResultsContainer" id="schoolsResultsContainer"></div>
+
+    <div class="showResultsEmployees" id="showResultsEmployees">
+
+    </div>
+    
+</section>
+
+<script>
+    const option = document.getElementById('busquedas');
+    const input = document.getElementById('employee');
+    const search = document.getElementById('btnSearch');
+
+    const formAndImgEmployee = document.getElementById('formAndImgEmployee');
+    const schoolsResultsContainer = document.getElementById('schoolsResultsContainer');
+    const textResult = document.getElementById('textResult');
+    const datesStartEnd = document.getElementById('datesStartEnd');
+    const searchDNIEmployee = document.getElementById('searchDNIEmployee');
+    const showResultsEmployees = document.getElementById('showResultsEmployees');
+    const searchEmployee = document.getElementById('searchEmployee');
+    const start = document.getElementById('start');
+    const end = document.getElementById('end');
+
+    let startDate = null
+    let endDate = null
+
+    option.addEventListener('change', changeOption = async (e) => {
+
+        if(e.target.value == 'error') {
+            datesStartEnd.style.display = 'none'
+            showResultsEmployees.style.display = 'none'
+            input.disabled = true
+            input.placeholder = 'Deshabilitado'
+
+            while (schoolsResultsContainer.hasChildNodes()) {
+                schoolsResultsContainer.lastChild.remove();
+            }
+
+        }
+
+        if(e.target.value == 'all') {
+            datesStartEnd.style.display = 'none'
+            showResultsEmployees.style.display = 'none'
+            searchEmployee.style.display = 'none'
+            datesStartEnd.style.display = 'grid'
+            textResult.innerText = ''
+            input.disabled = true
+            input.placeholder = 'Deshabilitado'
+        }
+
+        if(e.target.value == 'period'){
+            datesStartEnd.style.display = 'grid'
+            showResultsEmployees.style.display = 'none'
+            searchEmployee.style.display = 'block'
+            textResult.innerText = ''
+            input.disabled = false
+            input.placeholder = 'Ingrese DNI de la persona a buscar'
+            
+            while (schoolsResultsContainer.hasChildNodes()) {
+                schoolsResultsContainer.lastChild.remove();
+            }
+
+            const lastnameEmployee = document.getElementById('lastnameEmployee');
+            
+            searchDNIEmployee.addEventListener('click', initFetchDni = async (e) => {
+                showResultsEmployees.style.display = 'grid'
+
+                while (schoolsResultsContainer.hasChildNodes()) {
+                    schoolsResultsContainer.lastChild.remove();
+                }
+
+                e.preventDefault()
+
+                while (showResultsEmployees.hasChildNodes()) {
+                    showResultsEmployees.lastChild.remove();
+                }
+
+                const foundEmployee = await toFetchWithOneParam('/employees/search', 'lastname', lastnameEmployee.value);
+
+                for(let i = 0; i < foundEmployee.Empleados.length; i++) {
+                    const employee = foundEmployee.Empleados[i];
+
+                    const name = document.createElement('div');
+                    const lastname = document.createElement('div');
+                    const dni = document.createElement('div');
+                    const copy = document.createElement('div');
+                    const imgCopy = document.createElement('img')
+
+                    copy.classList.add('copy')
+
+                    name.innerText = employee.name
+                    lastname.innerText = employee.lastname
+                    dni.innerText = employee.dni
+                    imgCopy.src = '/assets/SVG/copy-regular.svg'
+                    
+
+                    copy.appendChild(imgCopy)
+                    showResultsEmployees.appendChild(name)
+                    showResultsEmployees.appendChild(lastname)
+                    showResultsEmployees.appendChild(dni)
+                    showResultsEmployees.appendChild(copy)
+
+                    imgCopy.addEventListener('click', copyDni = (e) => {
+                        e.preventDefault()
+
+                        const preExistsuccessCopy = document.querySelector('.successCopy')
+
+                        if(preExistsuccessCopy) {
+                            showResultsEmployees.removeChild(preExistsuccessCopy)
+                        }
+                        
+                        const successCopy = document.createElement('div')
+                        successCopy.classList.add('successCopy')
+                        successCopy.innerText = 'Copiado con éxito!';
+                        showResultsEmployees.appendChild(successCopy)
+
+                        setTimeout(()=> {
+                            showResultsEmployees.removeChild(successCopy)
+                        }, 1500)
+                        input.value = employee.dni
+                    })
+
+                }
+            })
+        }
+
+    })
+
+
+    const toFetch = async (URL, toFind) => {                       
+        const info = await fetch(`${URL}/${toFind}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchAll = async (URL) => {                       
+        const info = await fetch(`${URL}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithTwoParams = async (URL, endpoint, paramOne, paramTwo) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithOneParam = async (URL, endpoint, param) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${param}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithThreeParams= async (URL, endpoint, paramOne, paramTwo, paramThree) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}/${paramThree}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const regExpToCheckNumbers = (dni) => {
+        const reg = new RegExp('^[0-9]*$')
+        const dniNumber = parseInt(dni)
+
+        if(reg.test(dniNumber) == false){
+            console.log({Invalid_type_Input: dniNumber});
+            return false
+        } else {
+            return true
+        }
+
+        
+    }
+
+    const createHeader = () => {
+
+        const showResultsSchools = document.createElement('div');
+        const schoolResult = document.createElement('div');
+        const number = document.createElement('div');
+        const article = document.createElement('div');
+        const description = document.createElement('div');
+        const start = document.createElement('div');
+        const end = document.createElement('div');
+        const sumdays = document.createElement('div');
+        const employeeData = document.createElement('div');
+        
+        showResultsSchools.classList.add('showResultsClaims');
+        schoolResult.classList.add('claimResult');
+        schoolResult.classList.add('backHeader')
+        number.classList.add('claimData');
+        article.classList.add('claimData');
+        description.classList.add('claimData');
+        start.classList.add('claimData');
+        end.classList.add('claimData');
+        sumdays.classList.add('claimData');
+        employeeData.classList.add('claimData');
+
+        number.innerText = 'N°'
+        article.innerText = 'Artículo'
+        description.innerText = 'Descripción'
+        start.innerText = 'Inicio'
+        end.innerText = 'Fin'
+        sumdays.innerText = 'Total días'
+        employeeData.innerText = 'Empleado'
+
+        schoolResult.appendChild(number)
+        schoolResult.appendChild(article)
+        schoolResult.appendChild(description)
+        schoolResult.appendChild(start)
+        schoolResult.appendChild(end)
+        schoolResult.appendChild(sumdays)
+        schoolResult.appendChild(employeeData)
+        showResultsSchools.appendChild(schoolResult)
+        schoolsResultsContainer.appendChild(showResultsSchools)
+        
+    }
+
+    const notFoundResults = (fetched) => {
+
+        if(fetched.Message) {
+                textResult.style.color = '#dc143c'
+                while (schoolsResultsContainer.hasChildNodes()) {
+                        schoolsResultsContainer.lastChild.remove();
+                }
+                return textResult.innerText = fetched.Message
+        } else {
+            textResult.innerText = '';
+            
+        }
+
+        //return textResult.innerText = 'Hubo un error'
+    }
+
+    const showResultsOnClick = async () => {
+        if(option.value === 'error') {
+            input.value = 'La opción a buscar debe ser válida'
+            input.style.background = '#6BFF6B'
+            textResult.innerText = 'Opción no válida :/'
+
+            while (schoolsResultsContainer.hasChildNodes()) {
+                schoolsResultsContainer.lastChild.remove();
+            }
+
+            input.addEventListener('click', inputFun = (e) => {
+                e.preventDefault()
+                input.value = ''
+                input.style.background = '#fff'
+
+                input.removeEventListener('click', inputFun)
+            })
+        }
+
+        if((input.value == '' && option.value == 'period')) {
+            textResult.style.color = '#dc143c'
+                while (schoolsResultsContainer.hasChildNodes()) {
+                        schoolsResultsContainer.lastChild.remove();
+                }
+                return textResult.innerText = 'El campo de búsqueda está vacío'
+        }
+
+        while (schoolsResultsContainer.hasChildNodes()) {
+            schoolsResultsContainer.lastChild.remove();
+        }
+
+        let findAllResultOfFetch = null
+
+        if(option.value === 'all') {
+            startDate = start.value
+            endDate = end.value
+            const allAbsences = await toFetchWithTwoParams('/absences/search', 'all', startDate, endDate)
+
+
+            findAllResultOfFetch = allAbsences
+        }
+
+        
+
+        if(option.value === 'period') {
+            showResultsEmployees.style.display = 'none'
+            startDate = start.value
+            endDate = end.value
+
+            if(!startDate || !endDate || (!startDate && !endDate)){
+                textResult.style.color = '#dc143c'
+                return textResult.innerText = 'Falta ingresar fechas'
+            }
+
+            const foundAbsencesInPeriod = await toFetchWithThreeParams('/absences/search', 'period', `dni/${input.value}`, `start/${startDate}`, `end/${endDate}`);
+            const checkFetch = notFoundResults(foundAbsencesInPeriod);
+
+            if(checkFetch){
+                return
+            } else {
+
+                findAllResultOfFetch = foundAbsencesInPeriod
+            }
+
+        }
+
+        if(findAllResultOfFetch !== null) {
+
+            createHeader();
+
+            for (let i = 0; i < findAllResultOfFetch.Absences.length; i++) {
+                const absence = findAllResultOfFetch.Absences[i];
+                console.log(absence);
+
+                const showResultsSchools = document.createElement('div');
+                const schoolResult = document.createElement('div');
+
+                //Absence
+                const start = document.createElement('div');
+                const end = document.createElement('div');
+                const sumdays = document.createElement('div');
+
+                //Article
+                const number = document.createElement('div');
+                const article = document.createElement('div');
+                const description = document.createElement('div');
+
+                const employeeData = document.createElement('div');
+
+                showResultsSchools.classList.add('showResultsClaims');
+                schoolResult.classList.add('claimResult');
+
+                start.classList.add('claimData');
+                end.classList.add('claimData');
+                sumdays.classList.add('claimData');
+
+                number.classList.add('claimData');
+                article.classList.add('claimData');
+                description.classList.add('claimData');
+                employeeData.classList.add('claimData');
+
+                start.innerText = absence.start;
+                end.innerText = absence.end;
+                sumdays.innerText = absence.sumdays
+
+                if(absence.Employees[i] !== null) {
+
+                    employeeData.innerText = `${absence.Employees[0].lastname}, ${absence.Employees[0].name}`
+                }
+
+                if(absence.Articles !== null) {
+
+                    number.innerText = absence.Articles[0].number
+                    article.innerText = absence.Articles[0].article
+                    description.innerText = absence.Articles[0].description
+                }
+
+                schoolResult.appendChild(number);
+                schoolResult.appendChild(article);
+                schoolResult.appendChild(description);
+
+                schoolResult.appendChild(start);
+                schoolResult.appendChild(end);
+                schoolResult.appendChild(sumdays);
+
+                schoolResult.appendChild(employeeData);
+                showResultsSchools.appendChild(schoolResult);
+                schoolsResultsContainer.appendChild(showResultsSchools);
+                
+            }
+        } 
+    }
+
+    search.addEventListener('click', searchBtn = async (e)=> {
+        e.preventDefault();
+        showResultsOnClick();
+    })
+
+    input.addEventListener('keyup', searchEnter = async (e) => {
+        if(e.keyCode == 13) {
+            e.preventDefault()
+            showResultsOnClick();
+        }
+    })
+</script>
