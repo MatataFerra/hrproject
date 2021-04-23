@@ -16,6 +16,16 @@ const onlyNewClaims = require('../controller/claims/querys/onlyNewClaimsFirst')
 
 const { claimView } = require('../controller/render/claims');
 
+// Middleware
+
+router.use((req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    req.flash('authMessage', 'You don´t have permission. Please login first')
+    res.redirect('/users/login')
+})
+
 
 router.use('/', claimView)
 router.use('/add', getcreateClaim)

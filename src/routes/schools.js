@@ -19,15 +19,15 @@ const schoolByFullname = require ('../controller/school/search/schoolFindByFulln
 
 const { schoolView } = require('../controller/render/schools')
 
-// Middleware - now turn off
+// Middleware
 
-// router.use((req, res, next) => {
-//     if(req.isAuthenticated()) {
-//         return next();
-//     }
-//     req.flash('authMessage', 'You don´t have permission. Please login first')
-//     res.redirect('/users/login')
-// })
+router.use((req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    req.flash('authMessage', 'You don´t have permission. Please login first')
+    res.redirect('/users/login')
+})
 
 router.use('/', schoolView);
 router.use('/add', getAddSchool);

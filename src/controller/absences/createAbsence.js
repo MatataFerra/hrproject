@@ -5,31 +5,27 @@ const { checkRegExp } = require('../../services/checkFunctions');
 const { createDate, nowTime } = require('../../services/time');
 const moment = require('moment');
 
-module.exports = router.post('/', async (req, res) => {
+const getCreateAbsence = router.get('/', (req, res) =>{
+    res.render('addabsence')
+})
+
+const createAbsence = router.post('/', async (req, res) => {
 
     try {
 
-        //Buscar las ausencias pedidas por el empleado en AbsenceEmployees
-        //Una vez encontrado, que busque las ausencias asociadas a ese ID
-        //Cuando encuentre esos ID ya puede buscar todas los artículos específicos pedidos por ese ID
-
         const { dni, article, link, start, end } = req.body
 
-        let createStart = null
-        let createEnd = null
+        let createStart = start
+        let createEnd = end
 
 
         if(!start) {
             createStart = nowTime.nowDate
-        } else {
-            createStart = createDate(start);
-        }
+        } 
 
         if(!end) {
             createEnd = nowTime.nowDate
-        } else {
-            createEnd = createDate(end)
-        }
+        } 
 
         const dniChecked = checkRegExp(dni, res);
 
@@ -43,11 +39,11 @@ module.exports = router.post('/', async (req, res) => {
 
         
         if(!dniChecked){
-            return res.status(403).send({Message: 'Debe introducir un DNI válido'})
+            return res.send({Message: 'Debe introducir un DNI válido'})
         }
 
         if(createEnd < createStart) {
-            return res.status(400).send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
+            return res.send({Message: 'La fecha de fin no puede ser menor a la de inicio'})
         }
 
         const employee = await Employee.findOne({
@@ -57,7 +53,7 @@ module.exports = router.post('/', async (req, res) => {
         });
 
         if(!employee) {
-            return res.status(404).send({Message: 'No se encontró al empleado'})
+            return res.send({Message: 'No se encontró al empleado'})
         }
 
         const absenceEmployee = await AbsenceEmployee.findAll({
@@ -73,7 +69,7 @@ module.exports = router.post('/', async (req, res) => {
         });
 
         if(!oneArticle){
-            return res.status(404).send({Message: 'Debe crear el artículo primero'})
+            return res.send({Message: 'Debe crear el artículo primero'})
         }
 
         let allAbseceArray = []
@@ -86,7 +82,7 @@ module.exports = router.post('/', async (req, res) => {
             possiblesErrors = 
                 `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max} días. En el día de la fecha: ${moment(nowTime.nowDate).format('DD-MM-YYYY')} ha solicitado: ${total} días. La licencia debe ser autorizada por Recursos Humanos`
                 possiblesErrors = possiblesErrors.trim()
-            return res.status(400).send({
+            return res.send({
                 Message: 'Ha habido un error a la hora de crear la licencia',
                 Possibles_Errors: possiblesErrors
             })
@@ -124,7 +120,7 @@ module.exports = router.post('/', async (req, res) => {
             });
 
             if(!oneArticle){
-                return res.status(404).send({Message: 'Debe crear el artículo primero'})
+                return res.send({Message: 'Debe crear el artículo primero'})
             }
 
 
@@ -155,7 +151,7 @@ module.exports = router.post('/', async (req, res) => {
                 `La cantidad de días excede a la permitida para la licencia ${oneArticle.dataValues.number} ${oneArticle.dataValues.article}: ${oneArticle.dataValues.description}. La Cantidad máxima es de: ${max} días. En el día de la fecha: ${moment(nowTime.nowDate).format('DD-MM-YYYY')} ha solicitado: ${total} días. La licencia debe ser autorizada por Recursos Humanos`
                 possiblesErrors = possiblesErrors.trim()
 
-                return res.status(403).send({Message: possiblesErrors})
+                return res.send({Message: possiblesErrors})
             } else {
                 possiblesErrors = 'No se detectaron conflictos a la hora de crear la licencia'
             }
@@ -178,12 +174,8 @@ module.exports = router.post('/', async (req, res) => {
         await linkAbsence.setAbsence(newAbsence);
         
         
-
-        return res.status(200).send({
-            Absence: newAbsence,
-            Possibles_Errors: possiblesErrors
-        
-        })
+        req.flash('successClaim', `Reclamo registrado con éxito para el empleado ${employee.name} ${employee.lastname}`)
+        return res.render('addabsence')
 
     } catch (error) {
         console.log(error);
@@ -191,5 +183,9 @@ module.exports = router.post('/', async (req, res) => {
     }
 
 
-
 })
+
+module.exports = {
+    createAbsence,
+    getCreateAbsence
+}

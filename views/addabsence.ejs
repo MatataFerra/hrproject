@@ -1,0 +1,205 @@
+<%- layout('layouts/main.ejs') %>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="/assets/SVG/homeVector.svg" alt="Logo Mesa" class="imgNavbar">
+        <p>HR | DataBase</p>
+    </div>
+    <ul class="ulNavbar">
+        <li><a href="/home/"> <img src="/assets/SVG/igloo-solid.svg" alt="Home" class="homeLogo"> </a></li>
+        <li><a href="/users/logout"> <img src="/assets/SVG/power-off-solid.svg" alt="Logout" class="logoutLogo"> </a>
+        </li>
+    </ul>
+</nav>
+
+<section class="formAndImgClaim" id="formAndImgEmployee">
+    <h1 class="titleClaim">Agregar Reclamo</h1>
+    <div class="back"><a href="/claims"><img src="/assets/SVG/caret-left-solid.svg" alt="back arrow"> Volver</a></div>
+    <% if(successClaim.length > 0) {%> 
+        <div class="successClaim">
+            <%= successClaim %> 
+        </div>
+    <% } %>
+    <form action="/absences/create" method="post" class="createClaimForm" id="createClaimForm">
+        <input type="number" name="dni" id="dni" placeholder="DNI del empleado">
+        <input type="text" name="article" id="article" placeholder="Artículo ej: 'A', 'B', 'E' ">
+        <input type="text" name="linkemail" id="linkemail" placeholder="Link al email">
+        <label for="start">Fecha de inicio</label>
+        <input type="date" name="start" id="start" placeholder="Fecha de inicio">
+        <label for="start">Fecha de fin</label>
+        <input type="date" name="end" id="end" placeholder="Fecha de fin">
+
+        <button type="submit" class="submitClaim"> <img src="/assets/SVG/addIcon.png" alt="Add Claim"> </button>
+
+    </form>
+
+    <div class="searchEmployeeClaim" id="searchEmployeeClaim">
+        <h4 class="h4Claim">Buscá el dni del empleado</h4>
+        <div class="toFind">
+            <input type="text" name="lastname" id="lastnameEmployee" placeholder="ingrese apellido" class="inputEmployee">
+            <button id="searchDNIEmployee" class="searchDNIEmployee">Buscar!</button>
+        </div>
+    </div>
+
+    <div class="containerImgClaim" id="containerImgClaim">
+        <img src="/assets/SVG/claims.svg" alt="Worker Mind">
+    </div>
+
+    <div class="showResultsEmployees" id="showResultsEmployees">
+    </div>
+
+</section>
+
+<script>
+
+    const showResultsEmployees = document.getElementById('showResultsEmployees');
+    const dniInput = document.getElementById('dni');
+    const formAndImgEmployee = document.getElementById('formAndImgEmployee');
+    const lastnameEmployee = document.getElementById('lastnameEmployee');
+    const searchDNIEmployee = document.getElementById('searchDNIEmployee');
+    const containerImgClaim = document.getElementById('containerImgClaim');
+    const createClaimForm = document.getElementById('createClaimForm');
+    const dayofclaim = document.getElementById('dayofclaim')
+
+
+    /* Global Functions */
+
+    const toFetch = async (URL, toFind) => {                       
+        const info = await fetch(`${URL}/${toFind}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchAll = async (URL) => {                       
+        const info = await fetch(`${URL}`);
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithTwoParams = async (URL, endpoint, paramOne, paramTwo) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithOneParam = async (URL, endpoint, param) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${param}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const toFetchWithThreeParams= async (URL, endpoint, paramOne, paramTwo, paramThree) => {                 
+        const info = await fetch(`${URL}/${endpoint}/${paramOne}/${paramTwo}/${paramThree}`);
+        if(info.status == 404) {
+            return console.log('Not Found')
+        } 
+        const response = await info.json();
+        return response;
+    }
+
+    const regExpToCheckNumbers = (dni) => {
+        const reg = new RegExp('^[0-9]*$')
+        const dniNumber = parseInt(dni)
+
+        if(reg.test(dniNumber) == false){
+            console.log({Invalid_type_Input: dniNumber});
+            return false
+        } else {
+            return true
+        }
+
+    }
+
+    
+    /* End of global Functions */
+
+    searchDNIEmployee.addEventListener('click', initFetchDni = async (e) => {
+        e.preventDefault()
+        const foundEmployee = await toFetchWithOneParam('/employees/search', 'lastname', lastnameEmployee.value);
+        const checkFetch = notFoundResults(foundEmployee);
+
+        if(checkFetch){
+            return
+        }
+
+        showResultsEmployees.style.display = 'grid';
+        containerImgClaim.style.display = 'none';
+        showResultsEmployees.style.animation = 'growup 0.5s forwards'
+
+        while (showResultsEmployees.hasChildNodes()) {
+                showResultsEmployees.lastChild.remove();
+        }
+
+
+        document.addEventListener("click", clickOutside = (e) => {
+            let clic = e.target;
+            showResultsEmployees.style.animation = 'growin 0.5s forwards'
+
+            if (showResultsEmployees.style.display == 'grid' && clic != showResultsEmployees ) {
+                setTimeout(()=> {
+                    showResultsEmployees.style.display = 'none'
+                    containerImgClaim.style.display = 'block'
+                }, 500)
+                
+            }
+
+            document.removeEventListener('click', clickOutside)
+        });
+
+        for(let i = 0; i < foundEmployee.Empleados.length; i++) {
+            const employee = foundEmployee.Empleados[i];
+
+            const name = document.createElement('div');
+            const lastname = document.createElement('div');
+            const dni = document.createElement('div');
+            const copy = document.createElement('div');
+            const imgCopy = document.createElement('img')
+
+            copy.classList.add('copy')
+
+            name.innerText = employee.name
+            lastname.innerText = employee.lastname
+            dni.innerText = employee.dni
+            imgCopy.src = '/assets/SVG/copy-regular.svg'
+            
+
+            copy.appendChild(imgCopy)
+            showResultsEmployees.appendChild(name)
+            showResultsEmployees.appendChild(lastname)
+            showResultsEmployees.appendChild(dni)
+            showResultsEmployees.appendChild(copy)
+
+            imgCopy.addEventListener('click', copyDni = (e) => {
+                e.preventDefault()
+
+                const preExistsuccessCopy = document.querySelector('.successCopy')
+
+                if(preExistsuccessCopy) {
+                    showResultsEmployees.removeChild(preExistsuccessCopy)
+                }
+                
+                const successCopy = document.createElement('div')
+                successCopy.classList.add('successCopy')
+                successCopy.innerText = 'Copiado con éxito!';
+                showResultsEmployees.appendChild(successCopy)
+
+                setTimeout(()=> {
+                    showResultsEmployees.removeChild(successCopy)
+                }, 1500)
+                dniInput.value = employee.dni
+            })
+
+        }
+    })
+
+    
+
+    
+
+</script>

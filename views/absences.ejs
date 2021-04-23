@@ -20,7 +20,7 @@
     <div class="containerClaim">
         <div class="searchAndAddClaim">
             <div class="addClaim">
-                <a href="/claims/add">
+                <a href="/absences/add">
                     <img src="/assets/SVG/user-plus-solid.svg" alt="Agregar Escuela">
                     <p>Agregar Ausencia</p>
                 </a> 
@@ -38,13 +38,13 @@
                 <div id="datesStartEnd" class="datesStartEnd">
                     <div class="start">
                         <label for="start">Fecha de Inicio: </label>
-                        <input type="date" name="start" id="start" value="2021-03-01">
+                        <input type="date" name="start" id="start">
 
                     </div>
 
                     <div class="end">
                         <label for="end">Fecha de Fin: </label>
-                        <input type="date" name="end" id="end" value="2021-04-22">
+                        <input type="date" name="end" id="end" >
                     </div>
 
                     <div class="searchEmployee" id="searchEmployee">
@@ -128,19 +128,28 @@
             const lastnameEmployee = document.getElementById('lastnameEmployee');
             
             searchDNIEmployee.addEventListener('click', initFetchDni = async (e) => {
+                e.preventDefault()
+
+                const foundEmployee = await toFetchWithOneParam('/employees/search', 'lastname', lastnameEmployee.value);
+
+                const checkFetch = notFoundResults(foundEmployee);
+
+                if(checkFetch){
+                    return
+                }
+
                 showResultsEmployees.style.display = 'grid'
 
                 while (schoolsResultsContainer.hasChildNodes()) {
                     schoolsResultsContainer.lastChild.remove();
                 }
 
-                e.preventDefault()
 
                 while (showResultsEmployees.hasChildNodes()) {
                     showResultsEmployees.lastChild.remove();
                 }
 
-                const foundEmployee = await toFetchWithOneParam('/employees/search', 'lastname', lastnameEmployee.value);
+                
 
                 for(let i = 0; i < foundEmployee.Empleados.length; i++) {
                     const employee = foundEmployee.Empleados[i];
@@ -305,6 +314,9 @@
     }
 
     const showResultsOnClick = async () => {
+
+        showResultsEmployees.style.display = 'none';
+
         if(option.value === 'error') {
             input.value = 'La opción a buscar debe ser válida'
             input.style.background = '#6BFF6B'

@@ -23,7 +23,7 @@ module.exports = router.get('/lastname/:lastname', async (req, res) => {
         
         
         if(employee.length === 0) {
-            return res.status(404).send({Message: 'El empleado que busca no se encuentra'})
+            return res.send({Message: 'El empleado que busca no se encuentra'})
         }
 
 

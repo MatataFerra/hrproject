@@ -19,7 +19,15 @@ const { allEmployeeInfo } = require('../controller/employee/search/employeeFindI
 
 const { employeeView } = require('../controller/render/employees');
 
+// Middleware
 
+router.use((req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    req.flash('authMessage', 'You don´t have permission. Please login first')
+    res.redirect('/users/login')
+})
 
 router.use('/', employeeView)
 router.use('/add', getAddEmployee);
