@@ -24,10 +24,6 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
-    rolling: true,
-    cookie: {
-        maxAge: 16000
-    }
 }))
 app.use(flash())
 app.use(passport.initialize());
